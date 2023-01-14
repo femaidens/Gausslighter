@@ -6,8 +6,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Ports;
 
 public class TestSolenoid extends SubsystemBase {
@@ -18,18 +18,18 @@ public class TestSolenoid extends SubsystemBase {
   public TestSolenoid() {}
 
   public static void extendCone(){ // for cone extend piston1
-    piston1.set(DoubleSolenoid.Value.kForward);
+    piston1.set(Value.kForward);
   }
   public static void retractCone(){
-    piston1.set(DoubleSolenoid.Value.kReverse);
+    piston1.set(Value.kReverse);
   }
   public static void extendCube(){
-    piston1.set(DoubleSolenoid.Value.kForward);
-    piston2.set(DoubleSolenoid.Value.kForward);
+    piston1.set(Value.kForward);
+    piston2.set(Value.kForward);
   }
   public static void retractCube(){
-    piston1.set(DoubleSolenoid.Value.kReverse);
-    piston2.set(DoubleSolenoid.Value.kReverse);
+    piston1.set(Value.kReverse);
+    piston2.set(Value.kReverse);
 
   }
   @Override
