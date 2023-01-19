@@ -13,11 +13,10 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -36,7 +35,9 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   // The driver's controller
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
+  XboxController operJoy = new XboxController(Ports.JoystickPorts.OPER_JOY);
+  private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
+  private final Joystick rotationJoy = new Joystick(Ports.JoystickPorts.ROTATION_JOY);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -51,9 +52,9 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                MathUtil.applyDeadband(-m_driverController.getLeftY(), 0.06),
-                MathUtil.applyDeadband(-m_driverController.getLeftX(), 0.06),
-                MathUtil.applyDeadband(-m_driverController.getRightX(), 0.06),
+                MathUtil.applyDeadband(-lateralJoy.getY(), 0.06),
+                MathUtil.applyDeadband(-lateralJoy.getX(), 0.06),
+                MathUtil.applyDeadband(-rotationJoy.getX(), 0.06),
                 true),
             m_robotDrive));
   }
@@ -68,7 +69,7 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(m_driverController, Button.kR1.value)
+    new JoystickButton(operJoy, XboxController.Button.kA.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
             m_robotDrive));
@@ -82,10 +83,10 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // Create config for trajectory
     TrajectoryConfig config = new TrajectoryConfig(
-        AutoConstants.kMaxSpeedMetersPerSecond,
-        AutoConstants.kMaxAccelerationMetersPerSecondSquared)
+        AutoConstants.AUTON_MAX_SPEED,
+        AutoConstants.AUTON_MAX_ACC)
         // Add kinematics to ensure max speed is actually obeyed
-        .setKinematics(DriveConstants.kDriveKinematics);
+        .setKinematics(DriveConstants.DRIVE_KINEMATICS);
 
     // An example trajectory to follow. All units in meters.
     Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
@@ -98,17 +99,17 @@ public class RobotContainer {
         config);
 
     var thetaController = new ProfiledPIDController(
-        AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
+        AutoConstants.PThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
         exampleTrajectory,
         m_robotDrive::getPose, // Functional interface to feed supplier
-        DriveConstants.kDriveKinematics,
+        DriveConstants.DRIVE_KINEMATICS,
 
         // Position controllers
-        new PIDController(AutoConstants.kPXController, 0, 0),
-        new PIDController(AutoConstants.kPYController, 0, 0),
+        new PIDController(AutoConstants.PXController, 0, 0),
+        new PIDController(AutoConstants.PYController, 0, 0),
         thetaController,
         m_robotDrive::setModuleStates,
         m_robotDrive);
