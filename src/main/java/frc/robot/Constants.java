@@ -31,17 +31,18 @@ public final class Constants {
     public static final double MAX_ANGULAR_SPEED = 2 * Math.PI; // radians per second
 
     // Chassis configuration
-    public static final double TRACK_WIDTH = Units.inchesToMeters(26.5);
+    public static final double TRACK_WIDTH = Units.inchesToMeters(23.0);
     // Distance between centers of right and left wheels on robot
     public static final double WHEEL_BASE = Units.inchesToMeters(26.5);
     // Distance between front and back wheels on robot -> replace with known values
+    
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
-        new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2),
-        new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2),
-        new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2),
-        new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2));
+        new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), // fl
+        new Translation2d(WHEEL_BASE / 2, -TRACK_WIDTH / 2), // fr
+        new Translation2d(-WHEEL_BASE / 2, TRACK_WIDTH / 2), // rl
+        new Translation2d(-WHEEL_BASE / 2, -TRACK_WIDTH / 2)); // rr
 
-    // Angular offsets of the modules relative to the chassis in radians
+    // Angular offsets of the modules relative to the chassis in radians -> figure out
     public static final double FL_CHASSIS_ANGULAR_OFFSET = -Math.PI / 2;
     public static final double FR_CHASSIS_ANGULAR_OFFSET = 0;
     public static final double RL_CHASSIS_ANGULAR_OFFSET = Math.PI;
@@ -51,9 +52,7 @@ public final class Constants {
   }
 
   public static final class ModuleConstants {
-    // The MAXSwerve module can be configured with one of three pinion gears: 12T, 13T, or 14T.
-    // This changes the drive speed of the module (a pinion gear with more teeth will result in a
-    // robot that drives faster).
+    // 14T pinion gears
     public static final int DRIVE_MOTOR_PINION_TEETH = 14;
 
     // Invert the turning encoder, since the output shaft rotates in the opposite direction of
@@ -86,14 +85,14 @@ public final class Constants {
     // max input
     public static final double TURNING_ENCODER_PPID_MAX = TURNING_ENCODER_PFACTOR; // radians
 
-    public static final double kDriveP = 0.04;
+    public static final double kDriveP = 0.01; // initially 0.04
     public static final double kDriveI = 0;
     public static final double kDriveD = 0;
     public static final double kDriveFF = 1 / DRIVE_WHEEL_FREE_SPEED_RPS;
     public static final double kDriveMinOutput = -1;
     public static final double kDriveMaxOutput = 1;
 
-    public static final double kTurningP = 1;
+    public static final double kTurningP = 0; // initally 1
     public static final double kTurningI = 0;
     public static final double kTurningD = 0;
     public static final double kTurningFF = 0;

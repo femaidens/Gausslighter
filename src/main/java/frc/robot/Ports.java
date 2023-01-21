@@ -14,16 +14,25 @@ public final class Ports {
     }
     
     public static final class DrivetrainPorts{
+        // gyro port
+        public static final int GYRO = 0;
         // big neos
-        public static final int FRONT_LEFT_DRIVE = 1;
-        public static final int FRONT_RIGHT_DRIVE = 2;
-        public static final int REAR_LEFT_DRIVE = 3;
-        public static final int REAR_RIGHT_DRIVE = 4;
+        public static final int FRONT_LEFT_DRIVE = 4;
+        public static final int FRONT_RIGHT_DRIVE = 3;
+        public static final int REAR_LEFT_DRIVE = 6;
+        public static final int REAR_RIGHT_DRIVE = 5;
 
         // small neos
-        public static final int FRONT_LEFT_TURNING = 5;
-        public static final int FRONT_RIGHT_TURNING = 6;
-        public static final int REAR_LEFT_TURNING = 7;
-        public static final int REAR_RIGHT_TURNING = 8;
+        public static final int FRONT_LEFT_TURNING = 8;
+        public static final int FRONT_RIGHT_TURNING = 7;
+        public static final int REAR_LEFT_TURNING = 2;
+        public static final int REAR_RIGHT_TURNING = 1;
+
+        // turning absolute encoder
+        public static final int FRONT_LEFT_TURNING_ENCODER = 1;
+        // public static final int FRONT_RIGHT_TURNING_ENCODER = 2;
+        // public static final int REAR_LEFT_TURNING_ENCODER = 2;
+        // public static final int REAR_RIGHT_TURNING_ENCODER = 2;
+
     }
 }
