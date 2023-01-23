@@ -85,14 +85,14 @@ public final class Constants {
     // max input
     public static final double TURNING_ENCODER_PPID_MAX = TURNING_ENCODER_PFACTOR; // radians
 
-    public static final double kDriveP = 0.01; // initially 0.04
+    public static final double kDriveP = 0.04; // initially 0.04
     public static final double kDriveI = 0;
     public static final double kDriveD = 0;
     public static final double kDriveFF = 1 / DRIVE_WHEEL_FREE_SPEED_RPS;
     public static final double kDriveMinOutput = -1;
     public static final double kDriveMaxOutput = 1;
 
-    public static final double kTurningP = 0; // initally 1
+    public static final double kTurningP = 0.04; // initally 1
     public static final double kTurningI = 0;
     public static final double kTurningD = 0;
     public static final double kTurningFF = 0;

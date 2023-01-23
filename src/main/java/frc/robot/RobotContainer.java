@@ -15,9 +15,11 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.RevSwerveModule;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -35,9 +37,9 @@ public class RobotContainer {
   private final Drivetrain drivetrain = new Drivetrain();
 
   // The driver's controller
-  XboxController operJoy = new XboxController(Ports.JoystickPorts.OPER_JOY);
-//   private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
-//   private final Joystick rotationJoy = new Joystick(Ports.JoystickPorts.ROTATION_JOY);
+  // XboxController operJoy = new XboxController(Ports.JoystickPorts.OPER_JOY);
+  private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
+  private final Joystick rotationJoy = new Joystick(Ports.JoystickPorts.ROTATION_JOY);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -45,20 +47,19 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-  }
 
     // Configure default commands
-//     drivetrain.setDefaultCommand(
-//         // The left stick controls translation of the robot.
-//         // Turning is controlled by the X axis of the right stick.
-//         new RunCommand(
-//             () -> drivetrain.drive(
-//                 MathUtil.applyDeadband(-lateralJoy.getY(), 0.06),
-//                 MathUtil.applyDeadband(-lateralJoy.getX(), 0.06),
-//                 MathUtil.applyDeadband(-rotationJoy.getX(), 0.06),
-//                 true),
-//             drivetrain));
-//   }
+    drivetrain.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> drivetrain.drive(
+                MathUtil.applyDeadband(-lateralJoy.getY(), 0.06),
+                MathUtil.applyDeadband(-lateralJoy.getX(), 0.06),
+                MathUtil.applyDeadband(-rotationJoy.getX(), 0.06),
+                true),
+            drivetrain));
+  }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -70,23 +71,33 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(rotationJoy, 5)
+      .onTrue(new RunCommand(
+        () -> drivetrain.zeroHeading(),
+        drivetrain));
+
+      new JoystickButton(rotationJoy, 6)
+        .onTrue(new RunCommand(
+          () -> drivetrain.resetEncoders(),
+          drivetrain));
+          
     // new JoystickButton(operJoy, XboxController.Button.kA.value)
     //     .whileTrue(new RunCommand(
     //         () -> drivetrain.setX(),
     //         drivetrain));
     // test turn motor command
-    new JoystickButton(operJoy, XboxController.Button.kA.value)
-        .whileTrue(new RunCommand(
-            () -> drivetrain.turnMotorForward(),
-            drivetrain));
-    new JoystickButton(operJoy, XboxController.Button.kB.value)
-        .onTrue(new RunCommand(
-            () -> drivetrain.turnMotorBackward(),
-            drivetrain));
-    new JoystickButton(operJoy, XboxController.Button.kX.value)
-        .onTrue(new RunCommand(
-            () -> drivetrain.stopTurning(),
-            drivetrain));
+    // new JoystickButton(operJoy, XboxController.Button.kA.value)
+    //     .whileTrue(new RunCommand(
+    //         () -> drivetrain.turnMotorForward(),
+    //         drivetrain));
+    // new JoystickButton(operJoy, XboxController.Button.kB.value)
+    //     .onTrue(new RunCommand(
+    //         () -> drivetrain.turnMotorBackward(),
+    //         drivetrain));
+    // new JoystickButton(operJoy, XboxController.Button.kX.value)
+    //     .onTrue(new RunCommand(
+    //         () -> drivetrain.stopTurning(),
+    //         drivetrain));
   }
 
   /**

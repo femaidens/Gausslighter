@@ -17,7 +17,7 @@ import com.revrobotics.RelativeEncoder;
 
 import frc.robot.Constants.ModuleConstants;
 
-public class MAXSwerveModule {
+public class RevSwerveModule {
   private final CANSparkMax driveMotor;
   private final CANSparkMax turningMotor;
 
@@ -36,7 +36,7 @@ public class MAXSwerveModule {
    * MAXSwerve Module built with NEOs, SPARKS MAX, and a Through Bore
    * Encoder.
    */
-  public MAXSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
+  public RevSwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset) {
     driveMotor = new CANSparkMax(drivingCANId, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningCANId, MotorType.kBrushless);
 

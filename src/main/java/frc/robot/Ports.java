@@ -10,7 +10,7 @@ public final class Ports {
     public static final class JoystickPorts {
         public static final int ROTATION_JOY = 0; // port closest to us
         public static final int LATERAL_JOY = 1;
-        public static final int OPER_JOY = 2; // left side of laptop
+        // public static final int OPER_JOY = 2; // left side of laptop
     }
     
     public static final class DrivetrainPorts{
