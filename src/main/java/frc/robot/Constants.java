@@ -92,9 +92,9 @@ public final class Constants {
     public static final double kDriveMinOutput = -1;
     public static final double kDriveMaxOutput = 1;
 
-    public static final double kTurningP = 0.04; // initally 1
+    public static final double kTurningP = 1; // initally 1
     public static final double kTurningI = 0;
-    public static final double kTurningD = 0;
+    public static final double kTurningD = 0.05;
     public static final double kTurningFF = 0;
     public static final double kTurningMinOutput = -1;
     public static final double kTurningMaxOutput = 1;

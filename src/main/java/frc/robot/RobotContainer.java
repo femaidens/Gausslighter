@@ -47,6 +47,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    drivetrain.resetEncoders();
+    drivetrain.zeroHeading();
 
     // Configure default commands
     drivetrain.setDefaultCommand(
@@ -71,16 +73,6 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(rotationJoy, 5)
-      .onTrue(new RunCommand(
-        () -> drivetrain.zeroHeading(),
-        drivetrain));
-
-      new JoystickButton(rotationJoy, 6)
-        .onTrue(new RunCommand(
-          () -> drivetrain.resetEncoders(),
-          drivetrain));
-          
     // new JoystickButton(operJoy, XboxController.Button.kA.value)
     //     .whileTrue(new RunCommand(
     //         () -> drivetrain.setX(),

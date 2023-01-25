@@ -16,9 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import frc.robot.Ports.*;
 import frc.robot.Constants.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -44,19 +42,6 @@ public class Drivetrain extends SubsystemBase {
       DrivetrainPorts.REAR_RIGHT_DRIVE,
       DrivetrainPorts.REAR_RIGHT_TURNING,
       DriveConstants.RR_CHASSIS_ANGULAR_OFFSET);
-
-  // // instantiating turning motors
-  // private final CANSparkMax frontLeftTurning = new CANSparkMax(DrivetrainPorts.FRONT_LEFT_TURNING, MotorType.kBrushless);
-  // private final CANSparkMax frontRightTurning = new CANSparkMax(DrivetrainPorts.FRONT_RIGHT_TURNING, MotorType.kBrushless);
-  // private final CANSparkMax rearLeftTurning = new CANSparkMax(DrivetrainPorts.REAR_LEFT_TURNING, MotorType.kBrushless);
-  // private final CANSparkMax rearRightTurning = new CANSparkMax(DrivetrainPorts.REAR_RIGHT_TURNING, MotorType.kBrushless);
-
-  // instantiating turning absolute encoders
-  // private final SparkMaxAbsoluteEncoder frontLeftTurningEncoder = frontLeftTurning.getAbsoluteEncoder(Type.kDutyCycle);
-  // // private final DutyCycleEncoder frontLeftTurningEncoder = new DutyCycleEncoder(DrivetrainPorts.FRONT_LEFT_TURNING_ENCODER);
-  // private final SparkMaxAbsoluteEncoder frontRightTurningEncoder = frontRightTurning.getAbsoluteEncoder(Type.kDutyCycle);
-  // private final SparkMaxAbsoluteEncoder rearLeftTurningEncoder = rearLeftTurning.getAbsoluteEncoder(Type.kDutyCycle);
-  // private final SparkMaxAbsoluteEncoder rearRightTurningEncoder = rearRightTurning.getAbsoluteEncoder(Type.kDutyCycle);
 
   // The gyro sensor
   private final AnalogGyro gyro = new AnalogGyro(DrivetrainPorts.GYRO);
