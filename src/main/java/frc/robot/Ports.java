@@ -15,7 +15,7 @@ public final class Ports {
     
     public static final class DrivetrainPorts{
         // gyro port
-        public static final int GYRO = 0;
+        public static final int GYRO = 1;
         
         // big neos
         public static final int FRONT_LEFT_DRIVE = 4;
