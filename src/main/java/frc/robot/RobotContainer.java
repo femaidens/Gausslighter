@@ -38,7 +38,7 @@ public class RobotContainer {
 
   // The driver's controller
   // XboxController operJoy = new XboxController(Ports.JoystickPorts.OPER_JOY);
-  private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
+  //private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
   private final Joystick rotationJoy = new Joystick(Ports.JoystickPorts.ROTATION_JOY);
 
   /**
@@ -46,21 +46,21 @@ public class RobotContainer {
    */
   public RobotContainer() {
     // Configure the button bindings
+    // drivetrain.resetEncoders();
+    //drivetrain.zeroHeading();
     configureButtonBindings();
-    drivetrain.resetEncoders();
-    drivetrain.zeroHeading();
 
     // Configure default commands
-    drivetrain.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> drivetrain.drive(
-                MathUtil.applyDeadband(-lateralJoy.getY(), 0.06),
-                MathUtil.applyDeadband(-lateralJoy.getX(), 0.06),
-                MathUtil.applyDeadband(-rotationJoy.getX(), 0.06),
-                true),
-            drivetrain));
+  //   drivetrain.setDefaultCommand(
+  //       // The left stick controls translation of the robot.
+  //       // Turning is controlled by the X axis of the right stick.
+  //       new RunCommand(
+  //           () -> drivetrain.drive(
+  //               MathUtil.applyDeadband(-lateralJoy.getY(), 0.06),
+  //               MathUtil.applyDeadband(-lateralJoy.getX(), 0.06),
+  //               MathUtil.applyDeadband(-rotationJoy.getX(), 0.06),
+  //               true),
+  //           drivetrain));
   }
 
   /**
@@ -73,6 +73,11 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(rotationJoy, XboxController.Button.kA.value)
+        .whileTrue(new RunCommand(
+            () -> drivetrain.getGyroValues(),
+            drivetrain));
+
     // new JoystickButton(operJoy, XboxController.Button.kA.value)
     //     .whileTrue(new RunCommand(
     //         () -> drivetrain.setX(),

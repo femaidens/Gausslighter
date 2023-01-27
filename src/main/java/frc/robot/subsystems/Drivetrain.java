@@ -16,6 +16,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Ports.*;
@@ -45,7 +46,8 @@ public class Drivetrain extends SubsystemBase {
       DriveConstants.RR_CHASSIS_ANGULAR_OFFSET);
 
   // The gyro sensor
-  private final AnalogGyro gyro = new AnalogGyro(DrivetrainPorts.GYRO);
+  //private final AnalogGyro gyro = new AnalogGyro(DrivetrainPorts.GYRO);
+  private final ADIS16470_IMU gyro = new ADIS16470_IMU();
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry odometry = new SwerveDriveOdometry(
@@ -60,6 +62,10 @@ public class Drivetrain extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public Drivetrain() {
+  }
+
+  public void getGyroValues(){
+    System.out.println("gyro angle: " + gyro.getAngle());
   }
 
   // public void stopTurning(){
@@ -215,6 +221,7 @@ public class Drivetrain extends SubsystemBase {
   /** Zeroes the heading of the robot. */
   public void zeroHeading() {
     gyro.reset();
+    System.out.println("zero postiion" + gyro.getAngle());
   }
 
   /**
