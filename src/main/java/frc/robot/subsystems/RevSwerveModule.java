@@ -14,7 +14,7 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ModuleConstants;
 
 public class RevSwerveModule {
@@ -115,6 +115,7 @@ public class RevSwerveModule {
    *
    * @return The current state of the module.
    */
+  
   public SwerveModuleState getState() {
     // Apply chassis angular offset to the encoder position to get the position
     // relative to the chassis.
@@ -161,4 +162,19 @@ public class RevSwerveModule {
   public void resetEncoders() {
     driveEncoder.setPosition(0);
   }
+
+  public void periodic() {
+    // double turnOutput = turningPIDController.update(targetAngle.get(), turnMotor.getAngle());
+    // turnMotor.set(turnOutput);
+
+    // /** calculate output for drive motor */
+    // double driveOutput = drivePIDController.update(targetVelocity.get(), driveMotor.getVelocity());
+    // driveMotor.set(driveOutput);
+
+    SmartDashboard.putNumber("Current Velocity (m/s)", driveEncoder.getVelocity());
+    SmartDashboard.putNumber("Target Velocity", m_desiredState.speedMetersPerSecond);
+    SmartDashboard.putNumber("Current Angle (deg)", getPosition().angle.getDegrees());
+    SmartDashboard.putNumber("Target Angle", m_desiredState.angle.getDegrees());
+  }
+  
 }

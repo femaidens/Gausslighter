@@ -1,29 +1,61 @@
 {
   "HALProvider": {
     "Other Devices": {
-      "SPARK MAX [1]": {
+      "AnalogGyro[1]": {
         "header": {
           "open": true
         }
+      }
+    },
+    "Timing": {
+      "window": {
+        "visible": false
       }
     }
   },
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo"
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Ungrouped/AnalogGyro[1]": "Gyro",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
     }
   },
   "NetworkTables": {
     "Persistent Values": {
       "open": false
     },
+    "Retained Values": {
+      "open": false
+    },
     "transitory": {
       "LiveWindow": {
-        "open": true
+        ".status": {
+          "open": true
+        }
       },
       "Shuffleboard": {
+        ".metadata": {
+          "open": true
+        },
+        ".recording": {
+          "open": true
+        },
         "open": true
       }
+    }
+  },
+  "NetworkTables Info": {
+    "Connections": {
+      "open": true
+    },
+    "Server": {
+      "Publishers": {
+        "open": true
+      },
+      "Subscribers": {
+        "open": true
+      },
+      "open": true
     }
   },
   "Plot": {
@@ -40,7 +72,7 @@
     "Plot <1>": {
       "plots": [
         {
-          "height": 326
+          "height": 292
         }
       ]
     }

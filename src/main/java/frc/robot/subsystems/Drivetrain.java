@@ -17,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Ports.*;
 import frc.robot.Constants.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -109,7 +110,7 @@ public class Drivetrain extends SubsystemBase {
   //   }
   // }
   
-  // @Override
+  @Override
   public void periodic() {
     // // Update the odometry in the periodic block
     odometry.update(
