@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -12,6 +13,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +27,7 @@ public class RevSwerveModule {
   private final AbsoluteEncoder turningEncoder;
 
   private final SparkMaxPIDController drivePIDController;
+  // private final SimpleMotorFeedforward driveFFController; // figure this out another day (optimize it?)
   private final SparkMaxPIDController turningPIDController;
 
   private double m_chassisAngularOffset = 0;
@@ -116,6 +119,11 @@ public class RevSwerveModule {
    * @return The current state of the module.
    */
   
+  /** Zeroes all the SwerveModule encoders. */
+  public void resetEncoders() {
+    driveEncoder.setPosition(0);
+  }
+
   public SwerveModuleState getState() {
     // Apply chassis angular offset to the encoder position to get the position
     // relative to the chassis.
@@ -152,18 +160,44 @@ public class RevSwerveModule {
         new Rotation2d(turningEncoder.getPosition()));
 
     // Command driving and turning SPARKS MAX towards their respective setpoints.
-    drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 
     m_desiredState = desiredState;
   }
 
-  /** Zeroes all the SwerveModule encoders. */
-  public void resetEncoders() {
-    driveEncoder.setPosition(0);
+  public void putValues(){
+    SmartDashboard.putNumber("Current Velocity", 0);
+    SmartDashboard.putNumber("Target Velocity", 0);
+    SmartDashboard.putNumber("Velocity P", 0);
+    SmartDashboard.putNumber("Velocity I", 0);
+    SmartDashboard.putNumber("Velocity D", 0);
+    SmartDashboard.putNumber("Current Angle", 0);
+    SmartDashboard.putNumber("Target Angle", 0);
+    SmartDashboard.putNumber("Angle P", 0);
+    SmartDashboard.putNumber("Angle I", 0);
+    SmartDashboard.putNumber("Angle D", 0);
   }
 
-  public void periodic() {
+  public void getValues(){
+    // turning
+    turningPIDController.setReference(m_desiredState.angle.getRadians(), ControlType.kPosition);
+
+    // drive
+    double velocity = driveEncoder.getVelocity();
+    drivePIDController.setReference(m_desiredState.speedMetersPerSecond, ControlType.kPosition);
+    
+    SmartDashboard.getNumber("Current Velocity", velocity);
+    SmartDashboard.getNumber("Target Velocity", m_desiredState.speedMetersPerSecond);
+    SmartDashboard.getNumber("Velocity P", 0);
+    SmartDashboard.getNumber("Velocity I", 0);
+    SmartDashboard.getNumber("Velocity D", 0);
+    SmartDashboard.getNumber("Current Angle", getPosition().angle.getDegrees());
+    SmartDashboard.getNumber("Target Angle", m_desiredState.angle.getDegrees());
+    SmartDashboard.getNumber("Angle P", 0);
+    SmartDashboard.getNumber("Angle I", 0);
+    SmartDashboard.getNumber("Angle D", 0);
+  }
+  //public void periodic() {
     // double turnOutput = turningPIDController.update(targetAngle.get(), turnMotor.getAngle());
     // turnMotor.set(turnOutput);
 
@@ -171,10 +205,7 @@ public class RevSwerveModule {
     // double driveOutput = drivePIDController.update(targetVelocity.get(), driveMotor.getVelocity());
     // driveMotor.set(driveOutput);
 
-    SmartDashboard.putNumber("Current Velocity (m/s)", driveEncoder.getVelocity());
-    SmartDashboard.putNumber("Target Velocity", m_desiredState.speedMetersPerSecond);
-    SmartDashboard.putNumber("Current Angle (deg)", getPosition().angle.getDegrees());
-    SmartDashboard.putNumber("Target Angle", m_desiredState.angle.getDegrees());
-  }
+
+  //}
   
 }

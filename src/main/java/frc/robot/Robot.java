@@ -32,8 +32,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     robotContainer = new RobotContainer();
-    // drivetrain.resetEncoders();
-    // drivetrain.zeroHeading();
   }
 
   /**
@@ -100,9 +98,13 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    robotContainer.runSimInit();
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    //SmartDashboard.getNumber("Current Velocity (m/s)", 1);
+    robotContainer.runSimPeriodic();
+  }
 }

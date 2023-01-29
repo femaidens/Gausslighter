@@ -129,6 +129,14 @@ public class Drivetrain extends SubsystemBase {
         });
   }
 
+  public void testInit(){
+    frontLeft.putValues();
+  }
+  
+  public void testPeriodic(){
+    frontLeft.getValues();
+  }
+
   /**
    * Returns the currently-estimated pose of the robot.
    *

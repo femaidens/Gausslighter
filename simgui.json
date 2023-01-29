@@ -16,6 +16,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Drivetrain": "Subsystem",
       "/LiveWindow/Ungrouped/AnalogGyro[1]": "Gyro",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler"
     }
@@ -41,6 +42,9 @@
           "open": true
         },
         "open": true
+      },
+      "SmartDashboard": {
+        "open": true
       }
     }
   },
@@ -59,20 +63,40 @@
     }
   },
   "Plot": {
-    "Plot <0>": {
+    "Plot <1>": {
       "plots": [
         {
-          "height": 326
+          "height": 292
         }
       ],
       "window": {
         "visible": false
       }
     },
-    "Plot <1>": {
+    "Plot <2>": {
       "plots": [
         {
-          "height": 292
+          "height": 338,
+          "series": [
+            {
+              "color": [
+                0.2980392277240753,
+                0.44705885648727417,
+                0.6901960968971252,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Current Velocity"
+            },
+            {
+              "color": [
+                0.8666667342185974,
+                0.5176470875740051,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Target Velocity"
+            }
+          ]
         }
       ]
     }

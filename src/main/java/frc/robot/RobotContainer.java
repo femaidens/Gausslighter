@@ -35,7 +35,6 @@ import java.util.List;
 public class RobotContainer {
   // The robot's subsystems
   private final Drivetrain drivetrain = new Drivetrain();
-
   // The driver's controller
   // XboxController operJoy = new XboxController(Ports.JoystickPorts.OPER_JOY);
   //private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
@@ -72,6 +71,15 @@ public class RobotContainer {
    * passing it to a
    * {@link JoystickButton}.
    */
+
+  public void runSimInit(){
+    drivetrain.testInit();
+  }
+
+  public void runSimPeriodic(){
+    drivetrain.testPeriodic();
+  }
+
   private void configureButtonBindings() {
     new JoystickButton(rotationJoy, XboxController.Button.kA.value)
         .whileTrue(new RunCommand(
