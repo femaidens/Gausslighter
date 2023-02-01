@@ -85,14 +85,14 @@ public final class Constants {
     // max input
     public static final double TURNING_ENCODER_PPID_MAX = TURNING_ENCODER_PFACTOR; // radians
 
-    public static final double kDriveP = 0.04; // initially 0.04
+    public static final double kDriveP = 0.03; // initially 0.04
     public static final double kDriveI = 0;
-    public static final double kDriveD = 0;
+    public static final double kDriveD = 0.01;
     public static final double kDriveFF = 1 / DRIVE_WHEEL_FREE_SPEED_RPS;
     public static final double kDriveMinOutput = -1;
     public static final double kDriveMaxOutput = 1;
 
-    public static final double kTurningP = 1; // initally 1
+    public static final double kTurningP = 0.15; // initally 1
     public static final double kTurningI = 0;
     public static final double kTurningD = 0.05;
     public static final double kTurningFF = 0;
@@ -102,8 +102,8 @@ public final class Constants {
     public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
-    public static final int DRIVE_MOTOR_CURRENT_LIMIT = 50; // amps
-    public static final int TURNING_MOTOR_CURRENT_LIMIT = 20; // amps
+    public static final int DRIVE_MOTOR_CURRENT_LIMIT = 35; // amps
+    public static final int TURNING_MOTOR_CURRENT_LIMIT = 35; // amps
   }
 
   public static final class AutoConstants {
