@@ -78,6 +78,8 @@ public class RobotContainer {
 
   public void runSimPeriodic(){
     drivetrain.testPeriodic();
+
+    // drivetrain.testPeriodic();
   }
 
   private void configureButtonBindings() {

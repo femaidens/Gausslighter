@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.Sendable;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -166,36 +167,59 @@ public class RevSwerveModule {
   }
 
   public void putValues(){
-    SmartDashboard.putNumber("Current Velocity", 0);
-    SmartDashboard.putNumber("Target Velocity", 0);
-    SmartDashboard.putNumber("Velocity P", 0);
-    SmartDashboard.putNumber("Velocity I", 0);
-    SmartDashboard.putNumber("Velocity D", 0);
-    SmartDashboard.putNumber("Current Angle", 0);
-    SmartDashboard.putNumber("Target Angle", 0);
-    SmartDashboard.putNumber("Angle P", 0);
-    SmartDashboard.putNumber("Angle I", 0);
-    SmartDashboard.putNumber("Angle D", 0);
-  }
-
-  public void getValues(){
     // turning
     turningPIDController.setReference(m_desiredState.angle.getRadians(), ControlType.kPosition);
 
     // drive
     double velocity = driveEncoder.getVelocity();
     drivePIDController.setReference(m_desiredState.speedMetersPerSecond, ControlType.kPosition);
+
+    SmartDashboard.putNumber("Velocity", velocity);
+    SmartDashboard.putNumber("Target Velocity", m_desiredState.speedMetersPerSecond);
+    SmartDashboard.putNumber("VkP", 0);
+    SmartDashboard.putNumber("VkI", 0);
+    SmartDashboard.putNumber("VkD", 0);
+
+    // SmartDashboard.putNumber("Velocity", driveEncoder.getVelocity());
+    // SmartDashboard.putNumber("Target Velocity", 0);
+    // SmartDashboard.putNumber("VkP", 0);
+    // SmartDashboard.putNumber("VkI", 0);
+    // SmartDashboard.putNumber("VkD", 0);
+    // SmartDashboard.putNumber("Angle", getPosition().angle.getDegrees());
+    // SmartDashboard.putNumber("Target Angle", 0);
+    // SmartDashboard.putNumber("AkP", 0);
+    // SmartDashboard.putNumber("AkI", 0);
+    // SmartDashboard.putNumber("AkD", 0);
+  }
+
+  public void getValues(){
+
+    // turning
+    double turnOutput = turningPIDController.calculate(m_desiredState.angle.getDegrees(), getPosition().angle);
+    turningMotor.set(turnOutput);
+    turningPIDController.setReference(m_desiredState.angle.getRadians(), ControlType.kPosition);
+
+    // drive
+    double velocity = driveEncoder.getVelocity();
+    double driveOutput = drivePIDController.calculate(m_desiredState.speedMetersPerSecond, velocity);
+    drivePIDController.setReference(driveOutput, ControlType.kVoltage);
     
-    SmartDashboard.getNumber("Current Velocity", velocity);
+    SmartDashboard.getNumber("Velocity", velocity);
     SmartDashboard.getNumber("Target Velocity", m_desiredState.speedMetersPerSecond);
-    SmartDashboard.getNumber("Velocity P", 0);
-    SmartDashboard.getNumber("Velocity I", 0);
-    SmartDashboard.getNumber("Velocity D", 0);
-    SmartDashboard.getNumber("Current Angle", getPosition().angle.getDegrees());
-    SmartDashboard.getNumber("Target Angle", m_desiredState.angle.getDegrees());
-    SmartDashboard.getNumber("Angle P", 0);
-    SmartDashboard.getNumber("Angle I", 0);
-    SmartDashboard.getNumber("Angle D", 0);
+    SmartDashboard.getNumber("VkP", 0);
+    SmartDashboard.getNumber("VkI", 0);
+    SmartDashboard.getNumber("VkD", 0);
+    
+    // SmartDashboard.getNumber("Velocity", velocity);
+    // SmartDashboard.getNumber("Target Velocity", m_desiredState.speedMetersPerSecond);
+    // SmartDashboard.getNumber("VkP", 0);
+    // SmartDashboard.getNumber("Vk", 0);
+    // SmartDashboard.getNumber("VkD", 0);
+    // SmartDashboard.getNumber("Angle", getPosition().angle.getDegrees());
+    // SmartDashboard.getNumber("Target Angle", m_desiredState.angle.getDegrees());
+    // SmartDashboard.getNumber("AkP", 0);
+    // SmartDashboard.getNumber("AkI", 0);
+    // SmartDashboard.getNumber("AkD", 0);
   }
   //public void periodic() {
     // double turnOutput = turningPIDController.update(targetAngle.get(), turnMotor.getAngle());

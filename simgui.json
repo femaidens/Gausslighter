@@ -5,6 +5,31 @@
         "header": {
           "open": true
         }
+      },
+      "SPARK MAX [2]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [5]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [6]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [7]": {
+        "header": {
+          "open": true
+        }
       }
     },
     "Timing": {
@@ -22,12 +47,29 @@
     }
   },
   "NetworkTables": {
+    "LiveWindow": {
+      ".status": {
+        "open": true
+      },
+      "Drivetrain": {
+        "open": true
+      },
+      "Ungrouped": {
+        "Scheduler": {
+          "open": true
+        }
+      }
+    },
     "Persistent Values": {
       "open": false
     },
     "Retained Values": {
       "open": false
     },
+    "SmartDashboard": {
+      "open": true
+    },
+    "combined": true,
     "transitory": {
       "LiveWindow": {
         ".status": {
@@ -76,7 +118,12 @@
     "Plot <2>": {
       "plots": [
         {
-          "height": 338,
+          "axis": [
+            {
+              "autoFit": true
+            }
+          ],
+          "height": 316,
           "series": [
             {
               "color": [
@@ -95,6 +142,24 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/Target Velocity"
+            },
+            {
+              "color": [
+                0.3333333432674408,
+                0.658823549747467,
+                0.4078431725502014,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Current Angle"
+            },
+            {
+              "color": [
+                0.7686275243759155,
+                0.30588236451148987,
+                0.32156863808631897,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/Target Angle"
             }
           ]
         }
