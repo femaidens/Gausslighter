@@ -5,11 +5,18 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
+//import frc.robot.commands.Autos;
+import frc.robot.commands.ConeExtend;
+import frc.robot.commands.ConeRetract;
+import frc.robot.commands.CubeExtend;
+import frc.robot.commands.Retract;
+import frc.robot.subsystems.TestSolenoid;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.XboxController;
+//import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -24,9 +31,9 @@ public class RobotContainer {
   private final Compressor compressor = new Compressor(PneumaticsModuleType.CTREPCM);
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
+  private final TestSolenoid testSolenoid = new TestSolenoid();
+  private final XboxController m_driverController =
+      new XboxController(OperatorConstants.kDriverControllerPort);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -50,6 +57,16 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_DriveTrain.exampleMethodCommand());
+    //new Trigger(m_exampleSubsystem::exampleCondition)
+    //    .onTrue(new ExampleCommand(m_exampleSubsystem)); 
+    new JoystickButton(m_driverController, Ports.XboxControllerMap.Button.X)
+      .onTrue(new ConeExtend(testSolenoid));
+    //new JoystickButton(m_driverController, Ports.XboxControllerMap.Button.Y)
+    //  .onTrue(new ConeRetract(testSolenoid));
+    new JoystickButton(m_driverController, Ports.XboxControllerMap.Button.A)
+      .onTrue(new CubeExtend(testSolenoid));
+    new JoystickButton(m_driverController, Ports.XboxControllerMap.Button.B)
+      .onTrue(new Retract(testSolenoid));
   }
 
   /**

@@ -23,7 +23,7 @@ public class ConeRetract extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    TestSolenoid.retractCone();
+    //TestSolenoid.retractCone();
   }
 
   // Called once the command ends or is interrupted.

@@ -7,10 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TestSolenoid;
 
-public class CubeRetract extends CommandBase {
+public class Retract extends CommandBase {
   /** Creates a new CubeRetract. */
   public final TestSolenoid m_testSolenoid;
-  public CubeRetract(TestSolenoid testSolenoid) {
+  public Retract(TestSolenoid testSolenoid) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_testSolenoid = testSolenoid;
     addRequirements(testSolenoid);
@@ -23,7 +23,7 @@ public class CubeRetract extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    TestSolenoid.retractCube();
+    TestSolenoid.retract();
   }
 
   // Called once the command ends or is interrupted.

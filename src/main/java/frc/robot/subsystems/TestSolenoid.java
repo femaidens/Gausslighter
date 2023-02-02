@@ -20,14 +20,14 @@ public class TestSolenoid extends SubsystemBase {
   public static void extendCone(){ // for cone extend piston1
     piston1.set(Value.kForward);
   }
-  public static void retractCone(){
-    piston1.set(Value.kReverse);
-  }
+  //public static void retractCone(){
+  //  piston1.set(Value.kReverse);
+  //}
   public static void extendCube(){
     piston1.set(Value.kForward);
     piston2.set(Value.kForward);
   }
-  public static void retractCube(){
+  public static void retract(){
     piston1.set(Value.kReverse);
     piston2.set(Value.kReverse);
 

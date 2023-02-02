@@ -19,7 +19,7 @@ public class Ports {
     public static class XboxControllerMap{
         public static class Button{
             public static final int X = XboxController.Button.kX.value;
-            public static final int Y = XboxController.Button.kY.value;
+            //public static final int Y = XboxController.Button.kY.value;
             public static final int A = XboxController.Button.kA.value;
             public static final int B = XboxController.Button.kB.value;
         }
