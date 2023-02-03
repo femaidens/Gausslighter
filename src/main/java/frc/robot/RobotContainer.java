@@ -9,7 +9,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ConeExtend;
 import frc.robot.commands.ConeRetract;
 import frc.robot.commands.CubeExtend;
-import frc.robot.commands.Retract;
+import frc.robot.commands.CubeRetract;
 import frc.robot.subsystems.TestSolenoid;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -61,12 +61,12 @@ public class RobotContainer {
     //    .onTrue(new ExampleCommand(m_exampleSubsystem)); 
     new JoystickButton(m_driverController, Ports.XboxControllerMap.Button.X)
       .onTrue(new ConeExtend(testSolenoid));
-    //new JoystickButton(m_driverController, Ports.XboxControllerMap.Button.Y)
-    //  .onTrue(new ConeRetract(testSolenoid));
+    new JoystickButton(m_driverController, Ports.XboxControllerMap.Button.Y)
+     .onTrue(new CubeRetract(testSolenoid));
     new JoystickButton(m_driverController, Ports.XboxControllerMap.Button.A)
       .onTrue(new CubeExtend(testSolenoid));
     new JoystickButton(m_driverController, Ports.XboxControllerMap.Button.B)
-      .onTrue(new Retract(testSolenoid));
+      .onTrue(new ConeRetract(testSolenoid));
   }
 
   /**

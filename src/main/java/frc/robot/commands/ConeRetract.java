@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.TestSolenoid;
 
 public class ConeRetract extends CommandBase {
-  /** Creates a new ConeRetract. */
+  /** Creates a new CubeRetract. */
   public final TestSolenoid m_testSolenoid;
   public ConeRetract(TestSolenoid testSolenoid) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,7 +23,7 @@ public class ConeRetract extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //TestSolenoid.retractCone();
+    TestSolenoid.retractCone();
   }
 
   // Called once the command ends or is interrupted.
