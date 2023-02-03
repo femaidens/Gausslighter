@@ -174,22 +174,19 @@ public class RevSwerveModule {
     double velocity = driveEncoder.getVelocity();
     drivePIDController.setReference(m_desiredState.speedMetersPerSecond, ControlType.kPosition);
 
+    SmartDashboard.putNumber("drive P", ModuleConstants.kDriveP);
+    SmartDashboard.putNumber("drive I", ModuleConstants.kDriveI);
+    SmartDashboard.putNumber("drive D", ModuleConstants.kDriveD);
+    //displaying pid values for turning motors
+    SmartDashboard.putNumber("turn P", ModuleConstants.kTurningP);
+    SmartDashboard.putNumber("turn I", ModuleConstants.kTurningI);
+    SmartDashboard.putNumber("turn D", ModuleConstants.kTurningD);
+
     SmartDashboard.putNumber("Velocity", velocity);
     SmartDashboard.putNumber("Target Velocity", m_desiredState.speedMetersPerSecond);
-    SmartDashboard.putNumber("VkP", 0);
-    SmartDashboard.putNumber("VkI", 0);
-    SmartDashboard.putNumber("VkD", 0);
 
-    // SmartDashboard.putNumber("Velocity", driveEncoder.getVelocity());
-    // SmartDashboard.putNumber("Target Velocity", 0);
-    // SmartDashboard.putNumber("VkP", 0);
-    // SmartDashboard.putNumber("VkI", 0);
-    // SmartDashboard.putNumber("VkD", 0);
-    // SmartDashboard.putNumber("Angle", getPosition().angle.getDegrees());
-    // SmartDashboard.putNumber("Target Angle", 0);
-    // SmartDashboard.putNumber("AkP", 0);
-    // SmartDashboard.putNumber("AkI", 0);
-    // SmartDashboard.putNumber("AkD", 0);
+    SmartDashboard.putNumber("Angle", getPosition().angle.getDegrees());
+    SmartDashboard.putNumber("Target Angle", m_desiredState.angle.getDegrees());
   }
 
   public void getValues(){
@@ -204,22 +201,20 @@ public class RevSwerveModule {
     double driveOutput = drivePIDController.calculate(m_desiredState.speedMetersPerSecond, velocity);
     drivePIDController.setReference(driveOutput, ControlType.kVoltage);
     
+    //displaying pid values for drive motors
+    SmartDashboard.getNumber("drive P", ModuleConstants.kDriveP);
+    SmartDashboard.getNumber("drive I", ModuleConstants.kDriveI);
+    SmartDashboard.getNumber("drive D", ModuleConstants.kDriveD);
+    //displaying pid values for turning motors
+    SmartDashboard.getNumber("turn P", ModuleConstants.kTurningP);
+    SmartDashboard.getNumber("turn I", ModuleConstants.kTurningI);
+    SmartDashboard.getNumber("turn D", ModuleConstants.kTurningD);
+
     SmartDashboard.getNumber("Velocity", velocity);
     SmartDashboard.getNumber("Target Velocity", m_desiredState.speedMetersPerSecond);
-    SmartDashboard.getNumber("VkP", 0);
-    SmartDashboard.getNumber("VkI", 0);
-    SmartDashboard.getNumber("VkD", 0);
-    
-    // SmartDashboard.getNumber("Velocity", velocity);
-    // SmartDashboard.getNumber("Target Velocity", m_desiredState.speedMetersPerSecond);
-    // SmartDashboard.getNumber("VkP", 0);
-    // SmartDashboard.getNumber("Vk", 0);
-    // SmartDashboard.getNumber("VkD", 0);
-    // SmartDashboard.getNumber("Angle", getPosition().angle.getDegrees());
-    // SmartDashboard.getNumber("Target Angle", m_desiredState.angle.getDegrees());
-    // SmartDashboard.getNumber("AkP", 0);
-    // SmartDashboard.getNumber("AkI", 0);
-    // SmartDashboard.getNumber("AkD", 0);
+
+    SmartDashboard.getNumber("Angle", getPosition().angle.getDegrees());
+    SmartDashboard.getNumber("Target Angle", m_desiredState.angle.getDegrees());
   }
   //public void periodic() {
     // double turnOutput = turningPIDController.update(targetAngle.get(), turnMotor.getAngle());
