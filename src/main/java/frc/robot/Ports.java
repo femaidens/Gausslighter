@@ -5,4 +5,6 @@
 package frc.robot;
 
 /** Add your docs here. */
-public class Ports {}
+public final class Ports {
+    public static final int kMXP = 1;
+}

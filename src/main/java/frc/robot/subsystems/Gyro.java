@@ -5,10 +5,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.kauailabs.navx.frc.AHRS
+import com.kauailabs.navx.frc.AHRS;
 
 public class Gyro extends SubsystemBase {
-  private final AHRS gyro = new AHRS(SPI.Port.kMXP);
+  private final AHRS gyro = new AHRS();
   /** Creates a new Gyro. */
   public Gyro() {}
 
