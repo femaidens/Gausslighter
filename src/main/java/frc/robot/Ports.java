@@ -14,7 +14,12 @@ public class Ports {
         public static final int piston2ForwardPort = 6;
         public static final int piston2ReversePort = 7;
         //public static final int cubeExtendButton = 1;
+        
 
+    }
+    public class wrist{
+        public static final int wristPort = 8;
+        public static final int clawWheelsPort = 9;
     }
     public static class XboxControllerMap{
         public static class Button{

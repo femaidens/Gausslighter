@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -14,6 +17,8 @@ public class TestSolenoid extends SubsystemBase {
   /** Creates a new TestSolenoid. */
   private static DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Ports.PistonTest.piston1ForwardPort, Ports.PistonTest.piston1ReversePort);
   private static DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Ports.PistonTest.piston2ForwardPort, Ports.PistonTest.piston2ReversePort);
+  private static CANSparkMax wrist = new CANSparkMax(Ports.wrist.wristPort, MotorType.kBrushless);
+  private static CANSparkMax clawWheels = new CANSparkMax(Ports.wrist.clawWheelsPort, MotorType.kBrushless);
 
   public TestSolenoid() {}
 
