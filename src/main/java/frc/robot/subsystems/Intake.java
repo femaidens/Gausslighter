@@ -47,11 +47,6 @@ public class Intake extends SubsystemBase {
     clawWheels.set(-0.2); //subject to change, to negate
   }
 
-  public void getTicks(){ // find distance per revolution, return a double after confirmed it works
-    double ticks = wristEncoder.getAbsolutePosition();
-    System.out.println("current ticks: " + ticks);
-  }
-
   //PID
   public void setWristAnglePID(double goalAngle){
     double setWristAnglePID = wristAngle.calculate(wristEncoder.getAbsolutePosition(), goalAngle);
@@ -61,7 +56,8 @@ public class Intake extends SubsystemBase {
   //MANUAL
   public void setWristAngleManual(double goalAngle) {
     double currentTicks = wristEncoder.getAbsolutePosition();
-    double goalTicks = (goalAngle * Constants.CPR) / 360; // convert goal angle (degrees) into ticks
+    double goalTicks = (goalAngle * Constants.CPR) / 360; // convert goal angle (degrees) into ticks, based on proportion of angle out of 360 and proportion of ticks out of 4096
+  //double goalTicks = 180 / (goalAngle * Math.PI) alternate method to convert a goal angle into ticks
 
       if (currentTicks > goalTicks + margin || currentTicks < goalTicks - margin) {
         while(currentTicks < goalTicks - margin) {
@@ -74,6 +70,7 @@ public class Intake extends SubsystemBase {
       else {
         wrist.set(0);
       }
+
   }
   
   public void resetWristAngle() {
@@ -81,7 +78,6 @@ public class Intake extends SubsystemBase {
       wrist.set(-Constants.wristSpeed);
     }
   }
-
 
   @Override
   public void periodic() {

@@ -9,9 +9,13 @@ import edu.wpi.first.wpilibj.XboxController;
 /** Add your docs here. */
 public class Ports {
     public class wrist{
-        public static final int wristPort = 8;
+        public static final int wristMotorPort = 8;
         public static final int clawWheelsPort = 9;
         public static final int wristEncoderPort = 10;
+        public static final int piston1ForwardPort = 5; //og 4
+        public static final int piston1ReversePort = 4; //og 5
+        public static final int piston2ForwardPort = 6;
+        public static final int piston2ReversePort = 7;
     }
     public static class Controller {
         public static final int operJoyPort = 0;
