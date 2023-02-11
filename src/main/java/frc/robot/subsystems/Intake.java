@@ -49,15 +49,18 @@ public class Intake extends SubsystemBase {
 
   //PID
   public void setWristAnglePID(double goalAngle){
-    double setWristAnglePID = wristAngle.calculate(wristEncoder.getAbsolutePosition(), goalAngle);
+    double goalTicks = (goalAngle * Constants.CPR) / 360; // convert goal angle (degrees) into ticks, based on proportion of angle out of 360 and proportion of ticks out of 4096
+  //double goalTicks = 180 / (goalAngle * Math.PI) alternate method to convert a goal angle into ticks
+
+    double setWristAnglePID = wristAngle.calculate(wristEncoder.getAbsolutePosition(), goalTicks); // comapres ticks from getAbsPosition with goal ticks so units are same
     wrist.set(setWristAnglePID);
   }
 
   //MANUAL
   public void setWristAngleManual(double goalAngle) {
-    double currentTicks = wristEncoder.getAbsolutePosition();
     double goalTicks = (goalAngle * Constants.CPR) / 360; // convert goal angle (degrees) into ticks, based on proportion of angle out of 360 and proportion of ticks out of 4096
   //double goalTicks = 180 / (goalAngle * Math.PI) alternate method to convert a goal angle into ticks
+    double currentTicks = wristEncoder.getAbsolutePosition();
 
       if (currentTicks > goalTicks + margin || currentTicks < goalTicks - margin) {
         while(currentTicks < goalTicks - margin) {

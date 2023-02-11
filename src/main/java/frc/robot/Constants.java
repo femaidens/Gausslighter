@@ -17,6 +17,12 @@ public final class Constants {
   public static final double wristSpeed = 0.1;
   public static final int CPR = 4096;
 
+  public static class ConfigPos { // subject to change
+    public static final double cubeMidAngle = 120;
+    public static final double coneMidAngle = 110; // maybe use same angle for cone high? cone mid is 87cm and cube high is 90cm
+    public static final double coneHighAngle = 100;
+  }
+
   public static class PIDConstants {
     public static final double Kp = 0.2;
     public static final double Ki = 0.0;
