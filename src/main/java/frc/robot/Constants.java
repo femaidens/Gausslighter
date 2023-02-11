@@ -13,7 +13,22 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
+
+  public static final double wristSpeed = 0.1;
+  public static final int CPR = 4096;
+
+  public static class PIDConstants {
+    public static final double Kp = 0.2;
+    public static final double Ki = 0.0;
+    public static final double Kd = 0.0;
+    public double left_speed, right_speed;
+    static double min_error = 0.1; //sets an error deadband/ minimum value
+    static double min_command = 0.0;
+    static double current_error = 0; 
+    static double previous_error = 0;
+    static double integral = 0;
+    static double derivative = 0;
+    static double adjust = 0;
+    static double time = 0.1; 
   }
 }
