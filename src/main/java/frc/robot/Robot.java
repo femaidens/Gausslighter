@@ -4,6 +4,13 @@
 
 package frc.robot;
 
+// import java.io.IOException;
+// import java.nio.file.Path;
+
+// import edu.wpi.first.math.trajectory.Trajectory;
+// import edu.wpi.first.math.trajectory.TrajectoryUtil;
+// import edu.wpi.first.wpilibj.DriverStation;
+// import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -15,19 +22,29 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
+  //private Command autonCommand;
 
-  private RobotContainer m_robotContainer;
+  private RobotContainer robotContainer;
+  private Command autonChooser;
 
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
+  // String trajectoryJSON = "pathplanner/generatedJSON/score_and_charge.wpilib.json";
+  // Trajectory trajectory = new Trajectory();
+
   @Override
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
+  //   try {
+  //     Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(trajectoryJSON);
+  //     trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+  //  } catch (IOException ex) {
+  //     DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
+  //  }
   }
 
   /**
@@ -56,11 +73,19 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    robotContainer.getAutonomousCommand().schedule();
+    autonChooser = robotContainer.getAutonomousCommand();
+
+    /*
+     * String autoSelected = SmartDashboard.getString("Auto Selector",
+     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+     * = new MyAutoCommand(); break; case "Default Auto": default:
+     * autonomousCommand = new ExampleCommand(); break; }
+     */
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    if (autonChooser != null) {
+      autonChooser.schedule();
     }
   }
 
@@ -74,8 +99,8 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+    if (autonChooser != null) {
+      autonChooser.cancel();
     }
   }
 
@@ -92,12 +117,4 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {}
-
-  /** This function is called once when the robot is first started up. */
-  @Override
-  public void simulationInit() {}
-
-  /** This function is called periodically whilst in simulation. */
-  @Override
-  public void simulationPeriodic() {}
 }
