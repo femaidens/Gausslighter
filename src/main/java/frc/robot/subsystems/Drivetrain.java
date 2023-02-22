@@ -40,7 +40,7 @@ public class Drivetrain extends SubsystemBase {
       DrivetrainPorts.REAR_RIGHT_TURNING,
       DriveConstants.RR_CHASSIS_ANGULAR_OFFSET);
 
-  // imu sensor
+  // imu sensor/gyro
   private final ADIS16470_IMU gyro = new ADIS16470_IMU();
 
   // odometry class (tracks robot pose)
