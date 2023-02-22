@@ -6,6 +6,8 @@ package frc.robot;
 
 import java.util.List;
 
+import javax.swing.text.Position;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -20,15 +22,23 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.*;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ArmConstants.PositionConfig;
+import frc.robot.Ports.ButtonPorts;
 import frc.robot.autons.Path1;
 import frc.robot.autons.Path2;
+import frc.robot.commands.*;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 // import java.util.List;
 // import java.util.HashMap;
@@ -50,24 +60,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
   // The robot's subsystems
     private final Drivetrain drivetrain = new Drivetrain();
-    // ArrayList<PathPlannerTrajectory> pathGroup = PathPlanner.loadPathGroup("score and charge", new PathConstraints(4, 3));
-
-    // // This is just an example event map. It would be better to have a constant, global event map
-    // // in your code that will be used by all path following commands.
-    // HashMap<String, Command> eventMap = new HashMap<>();
-    // eventMap.put("marker1", new PrintCommand("Passed marker 1"));
-    // eventMap.put("intakeDown", new IntakeDown());
-    // private SwerveAutoBuilder autoBuilder = new SwerveAutoBuilder(
-    //     Drivetrain::getPose, // Pose2d supplier
-    //     Drivetrain::resetPose, // Pose2d consumer, used to reset odometry at the beginning of auto
-    //     Drivetrain.kinematics, // SwerveDriveKinematics
-    //     new PIDConstants(5.0, 0.0, 0.0), // PID constants to correct for translation error (used to create the X and Y PID controllers)
-    //     new PIDConstants(0.5, 0.0, 0.0), // PID constants to correct for rotation error (used to create the rotation controller)
-    //     Drivetrain::setModuleStates, // Module states consumer used to output to the drive subsystem
-    //     eventMap,
-    //     true, // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
-    //     driveSubsystem // The drive subsystem. Used to properly set the requirements of path following commands
-    // );
+    private final Arm arm = new Arm();
+    private final Intake intake = new Intake();
 
   // The driver's controller
   XboxController operJoy = new XboxController(Ports.JoystickPorts.OPER_JOY);
@@ -128,6 +122,39 @@ public class RobotContainer {
     .whileTrue(new RunCommand(
         () -> drivetrain.resetGyro(),
         drivetrain));
+    
+    // figure out better/more efficient way of creating/binding these cmds to buttons
+    final Trigger midCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.A);
+    midCubeButton.onTrue(Commands.sequence(new SetArmAngle(arm, PositionConfig.midCubeAngle), 
+      new SetArmExtension(arm, PositionConfig.midCubeExtend), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+
+    final Trigger midConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.B);
+    midConeButton.onTrue(Commands.sequence(new SetArmAngle(arm, PositionConfig.midConeAngle), 
+      new SetArmExtension(arm, PositionConfig.midConeExtend), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+
+    final Trigger highCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.X); //change command for testing angle
+    highCubeButton.onTrue(Commands.sequence(new SetArmAngle(arm, PositionConfig.highCubeAngle), 
+      new SetArmExtension(arm, PositionConfig.highCubeExtend), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+
+    final Trigger highConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.Y);
+    highConeButton.onTrue(Commands.sequence(new SetArmAngle(arm, PositionConfig.highConeAngle), 
+      new SetArmExtension(arm, PositionConfig.highConeExtend), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+
+    final Trigger resetIntakeButton = new JoystickButton(operJoy, ButtonPorts.RESET_INTAKE_BUTTON_PORT);
+    resetIntakeButton.onTrue(Commands.parallel(new SetArmAngle(arm, ArmConstants.defaultArmAngle), 
+      new SetArmExtension(arm, PositionConfig.defaultExtension), new SetClawAngle(intake, IntakeConstants.defaultClawAngle)));
+
+    final Trigger floorScoreButton = new JoystickButton(operJoy, ButtonPorts.FLOOR_SCORE_BUTTON_PORT);
+    floorScoreButton.onTrue(Commands.sequence(new OpenClaw(intake), 
+      new SetArmExtension(arm, PositionConfig.defaultExtension), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+
+    final Trigger floorIntakeButton = new JoystickButton(operJoy, ButtonPorts.FLOOR_INTAKE_BUTTON_PORT);
+    floorIntakeButton.onTrue(Commands.sequence(new OpenClaw(intake), new IntakeGP(intake), new CloseClaw(intake)));
+
+    final Trigger humanPlayerButton = new JoystickButton(operJoy, ButtonPorts.HP_BUTTON_PORT);
+    humanPlayerButton.onTrue(Commands.sequence(new SetArmAngle(arm, PositionConfig.highConeAngle), 
+      new SetArmExtension(arm, PositionConfig.midConeExtend), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    // substation distance (95cm) is similar to mid node distance (90cm)
   }
 
   /**
