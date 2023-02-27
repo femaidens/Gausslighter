@@ -9,9 +9,11 @@ import edu.wpi.first.wpilibj.XboxController;
 /** Add your docs here. */
 public class Ports {
     public static class PistonTest{
-        public static final int piston1ForwardPort = 5; //og 4
-        public static final int piston1ReversePort = 4; //og 5
-        public static final int piston2ForwardPort = 6;
+        // big piston
+        public static final int piston1ForwardPort = 5; // og 4
+        public static final int piston1ReversePort = 6; //og 5
+        // little piston
+        public static final int piston2ForwardPort = 1;
         public static final int piston2ReversePort = 7;
         //public static final int cubeExtendButton = 1;
         
