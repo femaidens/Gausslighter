@@ -23,13 +23,13 @@ public class Arm extends SubsystemBase {
   private final CANSparkMax leftExtendMotor;
   private final PIDController anglePIDController; // angle of lifting arm
   private final PIDController extendPIDController;
-  private final SimpleMotorFeedforward armExtensionFF;
+  private final SimpleMotorFeedforward armExtensionFF; // -> use this somewhere!
   private final DutyCycleEncoder angEncoder;
   private final DigitalInput topSwitch;
   private final DigitalInput botSwitch;
 
-  /** Creates a new ExampleSubsystem. */
   public Arm() {
+
     // motor instantiations
     angleMotor = new CANSparkMax(ArmPorts.ANG_MOTOR_PORT, MotorType.kBrushless);
     angEncoder = new DutyCycleEncoder(ArmPorts.ANG_ENCODER_PORT);
@@ -40,14 +40,21 @@ public class Arm extends SubsystemBase {
     extendRetractEncoder = leftExtendMotor.getEncoder(); // subject to change
 
     // feedback controllers
-    anglePIDController = new PIDController(ArmConstants.AnglePID.kP,
-        ArmConstants.AnglePID.kI, ArmConstants.AnglePID.kD);
-    extendPIDController = new PIDController(ArmConstants.ExtendPID.kP,
-        ArmConstants.ExtendPID.kI, ArmConstants.ExtendPID.kD);
+    anglePIDController = new PIDController(
+        ArmConstants.AnglePID.kP,
+        ArmConstants.AnglePID.kI,
+        ArmConstants.AnglePID.kD);
+
+    extendPIDController = new PIDController(
+        ArmConstants.ExtendPID.kP,
+        ArmConstants.ExtendPID.kI,
+        ArmConstants.ExtendPID.kD);
 
     // feedforward controllers
-    armExtensionFF = new SimpleMotorFeedforward(ArmConstants.FeedForward.kS,
-        ArmConstants.FeedForward.kV, ArmConstants.FeedForward.kA);
+    armExtensionFF = new SimpleMotorFeedforward(
+        ArmConstants.FeedForward.kS,
+        ArmConstants.FeedForward.kV, 
+        ArmConstants.FeedForward.kA);
 
     // limit switches
     topSwitch = new DigitalInput(ArmPorts.TOP_SWITCH_PORT);
@@ -63,19 +70,25 @@ public class Arm extends SubsystemBase {
     // now
     leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
 
-    if (extendArmPID < 0) { // left is extending
+    if (extendArmPID < 0) { // left is extending 
       if (topSwitch.get()) { // hit top limit switch (extending)
         leftExtendMotor.set(0);
         rightExtendMotor.set(0);
-      } else {
+      } 
+      
+      else {
         leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
         rightExtendMotor.setVoltage(extendArmPID);
       }
-    } else {
+    } 
+    
+    else {
       if (botSwitch.get()) { // hit bot limit switch (retracting)
         leftExtendMotor.set(0);
         rightExtendMotor.set(0);
-      } else {
+      } 
+
+      else {
         leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
         rightExtendMotor.setVoltage(extendArmPID);
       }
@@ -92,9 +105,10 @@ public class Arm extends SubsystemBase {
     System.out.println("current ticks:" + extendRetractEncoder.getPosition());
   }
 
-  public void getPositionFactor(double ticks) { // find distance per revolution, return a double after confirmed it
-                                                // works
+  // find distance/revolution, return double after confirmation -> works
+  public void getPositionFactor(double ticks) {
     double currentTicks = extendRetractEncoder.getPosition();
+
     while (currentTicks < ticks) {
       leftExtendMotor.set(-0.05);
       System.out.println("current ticks: " + currentTicks);
