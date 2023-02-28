@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.Constants;
 import frc.robot.commands.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -19,7 +20,7 @@ public class TestAuton1 extends SequentialCommandGroup {
   private Arm arm;
   private Intake intake;
   /** Creates a new TestAuton1. */
-  public TestAuton1(Drivetrain drivetrain, Arm arm, Intake intake) {
+  public TestAuton1(Drivetrain drivetrain, Intake intake, Arm arm) {
     this.arm = arm;
     this.intake = intake;
     this.drivetrain = drivetrain;
@@ -27,7 +28,9 @@ public class TestAuton1 extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new InstantCommand(() -> drivetrain.drive(0.2, 0, 0, true)),
-      setAr
+      new SetArmAngle(arm, Constants.ArmConstants.PositionConfig.midConeAngle),
+      new OpenClaw(intake),
+      new ReleaseGP(intake)
     );
   }
 }
