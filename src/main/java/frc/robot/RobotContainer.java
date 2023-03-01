@@ -124,7 +124,7 @@ public class RobotContainer {
             () -> drivetrain.setX(),
             drivetrain));
 
-    new JoystickButton(operJoy, 2) // orange click button
+    new JoystickButton(operJoy, 6) // orange click button
     .whileTrue(new RunCommand(
         () -> drivetrain.resetGyro(),
         drivetrain));
