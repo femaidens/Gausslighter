@@ -57,10 +57,13 @@ public final class Ports {
         
         public static final int WRIST_ENCODER_PORT = 10;
 
-        public static final int PISTON1_FORWARD_PORT = 5; //og 4
-        public static final int PISTON1_REVERSE_PORT = 4; //og 5
-        public static final int PISTON2_FORWARD_PORT = 12;
-        public static final int PISTON2_REVERSE_PORT = 13;
+        // big pistons
+        public static final int PISTON1_FORWARD_PORT = 0; 
+        public static final int PISTON1_REVERSE_PORT = 1; 
+        
+        // small pistons
+        public static final int PISTON2_FORWARD_PORT = 2;
+        public static final int PISTON2_REVERSE_PORT = 3;
     }
 
     public static final class ArmPorts {
