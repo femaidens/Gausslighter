@@ -24,6 +24,62 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  
+  public static final double CPR = 4096;
+  public static final double PPR = 1024;
+  public static final double WHEEL_DIAMETER = 0.0762; // meters
+
+  public static class ArmConstants {
+
+    public final double extendMargin = 0.1;
+    public static final double extend_factor = (WHEEL_DIAMETER * Math.PI) / CPR;
+    public static double defaultArmAngle = 0.0;
+
+    public static class FeedForward { // to be tested
+      public static final double kS = 0;
+      public static final double kV = 0;
+      public static final double kA = 0;
+    }
+
+    public static class AnglePID { // to be tested
+      public final static double kP = 0.2;
+      public final static double kI = 0.0;
+      public final static double kD = 0.0;
+    }
+
+    public static class ExtendPID { // to be tested
+      public final static double kP = 0.2;
+      public final static double kI = 0.0;
+      public final static double kD = 0.0;
+    }
+    
+    public static class PositionConfig { // subject to change
+      public static final double midCubeAngle = 90; //unique desired goalAngle for changing angle to score
+      public static final double midConeAngle = 100;
+      public static final double highCubeAngle = 110;
+      public static final double highConeAngle = 120;
+
+      public static final double defaultExtension = 0;
+      public static final double midCubeExtend = 0.4;//unique desired vVelocity for extending arm to score
+      public static final double midConeExtend = 0.5;//unique desired vVelocity for extending arm to score
+      public static final double highCubeExtend = 0.6;//unique desired vVelocity for extending arm to score
+      public static final double highConeExtend = 0.7;//unique desired vVelocity for extending arm to score
+    }
+  }
+
+  public static class IntakeConstants { //for claw
+    public static final double tickFactor =  Constants.CPR / 360;
+    public static final double intakeMargin = 3;
+    public static final double clawAngle = 180;
+    public static final double defaultClawAngle = 200; //placeholder
+    public static final double wristSpeed = 0.1;
+
+    public static final class PID { // to be tested
+      public final static double kP = 0.2;
+      public final static double kI = 0.0;
+      public final static double kD = 0.0;
+    }
+  }
 
   public static final class DriveConstants {
 
