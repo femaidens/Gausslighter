@@ -86,24 +86,24 @@ public class RobotContainer {
     SmartDashboard.putData("Choose Auto: ", autonChooser);
     autonChooser.addOption("p1", new Path1(drivetrain));
     autonChooser.addOption("p2", new Path2(drivetrain));
-    SlewRateLimiter filter = new SlewRateLimiter(0.5);
+
     // Configure default commands
     drivetrain.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
-            () -> drivetrain.drive(
-                MathUtil.applyDeadband(filter.calculate(-operJoy.getRightY()), 0.1),
-                MathUtil.applyDeadband(filter.calculate(-operJoy.getRightX()), 0.1),
-                MathUtil.applyDeadband(-operJoy.getLeftX(), 0.1),
-                true),
+            () -> drivetrain.drive( // all joy.get values were prev negative
+                MathUtil.applyDeadband(operJoy.getRightY(), 0.1),
+                MathUtil.applyDeadband(operJoy.getRightX(), 0.1),
+                MathUtil.applyDeadband(operJoy.getLeftX(), 0.1),
+                true, true),
             drivetrain)
 
         // new RunCommand(
         //     () -> drivetrain.drive(
-        //         MathUtil.applyDeadband(-lateralJoy.getY(), 0.06),
-        //         MathUtil.applyDeadband(-lateralJoy.getX(), 0.06),
-        //         MathUtil.applyDeadband(-rotationJoy.getX(), 0.06),
+        //         MathUtil.applyDeadband(-lateralJoy.getY(), 0.05),
+        //         MathUtil.applyDeadband(-lateralJoy.getX(), 0.05),
+        //         MathUtil.applyDeadband(-rotationJoy.getX(), 0.05),
         //         true),
         //     drivetrain)
     );

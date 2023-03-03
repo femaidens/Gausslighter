@@ -30,6 +30,11 @@ public final class Constants {
     public static final double MAX_SPEED = 4.8; // max speed meters per second *** LOOK INTO MAX ALLOWED SPEED
     public static final double MAX_ANGULAR_SPEED = 2 * Math.PI; // radians per second
 
+    // slew rate constants
+    public static final double DIR_SLEW_RATE = 1.2; // radians per second
+    public static final double MAG_SLEW_RATE = 1.8; // percent per second (1 = 100%)
+    public static final double ROT_SLEW_RATE = 2.0; // percent per second (1 = 100%)
+
     // Chassis configuration
     public static final double TRACK_WIDTH = Units.inchesToMeters(23.0);
     // Distance between centers of right and left wheels on robot
