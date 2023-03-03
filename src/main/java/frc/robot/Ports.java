@@ -52,8 +52,8 @@ public final class Ports {
     }
 
     public static final class IntakePorts {
-        public static final int WRIST_MOTOR_PORT = 8;
-        public static final int CLAW_WHEELS_PORT = 9;
+        public static final int WRIST_MOTOR_PORT = 10;
+        public static final int CLAW_WHEELS_PORT = 3;
         
         public static final int WRIST_ENCODER_PORT = 10;
 
@@ -64,9 +64,9 @@ public final class Ports {
     }
 
     public static final class ArmPorts {
-        public static final int ANG_MOTOR_PORT = 1;
-        public static final int LEFT_EXTEND_MOTOR_PORT = 10;
-        public static final int RIGHT_EXTEND_MOTOR_PORT = 3;
+        public static final int ANG_MOTOR_PORT = 12;
+        public static final int LEFT_EXTEND_MOTOR_PORT = 13;
+        public static final int RIGHT_EXTEND_MOTOR_PORT = 9;
 
         public static final int ANG_ENCODER_PORT = 0; // change port number
         public static final int EXTEND_RETRACT_ENCODER_PORT = 8;
