@@ -51,6 +51,7 @@ public class RobotContainer {
 
   // The driver's controller
   XboxController operJoy = new XboxController(Ports.JoystickPorts.OPER_JOY);
+  XboxController driveJoy = new XboxController(Ports.JoystickPorts.DRIVE_JOY);
   // private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
   // private final Joystick rotationJoy = new Joystick(Ports.JoystickPorts.ROTATION_JOY);
   private final SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -63,6 +64,8 @@ public class RobotContainer {
     configureButtonBindings();
     drivetrain.resetGyro();
     drivetrain.resetEncoders();
+
+    // auton config
     SmartDashboard.putData("Choose Auto: ", autonChooser);
     autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("p2", new Path2(drivetrain));
@@ -73,9 +76,9 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> drivetrain.drive( // all joy.get values were prev negative
-                MathUtil.applyDeadband(operJoy.getRightY(), 0.1),
-                MathUtil.applyDeadband(operJoy.getRightX(), 0.1),
-                MathUtil.applyDeadband(operJoy.getLeftX(), 0.1),
+                MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
+                MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
+                MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
                 true, true),
             drivetrain)
 
@@ -108,15 +111,21 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(operJoy, XboxController.Button.kA.value)
-        .whileTrue(new RunCommand(
+    new JoystickButton(driveJoy, XboxController.Button.kA.value)
+        .whileTrue(
+          new RunCommand(
             () -> drivetrain.setX(),
             drivetrain));
 
-    new JoystickButton(operJoy, 6) // right button
-    .whileTrue(new RunCommand(
-        () -> drivetrain.resetGyro(),
-        drivetrain));
+    // must follow resetGyro with resetPose to change pose of robot
+    new JoystickButton(driveJoy, 6) // right button
+        .onTrue(Commands.sequence(
+            new RunCommand(
+              () -> drivetrain.resetGyro(),
+              drivetrain),
+            new RunCommand(
+              () -> drivetrain.resetOdometry(drivetrain.getPose()), 
+              drivetrain)));
     
     // figure out better/more efficient way of creating/binding these cmds to buttons
     final Trigger midCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.A);

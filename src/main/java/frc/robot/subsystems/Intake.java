@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
   private final DoubleSolenoid piston1;
   private final DoubleSolenoid piston2;
   private final CANSparkMax wristMotor;
-  //private final CANSparkMax clawWheels;
+  // private final CANSparkMax clawWheels;
   private final PIDController wristAnglePID;
   // private final DutyCycleEncoder wristEncoder;
   private final AbsoluteEncoder wristEncoder;
@@ -40,7 +40,7 @@ public class Intake extends SubsystemBase {
 
     // motor instantiations
     wristMotor = new CANSparkMax(IntakePorts.WRIST_MOTOR_PORT, MotorType.kBrushless);
-    //clawWheels = new CANSparkMax(IntakePorts.CLAW_WHEELS_PORT, MotorType.kBrushless);
+    // clawWheels = new CANSparkMax(IntakePorts.CLAW_WHEELS_PORT, MotorType.kBrushless);
 
     // encoder instantiations
     wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -65,17 +65,17 @@ public class Intake extends SubsystemBase {
     // System.out.println("both extended");
   }
 
-  /*public void intakeGamePiece() {
-    clawWheels.set(0.2); // subject to change, to negate
-  }
+  // public void intakeGamePiece() {
+  //   clawWheels.set(0.2); // subject to change, to negate
+  // }
 
-  public void releaseGamePiece() { // backup plan???
-    clawWheels.set(-0.2); // subject to change, to negate
-  }
+  // public void releaseGamePiece() { // backup plan???
+  //   clawWheels.set(-0.2); // subject to change, to negate
+  // }
 
-  public void stopClawWheels() {
-    clawWheels.set(0);
-  } */
+  // public void stopClawWheels() {
+  //   clawWheels.set(0);
+  // }
 
   // PID
   public void setWristAnglePID(double goalAngle) {

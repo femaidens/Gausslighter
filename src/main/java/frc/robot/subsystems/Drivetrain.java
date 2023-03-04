@@ -81,7 +81,7 @@ public class Drivetrain extends SubsystemBase {
             rearRight.getPosition()
         });
 
-    SmartDashboard.putNumber("Gyro Angle: ", getGyroValues());
+    SmartDashboard.putNumber("Gyro Angle: ", gyro.getAngle());
   }
 
   /**
@@ -105,42 +105,49 @@ public class Drivetrain extends SubsystemBase {
 
       // Calculate the direction slew rate based on an estimate of the lateral acceleration
       double directionSlewRate;
+
       if (currentTranslationMag != 0.0) {
         directionSlewRate = Math.abs(DriveConstants.DIR_SLEW_RATE / currentTranslationMag);
-      } else {
+      } 
+      
+      else {
         directionSlewRate = 500.0; //some high number that means the slew rate is effectively instantaneous
       }
       
-
       double currentTime = WPIUtilJNI.now() * 1e-6;
       double elapsedTime = currentTime - prevTime;
       double angleDif = SwerveUtils.AngleDifference(inputTranslationDir, currentTranslationDir);
+
       if (angleDif < 0.45*Math.PI) {
         currentTranslationDir = SwerveUtils.StepTowardsCircular(currentTranslationDir, inputTranslationDir, directionSlewRate * elapsedTime);
         currentTranslationMag = magLimiter.calculate(inputTranslationMag);
       }
+
       else if (angleDif > 0.85*Math.PI) {
         if (currentTranslationMag > 1e-4) { //some small number to avoid floating-point errors with equality checking
           // keep currentTranslationDir unchanged
           currentTranslationMag = magLimiter.calculate(0.0);
         }
+
         else {
           currentTranslationDir = SwerveUtils.WrapAngle(currentTranslationDir + Math.PI);
           currentTranslationMag = magLimiter.calculate(inputTranslationMag);
         }
       }
+
       else {
         currentTranslationDir = SwerveUtils.StepTowardsCircular(currentTranslationDir, inputTranslationDir, directionSlewRate * elapsedTime);
         currentTranslationMag = magLimiter.calculate(0.0);
       }
+
       prevTime = currentTime;
       
       xSpeedCommanded = currentTranslationMag * Math.cos(currentTranslationDir);
       ySpeedCommanded = currentTranslationMag * Math.sin(currentTranslationDir);
       currentRotation = rotLimiter.calculate(rot);
-
-
-    } else {
+    } 
+    
+    else {
       xSpeedCommanded = xSpeed;
       ySpeedCommanded = ySpeed;
       currentRotation = rot;
@@ -157,27 +164,13 @@ public class Drivetrain extends SubsystemBase {
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.MAX_SPEED);
+
     frontLeft.setDesiredState(swerveModuleStates[0]);
     frontRight.setDesiredState(swerveModuleStates[1]);
     rearLeft.setDesiredState(swerveModuleStates[2]);
     rearRight.setDesiredState(swerveModuleStates[3]);
-  }
 
-      // // Adjust input based on max speed
-      // xSpeed *= DriveConstants.MAX_SPEED;
-      // ySpeed *= DriveConstants.MAX_SPEED;
-      // rot *= DriveConstants.MAX_ANGULAR_SPEED;
-  
-      // var swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
-      //     fieldRelative
-      //         ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(gyro.getAngle()))
-      //         : new ChassisSpeeds(xSpeed, ySpeed, rot));
-      // SwerveDriveKinematics.desaturateWheelSpeeds(
-      //     swerveModuleStates, DriveConstants.MAX_SPEED);
-      //     frontLeft.setDesiredState(swerveModuleStates[0]);
-      //     frontRight.setDesiredState(swerveModuleStates[1]);
-      //     rearLeft.setDesiredState(swerveModuleStates[2]);
-      //     rearRight.setDesiredState(swerveModuleStates[3]);
+  }
 
   // sets desired swerve module states
   public void setModuleStates(SwerveModuleState[] desiredStates) {
@@ -187,6 +180,11 @@ public class Drivetrain extends SubsystemBase {
     frontRight.setDesiredState(desiredStates[1]);
     rearLeft.setDesiredState(desiredStates[2]);
     rearRight.setDesiredState(desiredStates[3]);
+  }
+
+  // zeros heading of the robot
+  public void resetGyro() {
+    gyro.reset();
   }
 
   // resets the odometry to the specified pose
@@ -220,23 +218,6 @@ public class Drivetrain extends SubsystemBase {
   // public void testModules(){
   // }
 
-  // x formation with wheels -> prevent movement
-  public void setX() {
-    frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-    frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-    rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-    rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-  }
-
-  public double getGyroValues() {
-    return gyro.getAngle();
-  }
-
-  // zeros heading of the robot
-  public void resetGyro() {
-    gyro.reset();
-  }
-
   // resets drive encoders
   public void resetEncoders() {
     frontLeft.resetEncoders();
@@ -244,5 +225,13 @@ public class Drivetrain extends SubsystemBase {
     frontRight.resetEncoders();
     rearRight.resetEncoders();
   }
+
+    // x formation with wheels -> prevent movement
+    public void setX() {
+      frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+      frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+      rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+      rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+    }
 
 }
