@@ -81,7 +81,9 @@ public class Drivetrain extends SubsystemBase {
             rearRight.getPosition()
         });
 
-    SmartDashboard.putNumber("Gyro Angle: ", getGyroValues());
+    SmartDashboard.putNumber("Gyro Angle: ", getHeading());
+    System.out.println("gyro.getAngle(): " + gyro.getAngle());
+    System.out.println("getHeading(): " + getHeading());
   }
 
   /**
@@ -182,6 +184,11 @@ public class Drivetrain extends SubsystemBase {
     rearRight.setDesiredState(desiredStates[3]);
   }
 
+  // zeros heading of the robot
+  public void resetGyro() {
+    gyro.reset();
+  }
+
   // resets the odometry to the specified pose
   public void resetOdometry(Pose2d pose) {
     odometry.resetPosition(
@@ -213,23 +220,6 @@ public class Drivetrain extends SubsystemBase {
   // public void testModules(){
   // }
 
-  // x formation with wheels -> prevent movement
-  public void setX() {
-    frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-    frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-    rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-    rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-  }
-
-  public double getGyroValues() {
-    return gyro.getAngle();
-  }
-
-  // zeros heading of the robot
-  public void resetGyro() {
-    gyro.reset();
-  }
-
   // resets drive encoders
   public void resetEncoders() {
     frontLeft.resetEncoders();
@@ -237,5 +227,13 @@ public class Drivetrain extends SubsystemBase {
     frontRight.resetEncoders();
     rearRight.resetEncoders();
   }
+
+    // x formation with wheels -> prevent movement
+    public void setX() {
+      frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+      frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+      rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+      rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+    }
 
 }

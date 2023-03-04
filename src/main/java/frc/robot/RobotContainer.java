@@ -121,43 +121,63 @@ public class RobotContainer {
             () -> drivetrain.setX(),
             drivetrain));
 
+    // must follow resetGyro with resetPose to change pose of robot
     new JoystickButton(operJoy, 6) // right button
-        .onTrue(
-          new RunCommand(
-            () -> drivetrain.resetGyro(),
-            drivetrain));
+        .onTrue(Commands.sequence(
+            new RunCommand(
+              () -> drivetrain.resetGyro(),
+              drivetrain),
+            new RunCommand(
+              () -> drivetrain.resetOdometry(drivetrain.getPose()), 
+              drivetrain)));
     
     // figure out better/more efficient way of creating/binding these cmds to buttons
     final Trigger midCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.A);
-    midCubeButton.onTrue(Commands.sequence(new SetArmAngle(arm, PositionConfig.midCubeAngle), 
-      new SetArmExtension(arm, PositionConfig.midCubeExtend), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    midCubeButton.onTrue(Commands.sequence(
+      new SetArmAngle(arm, PositionConfig.midCubeAngle), 
+      new SetArmExtension(arm, PositionConfig.midCubeExtend), 
+      new SetClawAngle(intake, IntakeConstants.clawAngle)));
 
     final Trigger midConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.B);
-    midConeButton.onTrue(Commands.sequence(new SetArmAngle(arm, PositionConfig.midConeAngle), 
-      new SetArmExtension(arm, PositionConfig.midConeExtend), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    midConeButton.onTrue(Commands.sequence(
+      new SetArmAngle(arm, PositionConfig.midConeAngle), 
+      new SetArmExtension(arm, PositionConfig.midConeExtend), 
+      new SetClawAngle(intake, IntakeConstants.clawAngle)));
 
     final Trigger highCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.X); //change command for testing angle
-    highCubeButton.onTrue(Commands.sequence(new SetArmAngle(arm, PositionConfig.highCubeAngle), 
-      new SetArmExtension(arm, PositionConfig.highCubeExtend), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    highCubeButton.onTrue(Commands.sequence(
+      new SetArmAngle(arm, PositionConfig.highCubeAngle), 
+      new SetArmExtension(arm, PositionConfig.highCubeExtend), 
+      new SetClawAngle(intake, IntakeConstants.clawAngle)));
 
     final Trigger highConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.Y);
-    highConeButton.onTrue(Commands.sequence(new SetArmAngle(arm, PositionConfig.highConeAngle), 
-      new SetArmExtension(arm, PositionConfig.highConeExtend), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    highConeButton.onTrue(Commands.sequence(
+      new SetArmAngle(arm, PositionConfig.highConeAngle), 
+      new SetArmExtension(arm, PositionConfig.highConeExtend), 
+      new SetClawAngle(intake, IntakeConstants.clawAngle)));
 
     final Trigger resetIntakeButton = new JoystickButton(operJoy, ButtonPorts.RESET_INTAKE_BUTTON_PORT);
-    resetIntakeButton.onTrue(Commands.parallel(new SetArmAngle(arm, ArmConstants.defaultArmAngle), 
-      new SetArmExtension(arm, PositionConfig.defaultExtension), new SetClawAngle(intake, IntakeConstants.defaultClawAngle)));
+    resetIntakeButton.onTrue(Commands.parallel(
+      new SetArmAngle(arm, ArmConstants.defaultArmAngle), 
+      new SetArmExtension(arm, PositionConfig.defaultExtension), 
+      new SetClawAngle(intake, IntakeConstants.defaultClawAngle)));
 
     final Trigger floorScoreButton = new JoystickButton(operJoy, ButtonPorts.FLOOR_SCORE_BUTTON_PORT);
-    floorScoreButton.onTrue(Commands.sequence(new OpenClaw(intake), 
-      new SetArmExtension(arm, PositionConfig.defaultExtension), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    floorScoreButton.onTrue(Commands.sequence(
+      new OpenClaw(intake), 
+      new SetArmExtension(arm, PositionConfig.defaultExtension), 
+      new SetClawAngle(intake, IntakeConstants.clawAngle)));
 
     final Trigger floorIntakeButton = new JoystickButton(operJoy, ButtonPorts.FLOOR_INTAKE_BUTTON_PORT);
-    floorIntakeButton.onTrue(Commands.sequence(new OpenClaw(intake), new IntakeGP(intake), new CloseClaw(intake)));
+    floorIntakeButton.onTrue(Commands.sequence(
+      new OpenClaw(intake), new IntakeGP(intake), 
+      new CloseClaw(intake)));
 
     final Trigger humanPlayerButton = new JoystickButton(operJoy, ButtonPorts.HP_BUTTON_PORT);
-    humanPlayerButton.onTrue(Commands.sequence(new SetArmAngle(arm, PositionConfig.highConeAngle), 
-      new SetArmExtension(arm, PositionConfig.midConeExtend), new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    humanPlayerButton.onTrue(Commands.sequence(
+      new SetArmAngle(arm, PositionConfig.highConeAngle), 
+      new SetArmExtension(arm, PositionConfig.midConeExtend), 
+      new SetClawAngle(intake, IntakeConstants.clawAngle)));
     // substation distance (95cm) is similar to mid node distance (90cm)
   }
 
