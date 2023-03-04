@@ -23,12 +23,11 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Ports.ButtonPorts;
 import frc.robot.autons.Path1;
 import frc.robot.autons.Path2;
+import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Drivetrain;
@@ -77,9 +76,7 @@ public class RobotContainer {
     configureButtonBindings();
     drivetrain.resetGyro();
     drivetrain.resetEncoders();
-    SmartDashboard.putData("Choose Auto: ", autonChooser);
-    autonChooser.addOption("p1", new Path1(drivetrain));
-    autonChooser.addOption("p2", new Path2(drivetrain));
+    
     SlewRateLimiter filter = new SlewRateLimiter(0.5);
     // Configure default commands
     drivetrain.setDefaultCommand(
@@ -101,6 +98,15 @@ public class RobotContainer {
         //         true),
         //     drivetrain)
     );
+  }
+
+  public void configureAuton() {
+
+    SmartDashboard.putData("Choose Auto: ", autonChooser);
+    autonChooser.addOption("p1", new Path1(drivetrain, intake, arm));
+    autonChooser.addOption("p2", new Path2(drivetrain));
+    autonChooser.addOption("test auton", new TestAuton1(drivetrain, intake, arm));
+
   }
 
   /**
