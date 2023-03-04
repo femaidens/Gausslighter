@@ -69,7 +69,7 @@ public final class Ports {
         public static final int LEFT_EXTEND_MOTOR_PORT = 13;
         public static final int RIGHT_EXTEND_MOTOR_PORT = 9;
 
-        public static final int ANG_ENCODER_PORT = 0; // change port number
+        public static final int ANG_ENCODER_PORT = 2; // change port number
         // public static final int EXTEND_RETRACT_ENCODER_PORT = 8;
 
         public static final int TOP_SWITCH_PORT = 20; // change port num
