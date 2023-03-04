@@ -57,9 +57,9 @@ public final class Ports {
         
         public static final int WRIST_ENCODER_PORT = 17;
 
-        public static final int PISTON1_FORWARD_PORT = 0; // top
+        public static final int PISTON1_FORWARD_PORT = 0; // big piston
         public static final int PISTON1_REVERSE_PORT = 1; 
-        public static final int PISTON2_FORWARD_PORT = 2; //bottom
+        public static final int PISTON2_FORWARD_PORT = 2; //small piston
         public static final int PISTON2_REVERSE_PORT = 3;
     }
 
