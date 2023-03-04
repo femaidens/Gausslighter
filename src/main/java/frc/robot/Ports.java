@@ -13,6 +13,7 @@ public final class Ports {
         // public static final int ROTATION_JOY = 0;
         // public static final int LATERAL_JOY = 1;
         public static final int OPER_JOY = 0; // left side of laptop
+        public static final int DRIVE_JOY = 1;
     }
 
     public static final class XboxControllerMap {
@@ -36,7 +37,7 @@ public final class Ports {
     
     public static final class DrivetrainPorts{
         // gyro port
-        public static final int GYRO = 1;
+        // public static final int GYRO = 1;
         
         // big neos
         public static final int FRONT_LEFT_DRIVE = 4;
@@ -52,10 +53,10 @@ public final class Ports {
     }
 
     public static final class IntakePorts {
-        public static final int WRIST_MOTOR_PORT = 8;
-        public static final int CLAW_WHEELS_PORT = 9;
+        public static final int WRIST_MOTOR_PORT = 10;
+        // public static final int CLAW_WHEELS_PORT = 9;
         
-        public static final int WRIST_ENCODER_PORT = 10;
+        public static final int WRIST_ENCODER_PORT = 3;
 
         // big pistons
         public static final int PISTON1_FORWARD_PORT = 0; 
@@ -67,12 +68,12 @@ public final class Ports {
     }
 
     public static final class ArmPorts {
-        public static final int ANG_MOTOR_PORT = 1;
-        public static final int LEFT_EXTEND_MOTOR_PORT = 10;
-        public static final int RIGHT_EXTEND_MOTOR_PORT = 3;
+        public static final int ANG_MOTOR_PORT = 12;
+        public static final int LEFT_EXTEND_MOTOR_PORT = 13;
+        public static final int RIGHT_EXTEND_MOTOR_PORT = 9;
 
         public static final int ANG_ENCODER_PORT = 0; // change port number
-        public static final int EXTEND_RETRACT_ENCODER_PORT = 8;
+        // public static final int EXTEND_RETRACT_ENCODER_PORT = 8;
 
         public static final int TOP_SWITCH_PORT = 20; // change port num
         public static final int BOT_SWITCH_PORT = 21; // change port num
