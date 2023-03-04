@@ -60,6 +60,7 @@ public final class Ports {
         // big pistons
         public static final int PISTON1_FORWARD_PORT = 0; 
         public static final int PISTON1_REVERSE_PORT = 1; 
+        
         // small pistons
         public static final int PISTON2_FORWARD_PORT = 2;
         public static final int PISTON2_REVERSE_PORT = 3;
