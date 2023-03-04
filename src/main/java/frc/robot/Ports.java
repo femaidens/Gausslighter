@@ -53,7 +53,7 @@ public final class Ports {
 
     public static final class IntakePorts {
         public static final int WRIST_MOTOR_PORT = 10;
-        public static final int CLAW_WHEELS_PORT = 19;
+      //  public static final int CLAW_WHEELS_PORT = 19;
         
         public static final int WRIST_ENCODER_PORT = 17;
 

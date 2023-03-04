@@ -12,7 +12,8 @@ import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.AutonBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ArmAngle;
+import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 
@@ -22,13 +23,15 @@ import frc.robot.subsystems.Intake;
 public class Path1 extends AutonBase {
     Drivetrain drivetrain;
     Intake intake;
-    Arm arm;
+    ArmAngle armAngle;
+    ArmLateral armLateral;
 
-    public Path1(Drivetrain drivetrain, Intake intake, Arm arm) { //add other subsystem parameters once merged
+    public Path1(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) { //add other subsystem parameters once merged
         super(drivetrain);
         this.intake = intake;
-        this.arm = arm;
-        addRequirements(drivetrain, intake, arm);
+        this.armAngle = armAngle;
+        this.armLateral = armLateral;
+        addRequirements(drivetrain, intake, armAngle, armLateral);
 
         PathPlannerTrajectory p1 = PathPlanner.loadPath("score and charge", 4, 3);
         PPSwerveControllerCommand firstCommand = baseSwerveCommand(p1);
