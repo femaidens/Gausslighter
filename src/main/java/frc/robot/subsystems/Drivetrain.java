@@ -40,7 +40,7 @@ public class Drivetrain extends SubsystemBase {
       DrivetrainPorts.REAR_RIGHT_TURNING,
       DriveConstants.RR_CHASSIS_ANGULAR_OFFSET);
 
-  // imu sensor
+  // imu sensor/gyro
   private final ADIS16470_IMU gyro = new ADIS16470_IMU();
 
   // odometry class (tracks robot pose)
@@ -59,7 +59,7 @@ public class Drivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // updates periodically 
+    // updates periodically
     odometry.update(
         Rotation2d.fromDegrees(gyro.getAngle()),
         new SwerveModulePosition[] {
@@ -68,7 +68,7 @@ public class Drivetrain extends SubsystemBase {
             rearLeft.getPosition(),
             rearRight.getPosition()
         });
-    
+
     SmartDashboard.putNumber("Gyro Angle: ", getGyroValues());
   }
 
@@ -93,20 +93,20 @@ public class Drivetrain extends SubsystemBase {
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.MAX_SPEED);
-        frontLeft.setDesiredState(swerveModuleStates[0]);
-        frontRight.setDesiredState(swerveModuleStates[1]);
-        rearLeft.setDesiredState(swerveModuleStates[2]);
-        rearRight.setDesiredState(swerveModuleStates[3]);
+    frontLeft.setDesiredState(swerveModuleStates[0]);
+    frontRight.setDesiredState(swerveModuleStates[1]);
+    rearLeft.setDesiredState(swerveModuleStates[2]);
+    rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
   // sets desired swerve module states
   public void setModuleStates(SwerveModuleState[] desiredStates) {
     SwerveDriveKinematics.desaturateWheelSpeeds(
         desiredStates, DriveConstants.MAX_SPEED);
-        frontLeft.setDesiredState(desiredStates[0]);
-        frontRight.setDesiredState(desiredStates[1]);
-        rearLeft.setDesiredState(desiredStates[2]);
-        rearRight.setDesiredState(desiredStates[3]);
+    frontLeft.setDesiredState(desiredStates[0]);
+    frontRight.setDesiredState(desiredStates[1]);
+    rearLeft.setDesiredState(desiredStates[2]);
+    rearRight.setDesiredState(desiredStates[3]);
   }
 
   // resets the odometry to the specified pose
@@ -118,7 +118,7 @@ public class Drivetrain extends SubsystemBase {
             frontRight.getPosition(),
             rearLeft.getPosition(),
             rearRight.getPosition()
-        }, 
+        },
         pose);
   }
 
@@ -148,14 +148,14 @@ public class Drivetrain extends SubsystemBase {
     rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
   }
 
-  public double getGyroValues(){
+  public double getGyroValues() {
     return gyro.getAngle();
   }
 
   // zeros heading of the robot
-  public void resetGyro(){
+  public void resetGyro() {
     gyro.reset();
-  } 
+  }
 
   // resets drive encoders
   public void resetEncoders() {

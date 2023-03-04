@@ -9,6 +9,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.*;
+import frc.robot.Constants.ModuleConstants.*;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -16,8 +18,6 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.RelativeEncoder;
-import frc.robot.Constants.*;
-import frc.robot.Constants.ModuleConstants.*;
 
 public class RevSwerveModule {
   private final CANSparkMax driveMotor;
@@ -31,7 +31,7 @@ public class RevSwerveModule {
   private final SimpleMotorFeedforward driveFFController;
 
   private double chassisAngularOffset;
-  
+
   private SwerveModuleState desiredState;
 
   public RevSwerveModule(int drivingCANId, int turningCANId, double m_chassisAngularOffset) {
@@ -143,17 +143,18 @@ public class RevSwerveModule {
     // optimize to avoid spinning > 90 deg
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
         new Rotation2d(turningEncoder.getPosition()));
-    
+
     // setpoints for drive & turning sparkmaxes
     double driveFF = driveFFController.calculate(optimizedDesiredState.speedMetersPerSecond);
-    
-    drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity, 0, driveFF);
+
+    drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity, 0,
+        driveFF);
     turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 
     optimizedDesiredState = m_desiredState;
   }
 
-  public void periodic(){
+  public void periodic() {
     double velocity = driveEncoder.getVelocity();
 
     // smartdashboard values
