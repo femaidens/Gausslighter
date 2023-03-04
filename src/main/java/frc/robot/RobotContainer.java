@@ -111,7 +111,7 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(driveJoy, XboxController.Button.kA.value)
+    new JoystickButton(operJoy, XboxController.Button.kA.value)
         .whileTrue(
           new RunCommand(
             () -> drivetrain.setX(),
