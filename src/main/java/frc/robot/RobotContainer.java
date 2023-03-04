@@ -77,7 +77,7 @@ public class RobotContainer {
     drivetrain.resetGyro();
     drivetrain.resetEncoders();
     SmartDashboard.putData("Choose Auto: ", autonChooser);
-    autonChooser.addOption("p1", new Path1(drivetrain));
+    autonChooser.addOption("p1", new Path1(drivetrain, intake, arm));
     autonChooser.addOption("p2", new Path2(drivetrain));
 
     // Configure default commands

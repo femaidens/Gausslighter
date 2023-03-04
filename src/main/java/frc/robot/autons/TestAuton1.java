@@ -27,7 +27,7 @@ public class TestAuton1 extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new InstantCommand(() -> drivetrain.drive(0.2, 0, 0, true)),
+      new InstantCommand(() -> drivetrain.drive(0.2, 0, 0, true, true)),
       new SetArmAngle(arm, Constants.ArmConstants.PositionConfig.midConeAngle),
       new OpenClaw(intake),
       new ReleaseGP(intake)
