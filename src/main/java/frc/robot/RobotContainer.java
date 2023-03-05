@@ -121,15 +121,12 @@ public class RobotContainer {
             () -> drivetrain.setX(),
             drivetrain));
 
-    // must follow resetGyro with resetPose to change pose of robot
+    // resets robot heading (gyro)
     new JoystickButton(operJoy, 6) // right button
-        .onTrue(Commands.sequence(
+        .onTrue(
             new RunCommand(
               () -> drivetrain.resetGyro(),
-              drivetrain),
-            new RunCommand(
-              () -> drivetrain.resetOdometry(drivetrain.getPose()), 
-              drivetrain)));
+              drivetrain));
     
     // figure out better/more efficient way of creating/binding these cmds to buttons
     final Trigger midCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.A);

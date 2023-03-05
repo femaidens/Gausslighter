@@ -81,9 +81,7 @@ public class Drivetrain extends SubsystemBase {
             rearRight.getPosition()
         });
 
-    SmartDashboard.putNumber("Gyro Angle: ", getHeading());
-    System.out.println("gyro.getAngle(): " + gyro.getAngle());
-    System.out.println("getHeading(): " + getHeading());
+    SmartDashboard.putNumber("Gyro Angle: ", gyro.getAngle());
   }
 
   /**
