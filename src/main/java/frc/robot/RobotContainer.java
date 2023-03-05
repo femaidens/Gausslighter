@@ -93,12 +93,11 @@ public class RobotContainer {
   }
 
   public void configureAuton() {
-
     SmartDashboard.putData("Choose Auto: ", autonChooser);
+
     autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("p2", new Path2(drivetrain));
     autonChooser.addOption("test auton", new TestAuton1(drivetrain, intake, armAngle, armLateral));
-
   }
 
   /**
@@ -111,14 +110,14 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(operJoy, XboxController.Button.kA.value)
+    new JoystickButton(driveJoy, XboxController.Button.kA.value)
         .whileTrue(
           new RunCommand(
             () -> drivetrain.setX(),
             drivetrain));
 
     // resets robot heading (gyro)
-    new JoystickButton(operJoy, 6) // right button
+    new JoystickButton(driveJoy, 6) // RB
         .onTrue(
             new RunCommand(
               () -> drivetrain.resetGyro(),
@@ -133,27 +132,28 @@ public class RobotContainer {
 
     final Trigger midConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.B);
     midConeButton.onTrue(Commands.sequence(
-      new SetArmAngle(armAngle, PositionConfig.midConeAngle), 
-      new SetArmExtension(armLateral, PositionConfig.midConeExtend), 
-      new SetClawAngle(intake, IntakeConstants.clawAngle)));
+      new SetArmAngle(armAngle, PositionConfig.midConeAngle)));
+      // new SetArmExtension(armLateral, PositionConfig.midConeExtend), 
+      // new SetClawAngle(intake, IntakeConstants.clawAngle)));
 
     final Trigger highCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.X); //change command for testing angle
     highCubeButton.onTrue(Commands.sequence(
-      new SetArmAngle(armAngle, PositionConfig.highCubeAngle), 
-      new SetArmExtension(armLateral, PositionConfig.highCubeExtend), 
-      new SetClawAngle(intake, IntakeConstants.clawAngle)));
+      new SetArmAngle(armAngle, PositionConfig.highCubeAngle)));
+      // new SetArmExtension(armLateral, PositionConfig.highCubeExtend), 
+      // new SetClawAngle(intake, IntakeConstants.clawAngle)));
 
     final Trigger highConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.Y);
     highConeButton.onTrue(Commands.sequence(
-      new SetArmAngle(armAngle, PositionConfig.highConeAngle), 
-      new SetArmExtension(armLateral, PositionConfig.highConeExtend), 
-      new SetClawAngle(intake, IntakeConstants.clawAngle)));
+      new SetArmAngle(armAngle, PositionConfig.highConeAngle)));
+      // new SetArmExtension(armLateral, PositionConfig.highConeExtend), 
+      // new SetClawAngle(intake, IntakeConstants.clawAngle)));
 
     final Trigger resetIntakeButton = new JoystickButton(operJoy, ButtonPorts.RESET_INTAKE_BUTTON_PORT);
-    resetIntakeButton.onTrue(Commands.parallel(
-      new SetArmAngle(armAngle, ArmConstants.defaultArmAngle), 
-      new SetArmExtension(armLateral, PositionConfig.defaultExtension), 
-      new SetClawAngle(intake, IntakeConstants.defaultClawAngle)));
+    resetIntakeButton.onTrue(
+      // Commands.parallel(
+      new SetArmAngle(armAngle, ArmConstants.DEFAULT_ARM_ANGLE));
+      // new SetArmExtension(armLateral, PositionConfig.defaultExtension), 
+      // new SetClawAngle(intake, IntakeConstants.defaultClawAngle)));
 
     final Trigger floorScoreButton = new JoystickButton(operJoy, ButtonPorts.FLOOR_SCORE_BUTTON_PORT);
     floorScoreButton.onTrue(Commands.sequence(
@@ -169,9 +169,9 @@ public class RobotContainer {
 
     final Trigger humanPlayerButton = new JoystickButton(operJoy, ButtonPorts.HP_BUTTON_PORT);
     humanPlayerButton.onTrue(Commands.sequence(
-      new SetArmAngle(armAngle, PositionConfig.highConeAngle), 
-      new SetArmExtension(armLateral, PositionConfig.midConeExtend), 
-      new SetClawAngle(intake, IntakeConstants.clawAngle)));
+      new SetArmAngle(armAngle, PositionConfig.highConeAngle))); 
+      // new SetArmExtension(armLateral, PositionConfig.midConeExtend), 
+      // new SetClawAngle(intake, IntakeConstants.clawAngle)));
     // substation distance (95cm) is similar to mid node distance (90cm)
   }
 
