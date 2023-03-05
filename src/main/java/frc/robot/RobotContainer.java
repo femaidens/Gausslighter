@@ -66,9 +66,7 @@ public class RobotContainer {
     drivetrain.resetEncoders();
 
     // auton config
-    SmartDashboard.putData("Choose Auto: ", autonChooser);
-    autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("p2", new Path2(drivetrain));
+    configureAuton();
 
     // Configure default commands
     drivetrain.setDefaultCommand(
