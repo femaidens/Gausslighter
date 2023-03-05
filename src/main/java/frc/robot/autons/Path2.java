@@ -8,7 +8,9 @@ import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.AutonBase;
+import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 
 /**
  * Autonomous that taxis, scores, pushes and scores again.
@@ -18,10 +20,13 @@ public class Path2 extends AutonBase {
     //Intake intake;
     //Arm arm;
 
-    public Path2(Drivetrain drivetrain ) { //add other subsystem parameters once merged
+    public Path2(Drivetrain drivetrain) { //add other subsystem parameters once merged
         super(drivetrain);
+        //this.intake = intake;
         //this.arm = arm;
-        //addRequirements(arm);
+
+        //addRequirements(intake, arm);
+
         PathPlannerTrajectory p2 = PathPlanner.loadPath("score push score", 4, 3);
         PPSwerveControllerCommand firstCommand = baseSwerveCommand(p2);
         PathPlannerState initialState = p2.getInitialState();
