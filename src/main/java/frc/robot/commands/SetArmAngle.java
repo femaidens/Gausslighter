@@ -5,17 +5,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.ArmAngle;
 
 public class SetArmAngle extends CommandBase {
   /** Creates a new setArmAngle. */
-  public final Arm arm;
+  public final ArmAngle armAngle;
   private double angle;
-  public SetArmAngle(Arm arm, double angle) {
+  public SetArmAngle(ArmAngle armAngle, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.arm = arm;
+    this.armAngle = armAngle;
     this.angle = angle;
-    addRequirements(arm);
+    addRequirements(armAngle);
   }
 
   // Called when the command is initially scheduled.
@@ -25,13 +25,14 @@ public class SetArmAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.setAngle(angle);
+    angle = armAngle.getArmAngle();
+    armAngle.setAngle(angle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.stopAngleMotor();
+    armAngle.stopAngleMotor();
   }
 
   // Returns true when the command should end.

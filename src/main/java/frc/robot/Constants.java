@@ -31,9 +31,10 @@ public final class Constants {
 
   public static class ArmConstants {
 
-    public final double extendMargin = 0.1;
-    public static final double extend_factor = (WHEEL_DIAMETER * Math.PI) / CPR;
-    public static double defaultArmAngle = 0.0;
+    public static final double EXTEND_MARGIN = 0.1;
+    public static final double EXTEND_FACTOR = (WHEEL_DIAMETER * Math.PI) / CPR; // test for distance per rotation
+    public static final double ANGLE_FACTOR = 360; // 360 deg/rev
+    public static final double DEFAULT_ARM_ANGLE = 3.4;
 
     public static class FeedForward { // to be tested
       public static final double kS = 0;
@@ -54,10 +55,10 @@ public final class Constants {
     }
     
     public static class PositionConfig { // subject to change
-      public static final double midCubeAngle = 90; //unique desired goalAngle for changing angle to score
-      public static final double midConeAngle = 100;
-      public static final double highCubeAngle = 110;
-      public static final double highConeAngle = 120;
+      public static final double midCubeAngle = 36.233; //unique desired goalAngle for changing angle to score
+      public static final double midConeAngle = 36.233;
+      public static final double highCubeAngle = 59.922;
+      public static final double highConeAngle = 59.922;
 
       public static final double defaultExtension = 0;
       public static final double midCubeExtend = 0.4;//unique desired vVelocity for extending arm to score
