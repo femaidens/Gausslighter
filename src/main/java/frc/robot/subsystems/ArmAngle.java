@@ -22,6 +22,7 @@ public class ArmAngle extends SubsystemBase {
   private final CANSparkMax angleMotor;
   private final PIDController anglePIDController; // angle of lifting arm
   private final SparkMaxAbsoluteEncoder angEncoder;
+  private final DutyCycleEncoder ang1;
   private double adjustmentAngle;
 
   public ArmAngle() {
@@ -30,12 +31,16 @@ public class ArmAngle extends SubsystemBase {
     angleMotor = new CANSparkMax(ArmPorts.ANG_MOTOR_PORT, MotorType.kBrushless);
     angleMotor.setInverted(true);
     angleMotor.setIdleMode(IdleMode.kCoast);
+        // encoder instantiation
 
-    // encoder instantiation
     angEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
     // angEncoder.setPositionOffset(0.821184);
     // angEncoder.setDutyCycleRange(0.0467, adjustmentAngle);
     // angEncoder.setDistancePerRotation(ArmConstants.ANGLE_FACTOR);
+    ang1 = new DutyCycleEncoder(1);
+    ang1.getAbsolutePosition();
+    ang1.setPositionOffset(adjustmentAngle);
+    ang1.getPositionOffset();
     
     // feedback controllers
     anglePIDController = new PIDController(
