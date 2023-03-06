@@ -5,11 +5,10 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.SparkMaxAbsoluteEncoder;
+//import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
-//import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
+//import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +20,8 @@ import frc.robot.Ports.*;
 public class ArmAngle extends SubsystemBase {
   private final CANSparkMax angleMotor;
   private final PIDController anglePIDController; // angle of lifting arm
-  private final SparkMaxAbsoluteEncoder angEncoder;
+  //private final SparkMaxAbsoluteEncoder angEncoder;
+  private final DutyCycleEncoder angEncoder;
   private double adjustmentAngle;
 
   public ArmAngle() {
@@ -32,8 +32,9 @@ public class ArmAngle extends SubsystemBase {
     angleMotor.setIdleMode(IdleMode.kCoast);
 
     // encoder instantiation
-    angEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    // angEncoder.setPositionOffset(0.821184);
+    angEncoder = new DutyCycleEncoder(ArmPorts.ANG_ENCODER_PORT);
+    angEncoder.setPositionOffset(ArmConstants.ANGLE_OFFSET);
+  angEncoder.setDistancePerRotation(360); // set units to degrees
     // angEncoder.setDutyCycleRange(0.0467, adjustmentAngle);
     // angEncoder.setDistancePerRotation(ArmConstants.ANGLE_FACTOR);
     
@@ -49,14 +50,15 @@ public class ArmAngle extends SubsystemBase {
     //INVERTED ANGLE MOTOR TO SPIN PROPERLY
     // positive speed = lower arm
     // negative speed = raise arm
-    double adjustmentAngle = anglePIDController.calculate(angEncoder.getPosition(), goalAngle);
+    double adjustmentAngle = anglePIDController.calculate(angEncoder.getDistance(), goalAngle);
     angleMotor.setVoltage(adjustmentAngle);
+
 
     System.out.println("Arm Voltage: " + adjustmentAngle);
   }
 
   public double getArmAngle() {
-    double currentAngle = angEncoder.getPosition();
+    double currentAngle = angEncoder.getDistance();
     return currentAngle;
   }
 
@@ -67,8 +69,15 @@ public class ArmAngle extends SubsystemBase {
   @Override
   public void periodic() {
     //SmartDashboard.putNumber("Arm Offset: ", angEncoder.getPositionOffset());
-    SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition());
+    SmartDashboard.putNumber("Arm Angle: ", angEncoder.getDistance());
     SmartDashboard.putNumber("Arm Voltage: ", adjustmentAngle);
+    SmartDashboard.putNumber("Unscaled position: ", angEncoder.get());
+    SmartDashboard.putNumber("Abs Position: ", + angEncoder.getAbsolutePosition());
+    SmartDashboard.putNumber("zero offset: ", + angEncoder.getPositionOffset());
+
+    // SmartDashboard.putNumber("Scaled position: ", angEncoder.get()); // test after uncommenting the 360 unit conversion from rotations to degrees
+
+
   }
 
   @Override

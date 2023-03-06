@@ -35,6 +35,7 @@ public final class Constants {
     public static final double EXTEND_FACTOR = (WHEEL_DIAMETER * Math.PI) / CPR; // test for distance per rotation
     public static final double ANGLE_FACTOR = 360; // 360 deg/rev
     public static final double DEFAULT_ARM_ANGLE = 3.4;
+    public static final double ANGLE_OFFSET = 0.0467;
 
     public static class FeedForward { // to be tested
       public static final double kS = 0;
