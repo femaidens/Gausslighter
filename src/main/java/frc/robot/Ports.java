@@ -20,7 +20,7 @@ public class Ports {
 
     }
     public class wrist{
-        public static final int wristPort = 13; //8 
+        //public static final int wristPort = 13; //8 
         // public static final int clawWheelsPort = 9; //9
     }
     public static class XboxControllerMap{
