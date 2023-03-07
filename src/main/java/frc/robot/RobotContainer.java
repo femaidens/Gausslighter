@@ -129,10 +129,14 @@ public class RobotContainer {
     
     // figure out better/more efficient way of creating/binding these cmds to buttons
     final Trigger midCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.A);
-    midCubeButton.onTrue(Commands.sequence(
-      new SetArmAngle(armAngle, PositionConfig.midCubeAngle), 
-      new SetArmExtension(armLateral, PositionConfig.midCubeExtend), 
-      new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    midCubeButton.onTrue(
+      // Commands.sequence
+      new RunCommand(
+        () -> armAngle.downArm(),
+        armAngle));
+      // new SetArmAngle(armAngle, PositionConfig.midCubeAngle));
+      // new SetArmExtension(armLateral, PositionConfig.midCubeExtend), 
+      // new SetClawAngle(intake, IntakeConstants.clawAngle)));
 
     final Trigger midConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.B);
     midConeButton.onTrue(Commands.sequence(

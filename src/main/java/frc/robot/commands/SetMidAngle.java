@@ -7,16 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmAngle;
 
-public class SetArmAngle extends CommandBase {
-  /** Creates a new setArmAngle. */
+public class SetMidAngle extends CommandBase {
   private final ArmAngle armAngle;
-  private double currentAngle;
-  private double goalAngle;
 
-  public SetArmAngle(ArmAngle armAngle, double goalAngle) {
-    // Use addRequirements() here to declare subsystem dependencies.
+  /** Creates a new SetMidAngle. */
+  public SetMidAngle(ArmAngle armAngle) {
     this.armAngle = armAngle;
     addRequirements(armAngle);
+    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -26,8 +24,7 @@ public class SetArmAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    currentAngle = armAngle.getArmAngle();
-    armAngle.setAngle(currentAngle, goalAngle);
+    armAngle.downArm();
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +36,6 @@ public class SetArmAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
