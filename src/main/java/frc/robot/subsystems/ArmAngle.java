@@ -24,6 +24,9 @@ public class ArmAngle extends SubsystemBase {
   private final DutyCycleEncoder angEncoder;
   private double armAngleVoltage;
   private double armAngle;
+  private final SparkMaxAbsoluteEncoder angEncoder;
+  private final DutyCycleEncoder ang1;
+  private double adjustmentAngle;
 
   public ArmAngle() {
 
@@ -39,6 +42,18 @@ public class ArmAngle extends SubsystemBase {
     angEncoder.setDistancePerRotation(ArmConstants.ANGLE_FACTOR); // set units to degrees
     // angEncoder.setDutyCycleRange(0.0467, armAngleVoltage);
 
+    angleMotor.setIdleMode(IdleMode.kCoast);
+        // encoder instantiation
+
+    angEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    // angEncoder.setPositionOffset(0.821184);
+    // angEncoder.setDutyCycleRange(0.0467, adjustmentAngle);
+    // angEncoder.setDistancePerRotation(ArmConstants.ANGLE_FACTOR);
+    ang1 = new DutyCycleEncoder(1);
+    ang1.getAbsolutePosition();
+    ang1.setPositionOffset(adjustmentAngle);
+    ang1.getPositionOffset();
+    
     // feedback controllers
     anglePIDController = new PIDController(
         ArmConstants.AnglePID.kP,

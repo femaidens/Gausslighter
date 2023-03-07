@@ -93,12 +93,11 @@ public class RobotContainer {
   }
 
   public void configureAuton() {
-
     SmartDashboard.putData("Choose Auto: ", autonChooser);
+
     autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("p2", new Path2(drivetrain));
     autonChooser.addOption("test auton", new TestAuton1(drivetrain, intake, armAngle, armLateral));
-
   }
 
   /**
@@ -111,21 +110,18 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(operJoy, XboxController.Button.kA.value)
+    new JoystickButton(driveJoy, XboxController.Button.kA.value)
         .whileTrue(
           new RunCommand(
             () -> drivetrain.setX(),
             drivetrain));
 
-    // // must follow resetGyro with resetPose to change pose of robot
-    // new JoystickButton(driveJoy, 6) // right button
-    //     .onTrue(Commands.sequence(
-    //         new RunCommand(
-    //           () -> drivetrain.resetGyro(),
-    //           drivetrain),
-    //         new RunCommand(
-    //           () -> drivetrain.resetOdometry(drivetrain.getPose()), 
-    //           drivetrain)));
+    // resets robot heading (gyro)
+    new JoystickButton(driveJoy, 6) // RB
+        .onTrue(
+            new RunCommand(
+              () -> drivetrain.resetGyro(),
+              drivetrain));
     
     // figure out better/more efficient way of creating/binding these cmds to buttons
     final Trigger midCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.A);
