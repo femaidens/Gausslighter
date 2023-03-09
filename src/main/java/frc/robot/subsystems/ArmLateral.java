@@ -11,6 +11,7 @@ import com.revrobotics.RelativeEncoder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Ports.ArmPorts;
@@ -88,6 +89,28 @@ public class ArmLateral extends SubsystemBase {
     // rightExtendMotor.setVoltage(extendArmPID); //negate one side
   }
 
+  public void setLength(double input){
+    if (input == 0) stopExtensionMotors();
+    if (topSwitch.get()) { //extending 
+      stopExtensionMotors();
+    }
+    else{
+      if (input < -0.25){ 
+        leftExtendMotor.set(0.2); 
+        rightExtendMotor.set(0.2);
+      }
+    }
+    if (botSwitch.get()){ //retracting
+      stopExtensionMotors();
+    }
+    else{
+      if (input > 0.25){  
+        leftExtendMotor.set(-0.2);
+        rightExtendMotor.set(-0.2);
+      }
+    }
+  }
+
   public void getTicks() {
     // check to see if ticks are inverted (since motor is inverted); if so invert
     // encoder values in constructor
@@ -127,13 +150,15 @@ public class ArmLateral extends SubsystemBase {
     // }
   }
 
-  public void stopExtensionMotor() {
+  public void stopExtensionMotors() {
     leftExtendMotor.set(0);
-    // rightExtendMotor.set(0);
+    rightExtendMotor.set(0);
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Arm Position: ", extendRetractEncoder.getPosition());
+    SmartDashboard.putNumber("Arm Lateral Speed: ", leftExtendMotor.get());
   }
 
   @Override

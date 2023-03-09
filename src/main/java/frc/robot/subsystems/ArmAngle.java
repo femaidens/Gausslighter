@@ -44,15 +44,27 @@ public class ArmAngle extends SubsystemBase {
         ArmConstants.AnglePID.kD);
   }
 
-  // arm angle pid not setting angle, change name later
-  public void setAngle(double goalAngle) {
-    //INVERTED ANGLE MOTOR TO SPIN PROPERLY
-    // positive speed = lower arm
-    // negative speed = raise arm
-    double adjustmentAngle = anglePIDController.calculate(angEncoder.getPosition(), goalAngle);
-    angleMotor.setVoltage(adjustmentAngle);
+  // // arm angle pid not setting angle, change name later
+  // public void setAngle(double goalAngle) {
+  //   //INVERTED ANGLE MOTOR TO SPIN PROPERLY
+  //   // positive speed = lower arm
+  //   // negative speed = raise arm
+  //   double adjustmentAngle = anglePIDController.calculate(angEncoder.getPosition(), goalAngle);
+  //   angleMotor.setVoltage(adjustmentAngle);
 
-    System.out.println("Arm Voltage: " + adjustmentAngle);
+  //   System.out.println("Arm Voltage: " + adjustmentAngle);
+  // }
+
+  public void setAngle(double input){ //inverted speeds
+    if (input > 0.25){ //arm angle increasing
+        angleMotor.set(-0.3);
+    }
+    else if (input < -0.25){ //arm angle decreasing
+        angleMotor.set(0.3);
+    }
+    else{
+        angleMotor.set(0);
+    }
   }
 
   public double getArmAngle() {
@@ -68,7 +80,7 @@ public class ArmAngle extends SubsystemBase {
   public void periodic() {
     //SmartDashboard.putNumber("Arm Offset: ", angEncoder.getPositionOffset());
     SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition());
-    SmartDashboard.putNumber("Arm Voltage: ", adjustmentAngle);
+    SmartDashboard.putNumber("Arm Angle Speed: ", angleMotor.get());
   }
 
   @Override

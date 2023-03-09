@@ -31,7 +31,7 @@ public class SetArmExtension extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armLateral.stopExtensionMotor();
+    armLateral.stopExtensionMotors();
   }
 
   // Returns true when the command should end.
