@@ -77,6 +77,13 @@ public class RobotContainer {
           MathUtil.applyDeadband(operJoy.getRightY(), 0.1)), 
         armAngle)
     );
+
+    armLateral.setDefaultCommand(
+      new RunCommand(
+        () -> armLateral.setLength(
+          MathUtil.applyDeadband(operJoy.getLeftX(), 0.1)),
+        armLateral)
+    );
     // drivetrain.setDefaultCommand(
     //     // The left stick controls translation of the robot.
     //     // Turning is controlled by the X axis of the right stick.
