@@ -8,7 +8,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.controller.PIDController;
+//import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,7 +20,7 @@ public class ArmLateral extends SubsystemBase {
   private final RelativeEncoder extendRetractEncoder; // extending and retraction arm
   private final CANSparkMax rightExtendMotor;
   private final CANSparkMax leftExtendMotor;
-  private final PIDController extendPIDController;
+  // private final PIDController extendPIDController;
   private final SimpleMotorFeedforward armExtensionFF; // -> use this somewhere!
   private final DigitalInput topSwitch;
   private final DigitalInput botSwitch;
@@ -36,10 +36,10 @@ public class ArmLateral extends SubsystemBase {
 
     // feedback controllers
 
-    extendPIDController = new PIDController(
-        ArmConstants.ExtendPID.kP,
-        ArmConstants.ExtendPID.kI,
-        ArmConstants.ExtendPID.kD);
+    // extendPIDController = new PIDController(
+    //     ArmConstants.ExtendPID.kP,
+    //     ArmConstants.ExtendPID.kI,
+    //     ArmConstants.ExtendPID.kD);
 
     // feedforward controllers
     armExtensionFF = new SimpleMotorFeedforward(
@@ -55,60 +55,54 @@ public class ArmLateral extends SubsystemBase {
     leftExtendMotor.setInverted(true);
   }
 
-  public void extendPosition(double position) {
-    double extendArmPID = extendPIDController.calculate(extendRetractEncoder.getPosition(), position);
-    // double extendArmFF = velocityFF.calculate(vVelocity); just testing pid for
-    // now
-    leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
+  // public void extendPosition(double position) {
+  //   double extendArmPID = extendPIDController.calculate(extendRetractEncoder.getPosition(), position);
+  //   // double extendArmFF = velocityFF.calculate(vVelocity); just testing pid for
+  //   // now
+  //   leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
 
-    if (extendArmPID < 0) { // left is extending 
-      if (topSwitch.get()) { // hit top limit switch (extending)
-        leftExtendMotor.set(0);
-        rightExtendMotor.set(0);
-      } 
+  //   if (extendArmPID < 0) { // left is extending 
+  //     if (topSwitch.get()) { // hit top limit switch (extending)
+  //       leftExtendMotor.set(0);
+  //       rightExtendMotor.set(0);
+  //     } 
       
-      else {
-        leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
-        rightExtendMotor.setVoltage(extendArmPID);
-      }
-    } 
+  //     else {
+  //       leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
+  //       rightExtendMotor.setVoltage(extendArmPID);
+  //     }
+  //   } 
     
-    else {
-      if (botSwitch.get()) { // hit bot limit switch (retracting)
-        leftExtendMotor.set(0);
-        rightExtendMotor.set(0);
-      } 
+  //   else {
+  //     if (botSwitch.get()) { // hit bot limit switch (retracting)
+  //       leftExtendMotor.set(0);
+  //       rightExtendMotor.set(0);
+  //     } 
 
-      else {
-        leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
-        rightExtendMotor.setVoltage(extendArmPID);
-      }
-    }
+  //     else {
+  //       leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
+  //       rightExtendMotor.setVoltage(extendArmPID);
+  //     }
+  //   }
 
-    System.out.println("extend arm pid: " + extendArmPID);
-    // rightExtendMotor.setVoltage(extendArmPID); //negate one side
-  }
+  //   System.out.println("extend arm pid: " + extendArmPID);
+  //   // rightExtendMotor.setVoltage(extendArmPID); //negate one side
+  // }
 
   public void setLength(double input){
     if (input == 0) stopExtensionMotors();
-    if (topSwitch.get()) { //extending 
+    if (topSwitch.get() || botSwitch.get()) { //hit limit switch
       stopExtensionMotors();
     }
     else{
-      if (input < -0.25){ 
-        leftExtendMotor.set(0.2); 
-        rightExtendMotor.set(0.2);
-      }
+      leftExtendMotor.set(input*0.2); //right direction?
+      rightExtendMotor.set(input*0.2);
     }
-    if (botSwitch.get()){ //retracting
-      stopExtensionMotors();
-    }
-    else{
-      if (input > 0.25){  
-        leftExtendMotor.set(-0.2);
-        rightExtendMotor.set(-0.2);
-      }
-    }
+  }
+  public boolean atLength(double length){
+    double currentLength = extendRetractEncoder.getPosition(); //might have to find a scale factor
+    if (currentLength <= length + 2 && currentLength > length - 2) return true;
+    return false;
   }
 
   public void getTicks() {
@@ -128,27 +122,27 @@ public class ArmLateral extends SubsystemBase {
     }
   }
 
-  public void extendDistance(double distance) {
-    double currRotations = extendRetractEncoder.getPosition();
-    // set the parameter equal to method after test
-    // if method works, use getPostionFactor in constructor
-    /*
-     * while (currTicks < Constants.CPR) {
-     * System.out.println("current ticks: " + currTicks);
-     * leftExtendMotor.set(-0.05);
-     * }
-     */
-    // if(currRotations != distance) {
-    while (currRotations < distance) { // used to add margin
-      System.out.println("current rotations: " + currRotations);
-      leftExtendMotor.set(-0.3);
-    }
-    // while(currRotations > distance + extendMargin) {
-    // System.out.println("current rotations: " + currRotations);
-    // leftExtendMotor.set(0.15);
-    // }
-    // }
-  }
+  // public void extendDistance(double distance) {
+  //   double currRotations = extendRetractEncoder.getPosition();
+  //   // set the parameter equal to method after test
+  //   // if method works, use getPostionFactor in constructor
+  //   /*
+  //    * while (currTicks < Constants.CPR) {
+  //    * System.out.println("current ticks: " + currTicks);
+  //    * leftExtendMotor.set(-0.05);
+  //    * }
+  //    */
+  //   // if(currRotations != distance) {
+  //   while (currRotations < distance) { // used to add margin
+  //     System.out.println("current rotations: " + currRotations);
+  //     leftExtendMotor.set(-0.3);
+  //   }
+  //   // while(currRotations > distance + extendMargin) {
+  //   // System.out.println("current rotations: " + currRotations);
+  //   // leftExtendMotor.set(0.15);
+  //   // }
+  //   // }
+  // }
 
   public void stopExtensionMotors() {
     leftExtendMotor.set(0);
@@ -157,6 +151,7 @@ public class ArmLateral extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("At Length: ", atLength(ArmConstants.PositionConfig.midLength)); //random length
     SmartDashboard.putNumber("Arm Position: ", extendRetractEncoder.getPosition());
     SmartDashboard.putNumber("Arm Lateral Speed: ", leftExtendMotor.get());
   }

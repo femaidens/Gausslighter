@@ -11,18 +11,17 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
+//import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Ports.*;
 
 public class ArmAngle extends SubsystemBase {
   private final CANSparkMax angleMotor;
-  private final PIDController anglePIDController; // angle of lifting arm
+  //private final PIDController anglePIDController; // angle of lifting arm
   private final SparkMaxAbsoluteEncoder angEncoder;
-  private double adjustmentAngle;
+  //private double adjustmentAngle;
 
   public ArmAngle() {
 
@@ -38,10 +37,38 @@ public class ArmAngle extends SubsystemBase {
     // angEncoder.setDistancePerRotation(ArmConstants.ANGLE_FACTOR);
     
     // feedback controllers
-    anglePIDController = new PIDController(
-        ArmConstants.AnglePID.kP,
-        ArmConstants.AnglePID.kI,
-        ArmConstants.AnglePID.kD);
+    // anglePIDController = new PIDController(
+    //     ArmConstants.AnglePID.kP,
+    //     ArmConstants.AnglePID.kI,
+    //     ArmConstants.AnglePID.kD);
+  }
+  public void setAngle(double input){ //SPEED IS INVERTED
+    if (input == 0) angleMotor.set(0);
+    angleMotor.set(-input*0.3);
+    // if (input > 0.25){ //arm angle increasing
+    //     angleMotor.set(-0.3);
+    // }
+    // else if (input < -0.25){ //arm angle decreasing
+    //     angleMotor.set(0.3);
+    // }
+    // else{
+    //     angleMotor.set(0);
+    // }
+  }
+
+  public double getArmAngle() {
+    double currentAngle = angEncoder.getPosition();
+    return currentAngle;
+  }
+
+  public boolean atAngle(double angle){ //whether at angle w/ an offset of 2 degrees
+    double currentAngle = angEncoder.getPosition()*360;
+    if (currentAngle <= angle + 2 && currentAngle > angle - 2) return true;
+    return false; 
+  }
+
+  public void stopAngleMotor() {
+    angleMotor.set(0);
   }
 
   // // arm angle pid not setting angle, change name later
@@ -55,31 +82,11 @@ public class ArmAngle extends SubsystemBase {
   //   System.out.println("Arm Voltage: " + adjustmentAngle);
   // }
 
-  public void setAngle(double input){ //inverted speeds
-    if (input > 0.25){ //arm angle increasing
-        angleMotor.set(-0.3);
-    }
-    else if (input < -0.25){ //arm angle decreasing
-        angleMotor.set(0.3);
-    }
-    else{
-        angleMotor.set(0);
-    }
-  }
-
-  public double getArmAngle() {
-    double currentAngle = angEncoder.getPosition();
-    return currentAngle;
-  }
-
-  public void stopAngleMotor() {
-    angleMotor.set(0);
-  }
-
   @Override
   public void periodic() {
     //SmartDashboard.putNumber("Arm Offset: ", angEncoder.getPositionOffset());
-    SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition());
+    SmartDashboard.putBoolean("At angle", atAngle(ArmConstants.PositionConfig.midCubeAngle));
+    SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition()*360);
     SmartDashboard.putNumber("Arm Angle Speed: ", angleMotor.get());
   }
 
