@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Ports.ButtonPorts;
+import frc.robot.Ports.XboxControllerMap.Button;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 // import frc.robot.subsystems.Drivetrain;
 // import frc.robot.subsystems.Intake;
@@ -45,7 +47,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems
-    // private final Drivetrain drivetrain = new Drivetrain();
+    private final Drivetrain drivetrain = new Drivetrain();
     private final ArmAngle armAngle = new ArmAngle();
     private final ArmLateral armLateral = new ArmLateral();
     private final Intake intake = new Intake();
@@ -72,12 +74,18 @@ public class RobotContainer {
     // autonChooser.addOption("p2", new Path2(drivetrain));
 
     // Configure default commands
-    armAngle.setDefaultCommand(
-      new RunCommand(
-        () -> armAngle.setAngle(
-          MathUtil.applyDeadband(operJoy.getRightY(), 0.1)), 
-        armAngle)
-    );
+    // armAngle.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> armAngle.increaseAngle(
+    //       MathUtil.applyDeadband(operJoy.getRightTriggerAxis(), 0.1)), 
+    //     armAngle)
+    // );
+    // armAngle.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> armAngle.decreaseAngle(
+    //       MathUtil.applyDeadband(operJoy.getLeftTriggerAxis(), 0.1)), 
+    //     armAngle)
+    // );
 
     armLateral.setDefaultCommand(
       new RunCommand(
@@ -85,16 +93,16 @@ public class RobotContainer {
           MathUtil.applyDeadband(operJoy.getLeftY(), 0.1)),
         armLateral)
     );
-    // drivetrain.setDefaultCommand(
-    //     // The left stick controls translation of the robot.
-    //     // Turning is controlled by the X axis of the right stick.
-    //     new RunCommand(
-    //         () -> drivetrain.drive( // all joy.get values were prev negative
-    //             MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
-    //             MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
-    //             MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
-    //             true, true),
-    //         drivetrain)
+    drivetrain.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> drivetrain.drive( // all joy.get values were prev negative
+                MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
+                MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
+                MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
+                true, true),
+            drivetrain)
 
         // new RunCommand(
         //     () -> drivetrain.drive(
@@ -103,6 +111,7 @@ public class RobotContainer {
         //         MathUtil.applyDeadband(-rotationJoy.getX(), 0.05),
         //         true),
         //     drivetrain)
+    );
   }
 
   // public void configureAuton() {
@@ -123,11 +132,22 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(operJoy, XboxController.Button.kA.value)
+    //changing claw (cone and cube)
+    new JoystickButton(operJoy, Button.A)
         .onTrue(new OpenClaw(intake));
-    new JoystickButton(operJoy, XboxController.Button.kB.value)
+    new JoystickButton(operJoy, Button.B)
         .onTrue(new CloseClaw(intake));
-
+    //changing arm angles (trigger buttons)
+    new JoystickButton(operJoy, Button.LT)
+        .onTrue(
+          new RunCommand(
+            () -> armAngle.decreaseAngle(operJoy.getLeftTriggerAxis()),
+            armAngle));
+    new JoystickButton(operJoy, Button.RT)
+        .onTrue(
+          new RunCommand(
+            () -> armAngle.increaseAngle(operJoy.getRightTriggerAxis()),
+            armAngle));
     // new JoystickButton(driveJoy, XboxController.Button.kA.value)
     //     .whileTrue(
     //       new RunCommand(
