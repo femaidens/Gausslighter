@@ -28,7 +28,7 @@ public class ArmAngle extends SubsystemBase {
     // motor instantiation
     angleMotor = new CANSparkMax(ArmPorts.ANG_MOTOR_PORT, MotorType.kBrushless);
     angleMotor.setInverted(true);
-    angleMotor.setIdleMode(IdleMode.kCoast);
+    angleMotor.setIdleMode(IdleMode.kBrake);
 
     // encoder instantiation
     angEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -44,7 +44,7 @@ public class ArmAngle extends SubsystemBase {
   }
   public void setAngle(double input){ //SPEED IS INVERTED
     if (input == 0) angleMotor.set(0);
-    angleMotor.set(-input*0.3);
+    angleMotor.set(-input*0.85);
     // if (input > 0.25){ //arm angle increasing
     //     angleMotor.set(-0.3);
     // }
@@ -63,6 +63,7 @@ public class ArmAngle extends SubsystemBase {
 
   public boolean atAngle(double angle){ //whether at angle w/ an offset of 2 degrees
     double currentAngle = angEncoder.getPosition()*360;
+    System.out.println("current angle: " + currentAngle);
     if (currentAngle <= angle + 2 && currentAngle > angle - 2) return true;
     return false; 
   }

@@ -81,7 +81,7 @@ public class RobotContainer {
     armLateral.setDefaultCommand(
       new RunCommand(
         () -> armLateral.setLength(
-          MathUtil.applyDeadband(operJoy.getLeftX(), 0.1)),
+          MathUtil.applyDeadband(operJoy.getLeftY(), 0.1)),
         armLateral)
     );
     // drivetrain.setDefaultCommand(

@@ -91,13 +91,13 @@ public class ArmLateral extends SubsystemBase {
 
   public void setLength(double input){
     if (input == 0) stopExtensionMotors();
-    if (topSwitch.get() || botSwitch.get()) { //hit limit switch
-      stopExtensionMotors();
-    }
-    else{
-      leftExtendMotor.set(input*0.2); //right direction?
-      rightExtendMotor.set(input*0.2);
-    }
+    // if (topSwitch.get() || botSwitch.get()) { //hit limit switch
+    //   stopExtensionMotors();
+    // }
+    // else{
+      leftExtendMotor.set(input*0.7); //right direction?
+      rightExtendMotor.set(input*0.7);
+    // }
   }
   public boolean atLength(double length){
     double currentLength = extendRetractEncoder.getPosition(); //might have to find a scale factor
