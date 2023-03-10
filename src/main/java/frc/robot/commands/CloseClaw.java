@@ -5,38 +5,38 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmLateral;
+import frc.robot.subsystems.Intake;
 
-public class SetArmExtension extends CommandBase {
-  /** Creates a new setArmAngle. */
-  public final ArmLateral armLateral;
-  private double position;
-  public SetArmExtension(ArmLateral armLateral, double position) {
+public class CloseClaw extends CommandBase {
+  /** Creates a new PickUp. */
+
+  public final Intake intake;
+
+  public CloseClaw(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armLateral = armLateral;
-    this.position = position;
-    addRequirements(armLateral);
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armLateral.setLength(position);
+    intake.closeClawCone();
+    System.out.println("closing claw");
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    armLateral.stopExtensionMotors();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

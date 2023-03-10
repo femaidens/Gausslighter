@@ -5,39 +5,37 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmAngle;
+import frc.robot.subsystems.Intake;
 
-public class SetArmAngle extends CommandBase {
-  /** Creates a new setArmAngle. */
-  public final ArmAngle armAngle;
-  private double angle;
-  public SetArmAngle(ArmAngle armAngle, double angle) {
+public class OpenClaw extends CommandBase {
+  /** Creates a new openClaw. */
+  public final Intake intake;
+  
+  public OpenClaw(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armAngle = armAngle;
-    this.angle = angle;
-    addRequirements(armAngle);
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intake.openClaw();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    angle = armAngle.getArmAngle();
-    armAngle.setAngle(angle);
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armAngle.stopAngleMotor();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
