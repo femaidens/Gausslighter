@@ -7,12 +7,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
-public class CloseClaw extends CommandBase {
+public class CloseClaw2 extends CommandBase {
   /** Creates a new PickUp. */
 
   public final Intake intake;
 
-  public CloseClaw(Intake intake) {
+  public CloseClaw2(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
     addRequirements(intake);
@@ -26,7 +26,7 @@ public class CloseClaw extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.closeClawCone();
+    intake.closeClawCube();
     System.out.println("closing claw");
   }
 

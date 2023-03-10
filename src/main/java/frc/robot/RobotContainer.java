@@ -74,18 +74,6 @@ public class RobotContainer {
     // autonChooser.addOption("p2", new Path2(drivetrain));
 
     // Configure default commands
-    // armAngle.setDefaultCommand(
-    //   new RunCommand(
-    //     () -> armAngle.increaseAngle(
-    //       MathUtil.applyDeadband(operJoy.getRightTriggerAxis(), 0.1)), 
-    //     armAngle)
-    // );
-    // armAngle.setDefaultCommand(
-    //   new RunCommand(
-    //     () -> armAngle.decreaseAngle(
-    //       MathUtil.applyDeadband(operJoy.getLeftTriggerAxis(), 0.1)), 
-    //     armAngle)
-    // );
 
     armLateral.setDefaultCommand(
       new RunCommand(
@@ -132,11 +120,19 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    //changing claw (cone and cube)
+    //changing claw INTAKE 1
+    // new JoystickButton(operJoy, Button.A)
+    //     .onTrue(new OpenClaw(intake));
+    // new JoystickButton(operJoy, Button.B)
+    //     .onTrue(new CloseClawCube(intake)); (make commands for these)
+    // new JoystickButton(operJoy, Button.Y)
+    //     .onTrue(new CloseClawCone(intake));
+    //changing claw INTAKE 2
     new JoystickButton(operJoy, Button.A)
         .onTrue(new OpenClaw(intake));
     new JoystickButton(operJoy, Button.B)
-        .onTrue(new CloseClaw(intake));
+        .onTrue(new CloseClaw2(intake));
+
     //changing arm angles (trigger buttons)
     new JoystickButton(operJoy, Button.LT)
         .onTrue(
