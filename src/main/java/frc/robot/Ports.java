@@ -22,6 +22,9 @@ public final class Ports {
             public static final int B = XboxController.Button.kB.value;
             public static final int X = XboxController.Button.kX.value;
             public static final int Y = XboxController.Button.kY.value;
+            public static final int LT = XboxController.Axis.kLeftTrigger.value;
+            public static final int RT = XboxController.Axis.kLeftTrigger.value;
+
         }
     }
 
