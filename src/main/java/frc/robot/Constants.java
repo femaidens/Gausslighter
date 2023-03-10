@@ -44,7 +44,7 @@ public final class Constants {
     }
 
     public static class AnglePID { // to be tested
-      public final static double kP = 0.3;
+      public final static double kP = 2;
       public final static double kI = 0.0;
       public final static double kD = 0.0;
     }

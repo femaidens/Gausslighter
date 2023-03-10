@@ -19,12 +19,12 @@ import frc.robot.Ports.*;
 
 public class ArmAngle extends SubsystemBase {
   private final CANSparkMax angleMotor;
-  private final PIDController anglePIDController; // angle of lifting arm
+  public static PIDController anglePIDController; // angle of lifting arm
   //private final SparkMaxAbsoluteEncoder angEncoder;
   private final DutyCycleEncoder angEncoder;
   private double armAngleVoltage;
   private double armAngle;
-  private final SparkMaxAbsoluteEncoder angEncoder;
+  // private final SparkMaxAbsoluteEncoder angEncoder;
   private final DutyCycleEncoder ang1;
   private double adjustmentAngle;
 
@@ -42,10 +42,10 @@ public class ArmAngle extends SubsystemBase {
     angEncoder.setDistancePerRotation(ArmConstants.ANGLE_FACTOR); // set units to degrees
     // angEncoder.setDutyCycleRange(0.0467, armAngleVoltage);
 
-    angleMotor.setIdleMode(IdleMode.kCoast);
+    angleMotor.setIdleMode(IdleMode.kBrake);
         // encoder instantiation
 
-    angEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    // angEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
     // angEncoder.setPositionOffset(0.821184);
     // angEncoder.setDutyCycleRange(0.0467, adjustmentAngle);
     // angEncoder.setDistancePerRotation(ArmConstants.ANGLE_FACTOR);
@@ -73,7 +73,7 @@ public class ArmAngle extends SubsystemBase {
   }
 
   public void downArm(){
-    angleMotor.set(-0.3);
+    angleMotor.set(0.3);
   }
 
   public void midAngle(){
@@ -92,7 +92,7 @@ public class ArmAngle extends SubsystemBase {
   }
 
   public double getArmAngle() {
-    double currentAngle = -1*angEncoder.getDistance();
+    double currentAngle = 360-Math.abs(angEncoder.getDistance());
     return currentAngle;
   }
 
@@ -109,6 +109,8 @@ public class ArmAngle extends SubsystemBase {
     SmartDashboard.putNumber("Unscaled position: ", angEncoder.get());
     SmartDashboard.putNumber("Abs Position: ", + angEncoder.getAbsolutePosition());
     SmartDashboard.putNumber("Zero Offset: ", + angEncoder.getPositionOffset());
+    // SmartDashboard.getNumber("setpoint: ", 0);
+    SmartDashboard.putNumber("Setpoint: ", ArmConstants.PositionConfig.midConeAngle);
 
     // SmartDashboard.putNumber("Scaled position: ", angEncoder.get()); // test after uncommenting the 360 unit conversion from rotations to degrees
 

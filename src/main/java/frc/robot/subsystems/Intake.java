@@ -59,8 +59,13 @@ public class Intake extends SubsystemBase {
     piston2.set(Value.kReverse);
   }
 
-  public void closeClaw() { // extends pistons & clamps onto the gamepiece
+  public void closeClawCube() { // extends pistons & clamps onto the gamepiece
     piston1.set(Value.kForward);
+    piston2.set(Value.kForward);
+    // System.out.println("both extended");
+  }
+
+  public void closeClawCone() { // extends pistons & clamps onto the gamepiece
     piston2.set(Value.kForward);
     // System.out.println("both extended");
   }

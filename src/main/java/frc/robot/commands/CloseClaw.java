@@ -21,12 +21,14 @@ public class CloseClaw extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intake.closeClaw();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    intake.closeClawCone();
+    System.out.println("closing claw");
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -35,6 +37,6 @@ public class CloseClaw extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
