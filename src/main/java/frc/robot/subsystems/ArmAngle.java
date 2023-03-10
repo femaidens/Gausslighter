@@ -44,7 +44,7 @@ public class ArmAngle extends SubsystemBase {
   }
   public void setAngle(double input){ //SPEED IS INVERTED
     if (input == 0) angleMotor.set(0);
-    angleMotor.set(-input*0.3);
+    angleMotor.set(-input*0.85);
     // if (input > 0.25){ //arm angle increasing
     //     angleMotor.set(-0.3);
     // }

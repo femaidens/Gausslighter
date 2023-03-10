@@ -17,6 +17,7 @@ import frc.robot.Ports.ButtonPorts;
 import frc.robot.commands.*;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
+import frc.robot.subsystems.Intake;
 // import frc.robot.subsystems.Drivetrain;
 // import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,7 +48,7 @@ public class RobotContainer {
     // private final Drivetrain drivetrain = new Drivetrain();
     private final ArmAngle armAngle = new ArmAngle();
     private final ArmLateral armLateral = new ArmLateral();
-    // private final Intake intake = new Intake();
+    private final Intake intake = new Intake();
 
   // The driver's controller
   XboxController operJoy = new XboxController(Ports.JoystickPorts.OPER_JOY);
@@ -122,6 +123,10 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+    new JoystickButton(operJoy, XboxController.Button.kA.value)
+        .onTrue(new OpenClaw(intake));
+    new JoystickButton(operJoy, XboxController.Button.kB.value)
+        .onTrue(new CloseClaw(intake));
 
     // new JoystickButton(driveJoy, XboxController.Button.kA.value)
     //     .whileTrue(
@@ -148,6 +153,36 @@ public class RobotContainer {
     //   new SetArmAngle(armAngle, PositionConfig.midConeAngle)));
     //   // new SetArmExtension(armLateral, PositionConfig.midConeExtend), 
     //   // new SetClawAngle(intake, IntakeConstants.clawAngle)));
+
+    /* 
+    final JoystickButton midCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.A);
+    midCubeButton.whileTrue(
+      // new RunCommand(
+      //   () -> armAngle.setAngle(armAngle.getArmAngle(), ArmConstants.PositionConfig.midConeAngle))
+      // );
+
+       //Commands.sequence
+      new RunCommand(
+        () -> armAngle.downArm(),
+        armAngle));
+      // new SetArmAngle(armAngle, PositionConfig.midCubeAngle));
+      // new SetArmExtension(armLateral, PositionConfig.midCubeExtend), 
+      // new SetClawAngle(intake, IntakeConstants.clawAngle)));
+
+    */
+
+    /*
+    final Trigger midConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.B);
+    midConeButton.onTrue(
+      new RunCommand(
+        () -> intake.closeClawCone(),
+        intake));
+
+      // new SetArmAngle(armAngle, PositionConfig.midConeAngle)));
+      // new SetArmExtension(armLateral, PositionConfig.midConeExtend), 
+      // new SetClawAngle(intake, IntakeConstants.clawAngle)));
+
+    */
 
     // final Trigger highCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.X); //change command for testing angle
     // highCubeButton.onTrue(Commands.sequence(
