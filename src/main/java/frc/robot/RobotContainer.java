@@ -16,6 +16,9 @@ import frc.robot.Ports.XboxControllerMap.Button;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
+import frc.robot.commands.Intake1.CloseClawCone;
+import frc.robot.commands.Intake1.CloseClawCube;
+import frc.robot.commands.Intake2.CloseClaw2;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Drivetrain;
@@ -121,12 +124,12 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //changing claw INTAKE 1
-    // new JoystickButton(operJoy, Button.A)
-    //     .onTrue(new OpenClaw(intake));
-    // new JoystickButton(operJoy, Button.B)
-    //     .onTrue(new CloseClawCube(intake)); (make commands for these)
-    // new JoystickButton(operJoy, Button.Y)
-    //     .onTrue(new CloseClawCone(intake));
+    new JoystickButton(operJoy, Button.A)
+        .onTrue(new OpenClaw(intake));
+    new JoystickButton(operJoy, Button.B)
+        .onTrue(new CloseClawCube(intake));
+    new JoystickButton(operJoy, Button.X)
+        .onTrue(new CloseClawCone(intake));
     //changing claw INTAKE 2
     new JoystickButton(operJoy, Button.A)
         .onTrue(new OpenClaw(intake));

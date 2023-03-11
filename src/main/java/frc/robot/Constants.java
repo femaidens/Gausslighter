@@ -69,6 +69,7 @@ public final class Constants {
       // public static final double highConeExtend = 0.7;//unique desired vVelocity for extending arm to score
 
       //starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
+      //find unit conversion units, current: inches
       public static final double defaultLength = 0;
       public static final double lowLength = -3;
       public static final double midLength = 6.5;
