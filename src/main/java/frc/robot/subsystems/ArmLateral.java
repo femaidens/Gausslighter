@@ -89,16 +89,36 @@ public class ArmLateral extends SubsystemBase {
   //   // rightExtendMotor.setVoltage(extendArmPID); //negate one side
   // }
 
-  public void setLength(double input){
+  // public void setLength(double input){
+  //   if (input == 0) stopExtensionMotors();
+  //   // if (topSwitch.get() || botSwitch.get()) { //hit limit switch
+  //   //   stopExtensionMotors();
+  //   // }
+  //   // else{
+  //     leftExtendMotor.set(input*0.7); //right direction?
+  //     rightExtendMotor.set(input*0.7);
+  //   // }
+  // }
+  public void retractArm(double input){
     if (input == 0) stopExtensionMotors();
     // if (topSwitch.get() || botSwitch.get()) { //hit limit switch
     //   stopExtensionMotors();
     // }
     // else{
-      leftExtendMotor.set(input*0.7); //right direction?
-      rightExtendMotor.set(input*0.7);
+      leftExtendMotor.set(-input*0.7); //right direction?
+      rightExtendMotor.set(-input*0.7);
     // }
   }
+public void extendArm(double input){
+  if (input == 0) stopExtensionMotors();
+  // if (topSwitch.get() || botSwitch.get()) { //hit limit switch
+  //   stopExtensionMotors();
+  // }
+  // else{
+    leftExtendMotor.set(-input*0.7); //right direction?
+    rightExtendMotor.set(-input*0.7);
+  // }
+}
   public boolean atLength(double length){
     double currentLength = extendRetractEncoder.getPosition(); //might have to find a scale factor
     if (currentLength <= length + 2 && currentLength > length - 2) return true;

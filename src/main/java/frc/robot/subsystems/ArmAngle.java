@@ -42,23 +42,37 @@ public class ArmAngle extends SubsystemBase {
     //     ArmConstants.AnglePID.kI,
     //     ArmConstants.AnglePID.kD);
   }
-  public void increaseAngle(double input){ //SPEED IS INVERTED
+  // public void increaseAngle(double input){ //SPEED IS INVERTED
+  //   if (input == 0) angleMotor.set(0);
+  //   angleMotor.set(-input*0.85);
+  //   // if (input > 0.25){ //arm angle increasing
+  //   //     angleMotor.set(-0.3);
+  //   // }
+  //   // else if (input < -0.25){ //arm angle decreasing
+  //   //     angleMotor.set(0.3);
+  //   // }
+  //   // else{
+  //   //     angleMotor.set(0);
+  //   // }
+  // }
+
+  // public void decreaseAngle(double input){
+  //   if (input == 0) angleMotor.set(0);
+  //   angleMotor.set(input*0.85);
+  //   // if (input > 0.25){ //arm angle increasing
+  //   //     angleMotor.set(-0.3);
+  //   // }
+  //   // else if (input < -0.25){ //arm angle decreasing
+  //   //     angleMotor.set(0.3);
+  //   // }
+  //   // else{
+  //   //     angleMotor.set(0);
+  //   // }
+  // }
+
+  public void setAngle(double input){
     if (input == 0) angleMotor.set(0);
     angleMotor.set(-input*0.85);
-    // if (input > 0.25){ //arm angle increasing
-    //     angleMotor.set(-0.3);
-    // }
-    // else if (input < -0.25){ //arm angle decreasing
-    //     angleMotor.set(0.3);
-    // }
-    // else{
-    //     angleMotor.set(0);
-    // }
-  }
-
-  public void decreaseAngle(double input){
-    if (input == 0) angleMotor.set(0);
-    angleMotor.set(input*0.85);
     // if (input > 0.25){ //arm angle increasing
     //     angleMotor.set(-0.3);
     // }

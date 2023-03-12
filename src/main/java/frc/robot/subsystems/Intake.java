@@ -23,7 +23,7 @@ public class Intake extends SubsystemBase {
   private final DoubleSolenoid piston1;
   private final DoubleSolenoid piston2;
   private final CANSparkMax wristMotor;
-  // private final CANSparkMax clawWheels;
+  private final CANSparkMax clawMotor;
   private final PIDController wristAnglePID;
   // private final DutyCycleEncoder wristEncoder;
   private final AbsoluteEncoder wristEncoder;
@@ -40,7 +40,7 @@ public class Intake extends SubsystemBase {
 
     // motor instantiations
     wristMotor = new CANSparkMax(IntakePorts.WRIST_MOTOR_PORT, MotorType.kBrushless);
-    // clawWheels = new CANSparkMax(IntakePorts.CLAW_WHEELS_PORT, MotorType.kBrushless);
+    clawMotor = new CANSparkMax(IntakePorts.CLAW_MOTOR_PORT, MotorType.kBrushless);
 
     // encoder instantiations
     wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -113,6 +113,9 @@ public class Intake extends SubsystemBase {
       wristMotor.set(0);
     }
 
+  }
+  public void runIntakeMotor(){
+    clawMotor.set(0.5);
   }
 
   public void stopWristMotor() {

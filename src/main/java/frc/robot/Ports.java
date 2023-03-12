@@ -24,6 +24,8 @@ public final class Ports {
             public static final int Y = XboxController.Button.kY.value;
             public static final int LT = XboxController.Axis.kLeftTrigger.value;
             public static final int RT = XboxController.Axis.kLeftTrigger.value;
+            public static final int LB = XboxController.Button.kLeftBumper.value;
+            public static final int RB = XboxController.Button.kRightBumper.value;
 
         }
     }
@@ -57,7 +59,7 @@ public final class Ports {
 
     public static final class IntakePorts {
         public static final int WRIST_MOTOR_PORT = 10;
-        // public static final int CLAW_WHEELS_PORT = 9;
+        public static final int CLAW_MOTOR_PORT = 12;
         
         public static final int WRIST_ENCODER_PORT = 3;
 
@@ -68,7 +70,7 @@ public final class Ports {
     }
 
     public static final class ArmPorts {
-        public static final int ANG_MOTOR_PORT = 12;
+        public static final int ANG_MOTOR_PORT = 11;
         public static final int LEFT_EXTEND_MOTOR_PORT = 13;
         public static final int RIGHT_EXTEND_MOTOR_PORT = 9;
 

@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import org.ejml.equation.Sequence;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -19,6 +21,7 @@ import frc.robot.commands.*;
 import frc.robot.commands.Intake1.CloseClawCone;
 import frc.robot.commands.Intake1.CloseClawCube;
 import frc.robot.commands.Intake2.CloseClaw2;
+import frc.robot.commands.Intake2.RunIntake;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Drivetrain;
@@ -78,12 +81,20 @@ public class RobotContainer {
 
     // Configure default commands
 
-    armLateral.setDefaultCommand(
+    intake.setDefaultCommand(
       new RunCommand(
-        () -> armLateral.setLength(
+        () -> intake.setWristAngleManual(
           MathUtil.applyDeadband(operJoy.getLeftY(), 0.1)),
         armLateral)
     );
+    
+    armAngle.setDefaultCommand(
+      new RunCommand(
+        () -> armAngle.setAngle(
+          MathUtil.applyDeadband(operJoy.getRightY(), 0.1)),
+        armAngle)
+    );
+
     drivetrain.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
@@ -124,28 +135,32 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //changing claw INTAKE 1
-    new JoystickButton(operJoy, Button.A)
-        .onTrue(new OpenClaw(intake));
-    new JoystickButton(operJoy, Button.B)
-        .onTrue(new CloseClawCube(intake));
-    new JoystickButton(operJoy, Button.X)
-        .onTrue(new CloseClawCone(intake));
+    // new JoystickButton(operJoy, Button.A)
+    //     .onTrue(new OpenClaw(intake));
+    // new JoystickButton(operJoy, Button.B)
+    //     .onTrue(new CloseClawCube(intake));
+    // new JoystickButton(operJoy, Button.X)
+    //     .onTrue(new CloseClawCone(intake));
     //changing claw INTAKE 2
-    new JoystickButton(operJoy, Button.A)
+    // new JoystickButton(operJoy, Button.A)
+    //     .onTrue(new OpenClaw(intake));
+    // new JoystickButton(operJoy, Button.B)
+    //     .onTrue(new CloseClaw2(intake));
+    new JoystickButton(operJoy, Button.LB)
+        .onTrue(Commands.sequence(new CloseClaw2(intake), new RunIntake(intake)));
+    new JoystickButton(operJoy, Button.RB)
         .onTrue(new OpenClaw(intake));
-    new JoystickButton(operJoy, Button.B)
-        .onTrue(new CloseClaw2(intake));
 
     //changing arm angles (trigger buttons)
     new JoystickButton(operJoy, Button.LT)
         .onTrue(
           new RunCommand(
-            () -> armAngle.decreaseAngle(operJoy.getLeftTriggerAxis()),
+            () -> armLateral.retractArm(operJoy.getLeftTriggerAxis()),
             armAngle));
     new JoystickButton(operJoy, Button.RT)
         .onTrue(
           new RunCommand(
-            () -> armAngle.increaseAngle(operJoy.getRightTriggerAxis()),
+            () -> armLateral.extendArm(operJoy.getRightTriggerAxis()),
             armAngle));
     // new JoystickButton(driveJoy, XboxController.Button.kA.value)
     //     .whileTrue(
