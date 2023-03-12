@@ -123,7 +123,11 @@ public final class Constants {
     public static final boolean GYRO_REVERSED = false;
     public static final double MAX_VELOCITY_CHASSIS = 1; //placeholder
     public static final double MAX_ACCEL_CHASSIS = 1; //placeholder
-  }
+    public static final double kTrajectoryEndPoseXFieldRelativeM = 0.50;
+    public static final double kTrajectoryEndPoseYFieldRelativeM = 0.50;
+    public static final double kTrajectoryEndHeadingFieldRelativeDeg = 0.00; // This value is calculated instead
+    public static final double kTrajectoryEndAngleFieldRelativeDeg = 90;
+    }
 
   public static final class ModuleConstants {
 

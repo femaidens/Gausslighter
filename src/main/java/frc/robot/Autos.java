@@ -6,9 +6,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
+import edu.wpi.first.math.geometry.Translation2d;
 import java.util.ArrayList;
 
 import com.pathplanner.lib.PathPoint;
@@ -31,7 +33,8 @@ public class Autos {
 
     public Command scoreAndCharge(Drivetrain drivetrain){
         return Commands.sequence (
-            //drivetrain command to drive forward
+            new SetArmAngle(armAng, ArmConstants.PositionConfig.highConeAngle, true),
+            new SetArmExtension(armLat, ArmConstants.PositionConfig.highLength),
             new OpenClaw(intake)
             //drivetrain command to drive backward onto charge
         );
@@ -40,9 +43,10 @@ public class Autos {
     public Command scoreChargeScore(Drivetrain drivetrain, Intake intake){
         return Commands.sequence(
             //drivetrain command to drive forward
-            new OpenClaw(intake),
+            new SetArmAngle(armAng, ArmConstants.PositionConfig.highConeAngle, true),
+            new SetArmExtension(armLat, ArmConstants.PositionConfig.highLength),
+            new OpenClaw(intake)
             //drivetrain command to drive backward onto charge
-            new SetArmExtension(Constants.)
         );
     }
 }
