@@ -121,6 +121,8 @@ public final class Constants {
     public static final double RR_CHASSIS_ANGULAR_OFFSET = Math.PI / 2;
 
     public static final boolean GYRO_REVERSED = false;
+    public static final double MAX_VELOCITY_CHASSIS = 1; //placeholder
+    public static final double MAX_ACCEL_CHASSIS = 1; //placeholder
   }
 
   public static final class ModuleConstants {

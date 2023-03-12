@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.Arrays;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -12,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,6 +45,8 @@ public class Drivetrain extends SubsystemBase {
       DrivetrainPorts.REAR_RIGHT_DRIVE,
       DrivetrainPorts.REAR_RIGHT_TURNING,
       DriveConstants.RR_CHASSIS_ANGULAR_OFFSET);
+
+  private final RevSwerveModule[] swerveModules = {rearRight, rearLeft, frontRight, frontLeft};
 
   // imu sensor/gyro
   private final ADIS16470_IMU gyro = new ADIS16470_IMU();
@@ -224,6 +229,7 @@ public class Drivetrain extends SubsystemBase {
     rearLeft.resetEncoders();
     frontRight.resetEncoders();
     rearRight.resetEncoders();
+    //Arrays.stream(swerveModules).forEach(RevSwerveModule::resetEncoders);
   }
 
     // x formation with wheels -> prevent movement
