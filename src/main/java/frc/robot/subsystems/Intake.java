@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Ports.*;
@@ -51,7 +52,7 @@ public class Intake extends SubsystemBase {
         IntakeConstants.PID.kI, IntakeConstants.PID.kD);
 
     // encoder config
-    wristEncoder.setPositionConversionFactor(Constants.CPR);
+    wristEncoder.setPositionConversionFactor(360);
   }
 
   public void openClaw() { // retracting pistons
@@ -65,6 +66,7 @@ public class Intake extends SubsystemBase {
     // System.out.println("both extended");
   }
 
+  
   public void closeClawCone() { // extends pistons & clamps onto the gamepiece
     piston2.set(Value.kForward);
     // System.out.println("both extended");
@@ -95,25 +97,18 @@ public class Intake extends SubsystemBase {
   }
 
   // MANUAL
-  public void setWristAngleManual(double goalAngle) {
-    double goalTicks = (goalAngle * Constants.CPR) / 360;
-    // double goalTicks = 180 / (goalAngle * Math.PI) alternate method to convert a
-    // goal angle into ticks
-    double currentTicks = wristEncoder.getPosition();
 
-    if (currentTicks > goalTicks + IntakeConstants.intakeMargin
-        || currentTicks < goalTicks - IntakeConstants.intakeMargin) {
-      while (currentTicks < goalTicks - IntakeConstants.intakeMargin) {
-        wristMotor.set(IntakeConstants.wristSpeed);
-      }
-      while (currentTicks > goalTicks + IntakeConstants.intakeMargin) {
-        wristMotor.set(-IntakeConstants.wristSpeed);
-      }
-    } else {
-      wristMotor.set(0);
-    }
-
+  public void setWristAngleManual(double input){
+    wristMotor.set(input*0.5);
   }
+
+  public boolean atWristAngle(double angle){
+    double currentAngle = wristEncoder.getPosition()*360;
+    //System.out.println("current angle: " + currentAngle);
+    if (currentAngle <= angle + 2 && currentAngle > angle - 2) return true;
+    return false; 
+  }
+
   public void runIntakeMotor(){
     clawMotor.set(0.5);
   }
@@ -125,5 +120,7 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
+    SmartDashboard.putBoolean("At wrist angle", atWristAngle(IntakeConstants.clawAngle));
   }
 }

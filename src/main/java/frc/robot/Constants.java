@@ -82,7 +82,7 @@ public final class Constants {
   public static class IntakeConstants { //for claw
     public static final double tickFactor =  Constants.CPR / 360;
     public static final double intakeMargin = 3;
-    public static final double clawAngle = 180;
+    public static final double clawAngle = 120;
     public static final double defaultClawAngle = 200; //placeholder
     public static final double wristSpeed = 0.1;
 

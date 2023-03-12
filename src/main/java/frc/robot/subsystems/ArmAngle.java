@@ -28,10 +28,13 @@ public class ArmAngle extends SubsystemBase {
     // motor instantiation
     angleMotor = new CANSparkMax(ArmPorts.ANG_MOTOR_PORT, MotorType.kBrushless);
     angleMotor.setInverted(true);
-    angleMotor.setIdleMode(IdleMode.kBrake);
+    angleMotor.setIdleMode(IdleMode.kCoast);
 
     // encoder instantiation
     angEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    angEncoder.setInverted(false);
+    angEncoder.setPositionConversionFactor(360);
+
     // angEncoder.setPositionOffset(0.821184);
     // angEncoder.setDutyCycleRange(0.0467, adjustmentAngle);
     // angEncoder.setDistancePerRotation(ArmConstants.ANGLE_FACTOR);
@@ -91,7 +94,7 @@ public class ArmAngle extends SubsystemBase {
 
   public boolean atAngle(double angle){ //whether at angle w/ an offset of 2 degrees
     double currentAngle = angEncoder.getPosition()*360;
-    System.out.println("current angle: " + currentAngle);
+    //System.out.println("current angle: " + currentAngle);
     if (currentAngle <= angle + 2 && currentAngle > angle - 2) return true;
     return false; 
   }
@@ -115,7 +118,7 @@ public class ArmAngle extends SubsystemBase {
   public void periodic() {
     //SmartDashboard.putNumber("Arm Offset: ", angEncoder.getPositionOffset());
     SmartDashboard.putBoolean("At angle", atAngle(ArmConstants.PositionConfig.midCubeAngle));
-    SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition()*360);
+    SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition());
     SmartDashboard.putNumber("Arm Angle Speed: ", angleMotor.get());
   }
 

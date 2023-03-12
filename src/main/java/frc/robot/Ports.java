@@ -16,20 +16,6 @@ public final class Ports {
         public static final int DRIVE_JOY = 1;
     }
 
-    public static final class XboxControllerMap {
-        public static class Button {
-            public static final int A = XboxController.Button.kA.value;
-            public static final int B = XboxController.Button.kB.value;
-            public static final int X = XboxController.Button.kX.value;
-            public static final int Y = XboxController.Button.kY.value;
-            public static final int LT = XboxController.Axis.kLeftTrigger.value;
-            public static final int RT = XboxController.Axis.kLeftTrigger.value;
-            public static final int LB = XboxController.Button.kLeftBumper.value;
-            public static final int RB = XboxController.Button.kRightBumper.value;
-
-        }
-    }
-
     public static final class ButtonPorts {
         // intake
         public static final int HP_BUTTON_PORT = 5;
@@ -77,7 +63,7 @@ public final class Ports {
         public static final int ANG_ENCODER_PORT = 2; // change port number
         // public static final int EXTEND_RETRACT_ENCODER_PORT = 8;
 
-        public static final int TOP_SWITCH_PORT = 20; // change port num
-        public static final int BOT_SWITCH_PORT = 21; // change port num
+        public static final int TOP_SWITCH_PORT = 9; // change port num
+        public static final int BOT_SWITCH_PORT = 8; // change port num
     }
 }

@@ -52,7 +52,8 @@ public class ArmLateral extends SubsystemBase {
     botSwitch = new DigitalInput(ArmPorts.BOT_SWITCH_PORT);
 
     // motor config
-    leftExtendMotor.setInverted(true);
+    leftExtendMotor.setInverted(false); // correct orientation
+    rightExtendMotor.setInverted(true); // makes retract negative
   }
 
   // public void extendPosition(double position) {
@@ -99,26 +100,50 @@ public class ArmLateral extends SubsystemBase {
   //     rightExtendMotor.set(input*0.7);
   //   // }
   // }
-  public void retractArm(double input){
-    if (input == 0) stopExtensionMotors();
-    // if (topSwitch.get() || botSwitch.get()) { //hit limit switch
-    //   stopExtensionMotors();
-    // }
-    // else{
-      leftExtendMotor.set(-input*0.7); //right direction?
-      rightExtendMotor.set(-input*0.7);
-    // }
+  public void retractArm(){
+    if (!botSwitch.get()) { //hit limit switch (true = not hit; false = hit)
+      System.out.println("limit switch activated! \n");
+      stopExtensionMotors();
+    }
+    else{
+    //   System.out.println("input: " + input);
+    //   leftExtendMotor.set(-input); //right direction?
+    //   rightExtendMotor.set(-input);
+    // // }
+      System.out.println("retracting");
+      leftExtendMotor.set(-0.3);
+      rightExtendMotor.set(-0.3);
+    }
   }
-public void extendArm(double input){
-  if (input == 0) stopExtensionMotors();
-  // if (topSwitch.get() || botSwitch.get()) { //hit limit switch
-  //   stopExtensionMotors();
-  // }
-  // else{
-    leftExtendMotor.set(-input*0.7); //right direction?
-    rightExtendMotor.set(-input*0.7);
-  // }
-}
+
+  public void extendArm(){
+    if (!topSwitch.get()) { //hit limit switch
+      System.out.println("limit switch activated! \n");
+      stopExtensionMotors();
+    }
+    else{
+      System.out.println("extending");
+    //   System.out.println("input: " + input);
+    //   leftExtendMotor.set(-input); //right direction?
+    //   rightExtendMotor.set(-input);
+    // // }
+      leftExtendMotor.set(0.3);
+      rightExtendMotor.set(0.3);
+    }
+  }
+
+  public void testLT(){
+    System.out.println("LT true");
+  }
+
+  public void testRT(){
+    System.out.println("RT true");
+  }
+
+  public void notActive(){
+    System.out.println("not active");
+  }
+
   public boolean atLength(double length){
     double currentLength = extendRetractEncoder.getPosition(); //might have to find a scale factor
     if (currentLength <= length + 2 && currentLength > length - 2) return true;

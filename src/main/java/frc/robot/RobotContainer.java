@@ -7,13 +7,15 @@ package frc.robot;
 import org.ejml.equation.Sequence;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Ports.ButtonPorts;
-import frc.robot.Ports.XboxControllerMap.Button;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -31,6 +33,7 @@ import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -60,7 +63,7 @@ public class RobotContainer {
 
   // The driver's controller
   XboxController operJoy = new XboxController(Ports.JoystickPorts.OPER_JOY);
-  XboxController driveJoy = new XboxController(Ports.JoystickPorts.DRIVE_JOY);
+  CommandXboxController driveJoy = new CommandXboxController(Ports.JoystickPorts.DRIVE_JOY);
   // private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
   // private final Joystick rotationJoy = new Joystick(Ports.JoystickPorts.ROTATION_JOY);
   private final SendableChooser<Command> autonChooser = new SendableChooser<>();
@@ -85,7 +88,7 @@ public class RobotContainer {
       new RunCommand(
         () -> intake.setWristAngleManual(
           MathUtil.applyDeadband(operJoy.getLeftY(), 0.1)),
-        armLateral)
+        intake)
     );
     
     armAngle.setDefaultCommand(
@@ -106,13 +109,6 @@ public class RobotContainer {
                 true, true),
             drivetrain)
 
-        // new RunCommand(
-        //     () -> drivetrain.drive(
-        //         MathUtil.applyDeadband(-lateralJoy.getY(), 0.05),
-        //         MathUtil.applyDeadband(-lateralJoy.getX(), 0.05),
-        //         MathUtil.applyDeadband(-rotationJoy.getX(), 0.05),
-        //         true),
-        //     drivetrain)
     );
   }
 
@@ -135,41 +131,110 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //changing claw INTAKE 1
-    // new JoystickButton(operJoy, Button.A)
+    // operJoy.a()
     //     .onTrue(new OpenClaw(intake));
-    // new JoystickButton(operJoy, Button.B)
+    // operJoy.b()
     //     .onTrue(new CloseClawCube(intake));
-    // new JoystickButton(operJoy, Button.X)
+    // operJoy.x()
     //     .onTrue(new CloseClawCone(intake));
-    //changing claw INTAKE 2
-    // new JoystickButton(operJoy, Button.A)
+    // changing claw INTAKE 2
+    // Trigger intakeButton = operJoy.leftBumper();
+    // intakeButton
+    //     .onTrue(Commands.sequence(new CloseClaw2(intake), new RunIntake(intake)));
+    // Trigger openClawButton = operJoy.rightBumper(); //score
+    // openClawButton
     //     .onTrue(new OpenClaw(intake));
-    // new JoystickButton(operJoy, Button.B)
-    //     .onTrue(new CloseClaw2(intake));
-    new JoystickButton(operJoy, Button.LB)
-        .onTrue(Commands.sequence(new CloseClaw2(intake), new RunIntake(intake)));
-    new JoystickButton(operJoy, Button.RB)
-        .onTrue(new OpenClaw(intake));
+    new JoystickButton(operJoy, 3)
+        .onTrue(
+          new RunCommand(
+            () -> intake.runIntakeMotor(), intake));
+        // .onTrue(Commands.sequence(new CloseClaw2(intake), new RunIntake(intake)));
 
-    //changing arm angles (trigger buttons)
-    new JoystickButton(operJoy, Button.LT)
+    new JoystickButton(operJoy, 4) //score
         .onTrue(
           new RunCommand(
-            () -> armLateral.retractArm(operJoy.getLeftTriggerAxis()),
-            armAngle));
-    new JoystickButton(operJoy, Button.RT)
+          () -> intake.openClaw(), 
+          intake)
+        );
+        // .onTrue(new OpenClaw(intake));
+
+    // extend/retract arm (trigger buttons) --> temporarily button a and b
+    // Trigger extendArm = new JoystickButton(operJoy, Button.RT);
+    // extendArm
+
+    // operJoy.rightTrigger()
+    //   .onTrue(
+    //         new RunCommand(
+    //           () -> armLateral.extendArm(operJoy.getRightTriggerAxis()),
+    //           armLateral))
+    //   .onFalse(
+    //     new RunCommand(
+    //       () -> armLateral.stopExtensionMotors(), 
+    //       armLateral)
+    //   );
+    // operJoy.leftTrigger()
+    //   .onTrue(
+    //     new RunCommand(
+    //       () -> armLateral.retractArm(operJoy.getLeftTriggerAxis()),
+    //       armLateral))
+    //   .onFalse(
+    //     new RunCommand(
+    //       () -> armLateral.stopExtensionMotors(), 
+    //       armLateral)
+    //   );
+      JoystickButton extendArmButton = new JoystickButton(operJoy, XboxController.Button.kA.value);
+      extendArmButton
         .onTrue(
+              new RunCommand(
+                () -> armLateral.extendArm(),
+                armLateral))
+        .onFalse(
           new RunCommand(
-            () -> armLateral.extendArm(operJoy.getRightTriggerAxis()),
-            armAngle));
-    // new JoystickButton(driveJoy, XboxController.Button.kA.value)
+            () -> armLateral.stopExtensionMotors(), 
+            armLateral)
+        );
+
+      JoystickButton retractArmButton = new JoystickButton(operJoy, XboxController.Button.kB.value);
+        retractArmButton
+        .onTrue(
+              new RunCommand(
+                () -> armLateral.retractArm(),
+                armLateral))
+        .onFalse(
+          new RunCommand(
+            () -> armLateral.stopExtensionMotors(), 
+            armLateral)
+        );
+        // Trigger testTriggerButton = operJoy.leftTrigger();
+        // testTriggerButton
+        // .onTrue(
+        //       new RunCommand(
+        //         () -> armLateral.retractArm(),
+        //         armLateral)
+        // )
+        // .onFalse(
+        //       new RunCommand(
+        //         () -> armLateral.stopExtensionMotors(), 
+        //         armLateral)
+        // );
+        // Trigger testTriggerButton2 = operJoy.rightTrigger();
+        // testTriggerButton2
+        //   .onTrue(
+        //         new RunCommand(
+        //           () -> armLateral.testRT(),
+        //           armLateral)
+        // );
+    // Trigger retractArm = new JoystickButton(operJoy, Button.LT);
+    // retractArm
+
+    // driveJoy.leftBumper()
     //     .whileTrue(
     //       new RunCommand(
     //         () -> drivetrain.setX(),
     //         drivetrain));
 
-    // // resets robot heading (gyro)
-    // new JoystickButton(driveJoy, 6) // RB
+    // // // resets robot heading (gyro)
+    // operJoy.rightBumper()
     //     .onTrue(
     //         new RunCommand(
     //           () -> drivetrain.resetGyro(),
