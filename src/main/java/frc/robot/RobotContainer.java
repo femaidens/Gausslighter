@@ -130,14 +130,21 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    // INTAKE 1
-    // operJoy.a()
-    //     .onTrue(new OpenClaw(intake));
-    // operJoy.b()
-    //     .onTrue(new CloseClawCube(intake));
-    // operJoy.x()
+    Trigger scoreButton = operJoy.rightBumper();
+    scoreButton
+        .onTrue(
+          new RunCommand(
+          () -> intake.openClaw(), 
+          intake)
+        );
+        // .onTrue(new OpenClaw(intake));
+    // //INTAKE 1
+    // Trigger intakeCubeButton = operJoy.leftBumper();
+    // intakeCubeButton
+    //   .onTrue(new CloseClawCube(intake));
+    // Trigger intakeConeButton = operJoy.rightBumper();
+    //   intakeConeButton
     //     .onTrue(new CloseClawCone(intake));
-
     // INTAKE 2
     Trigger intakeButton = operJoy.leftBumper();
     intakeButton
@@ -147,14 +154,6 @@ public class RobotContainer {
           new RunIntake(intake)
           )
         );
-    Trigger scoreButton = operJoy.rightBumper();
-    scoreButton
-        .onTrue(
-          new RunCommand(
-          () -> intake.openClaw(), 
-          intake)
-        );
-        // .onTrue(new OpenClaw(intake));
 
     // ARM LATERAL 
     Trigger extendButton = operJoy.rightTrigger();
@@ -180,20 +179,20 @@ public class RobotContainer {
           armLateral)
       );
   
-    // drive buttons
-    Trigger xDriveButton = driveJoy.leftBumper();
-    xDriveButton
-        .whileTrue(
-          new RunCommand(
-            () -> drivetrain.setX(),
-            drivetrain));
+    // // drive buttons
+    // Trigger xDriveButton = driveJoy.leftBumper();
+    // xDriveButton
+    //     .whileTrue(
+    //       new RunCommand(
+    //         () -> drivetrain.setX(),
+    //         drivetrain));
 
-    Trigger resetGyroButton = driveJoy.rightBumper();
-    resetGyroButton
-        .onTrue(
-            new RunCommand(
-              () -> drivetrain.resetGyro(),
-              drivetrain));
+    // Trigger resetGyroButton = driveJoy.rightBumper();
+    // resetGyroButton
+    //     .onTrue(
+    //         new RunCommand(
+    //           () -> drivetrain.resetGyro(),
+    //           drivetrain));
         
     // Trigger testTriggerButton = operJoy.leftTrigger();
     // testTriggerButton
