@@ -132,17 +132,17 @@ public class ArmLateral extends SubsystemBase {
     }
   }
 
-  public void testLT(){
-    System.out.println("LT true");
-  }
+  // public void testLT(){
+  //   System.out.println("LT true");
+  // }
 
-  public void testRT(){
-    System.out.println("RT true");
-  }
+  // public void testRT(){
+  //   System.out.println("RT true");
+  // }
 
-  public void notActive(){
-    System.out.println("not active");
-  }
+  // public void notActive(){
+  //   System.out.println("not active");
+  // }
 
   public boolean atLength(double length){
     double currentLength = extendRetractEncoder.getPosition(); //might have to find a scale factor
