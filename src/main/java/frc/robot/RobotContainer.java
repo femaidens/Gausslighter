@@ -130,14 +130,7 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    Trigger scoreButton = operJoy.rightBumper();
-    scoreButton
-        .onTrue(
-          new RunCommand(
-          () -> intake.openClaw(), 
-          intake)
-        );
-        // .onTrue(new OpenClaw(intake));
+
     // //INTAKE 1
     // Trigger intakeCubeButton = operJoy.leftBumper();
     // intakeCubeButton
@@ -145,6 +138,13 @@ public class RobotContainer {
     // Trigger intakeConeButton = operJoy.rightBumper();
     //   intakeConeButton
     //     .onTrue(new CloseClawCone(intake));
+    // Trigger scoreButton1 = operJoy.start(); //TESTING NEEDED THIS BUTTON
+    // scoreButton1
+    //   .onTrue(
+    //     new RunCommand(
+    //     () -> intake.openClaw(), 
+    //     intake)
+    //   );
     // INTAKE 2
     Trigger intakeButton = operJoy.leftBumper();
     intakeButton
@@ -154,6 +154,14 @@ public class RobotContainer {
           new RunIntake(intake)
           )
         );
+    Trigger scoreButton2 = operJoy.rightBumper();
+    scoreButton2
+        .onTrue(
+          new RunCommand(
+          () -> intake.openClaw(), 
+          intake)
+        );
+        // .onTrue(new OpenClaw(intake));
 
     // ARM LATERAL 
     Trigger extendButton = operJoy.rightTrigger();
