@@ -28,6 +28,7 @@ import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LED;
 // import frc.robot.subsystems.Drivetrain;
 // import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -60,6 +61,7 @@ public class RobotContainer {
     private final ArmAngle armAngle = new ArmAngle();
     private final ArmLateral armLateral = new ArmLateral();
     private final Intake intake = new Intake();
+    private final LED led = new LED();
 
   // The driver's controller
   CommandXboxController operJoy = new CommandXboxController(Ports.JoystickPorts.OPER_JOY);
@@ -130,7 +132,21 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-
+    //LEDS
+    Trigger coneLEDButton = operJoy.start(); //8
+    coneLEDButton
+        .onTrue(
+          new RunCommand(
+            () -> led.ConeLED(), 
+            led)
+        );
+    Trigger cubeLEDButton = operJoy.back(); //7
+    cubeLEDButton
+        .onTrue(
+          new RunCommand(
+            () -> led.CubeLED(), 
+            led)
+        );
     // //INTAKE 1
     // Trigger intakeCubeButton = operJoy.leftBumper();
     // intakeCubeButton
@@ -148,12 +164,24 @@ public class RobotContainer {
     // INTAKE 2
     Trigger intakeButton = operJoy.leftBumper();
     intakeButton
+        // .onTrue(
+        //   new RunCommand(
+        //     () -> intake.runIntakeMotor(), 
+        //     intake)
+        // )
+        // .onFalse(
+        //   new RunCommand(
+        //     () -> intake.stopIntakeMotor(), 
+        //     intake)
+        // );
+
         .onTrue(
           Commands.sequence(
           new CloseClaw2(intake), 
           new RunIntake(intake)
           )
         );
+
     Trigger scoreButton2 = operJoy.rightBumper();
     scoreButton2
         .onTrue(
@@ -187,20 +215,20 @@ public class RobotContainer {
           armLateral)
       );
   
-    // // drive buttons
-    // Trigger xDriveButton = driveJoy.leftBumper();
-    // xDriveButton
-    //     .whileTrue(
-    //       new RunCommand(
-    //         () -> drivetrain.setX(),
-    //         drivetrain));
+    // drive buttons
+    Trigger xDriveButton = driveJoy.leftBumper();
+    xDriveButton
+        .whileTrue(
+          new RunCommand(
+            () -> drivetrain.setX(),
+            drivetrain));
 
-    // Trigger resetGyroButton = driveJoy.rightBumper();
-    // resetGyroButton
-    //     .onTrue(
-    //         new RunCommand(
-    //           () -> drivetrain.resetGyro(),
-    //           drivetrain));
+    Trigger resetGyroButton = driveJoy.rightBumper();
+    resetGyroButton
+        .onTrue(
+            new RunCommand(
+              () -> drivetrain.resetGyro(),
+              drivetrain));
         
     // Trigger testTriggerButton = operJoy.leftTrigger();
     // testTriggerButton

@@ -30,7 +30,8 @@ public final class Constants {
   public static final double WHEEL_DIAMETER = 0.0762; // meters
 
   public static class LEDConstants {
-    public static final int LED_LENGTH = 60; //change as necessary
+    //public static final int LED_DATA_LENGTH = 1; //change as necessary
+    public static final int LED_PIN_LENGTH = 180;
   }
   public static class ArmConstants {
 
@@ -39,6 +40,10 @@ public final class Constants {
     public static final double ANGLE_FACTOR = 360; // 360 deg/rev
     public static final double DEFAULT_ARM_ANGLE = 3.4;
     public static final double ANGLE_OFFSET = 0.046808;
+    public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 35; // amps
+    public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 35; // amps
+
+
 
     public static class FeedForward { // to be tested
       public static final double kS = 0;
@@ -88,6 +93,10 @@ public final class Constants {
     public static final double clawAngle = 120;
     public static final double defaultClawAngle = 200; //placeholder
     public static final double wristSpeed = 0.1;
+    public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
+    public static final int WRIST_MOTOR_CURRENT_LIMIT = 30; // amps
+
+
 
     public static final class PID { // to be tested
       public final static double kP = 0.2;
@@ -139,7 +148,7 @@ public final class Constants {
 
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 35; // amps
     public static final int TURNING_MOTOR_CURRENT_LIMIT = 35; // amps
-
+    
     public static final IdleMode kDriveMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 

@@ -42,6 +42,9 @@ public class Intake extends SubsystemBase {
     // motor instantiations
     wristMotor = new CANSparkMax(IntakePorts.WRIST_MOTOR_PORT, MotorType.kBrushless);
     clawMotor = new CANSparkMax(IntakePorts.CLAW_MOTOR_PORT, MotorType.kBrushless);
+    wristMotor.setSmartCurrentLimit(IntakeConstants.WRIST_MOTOR_CURRENT_LIMIT);
+    clawMotor.setSmartCurrentLimit(IntakeConstants.CLAW_MOTOR_CURRENT_LIMIT);
+
 
     // encoder instantiations
     wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -56,19 +59,19 @@ public class Intake extends SubsystemBase {
   }
 
   public void openClaw() { // retracting pistons
-    piston1.set(Value.kReverse);
-    piston2.set(Value.kReverse);
+    piston1.set(Value.kForward);
+    // piston2.set(Value.kReverse);
   }
 
   public void closeClawCube() { // extends pistons & clamps onto the gamepiece
     piston1.set(Value.kForward);
-    piston2.set(Value.kForward);
+    // piston2.set(Value.kForward);
     // System.out.println("both extended");
   }
 
   
   public void closeClawCone() { // extends pistons & clamps onto the gamepiece
-    piston2.set(Value.kForward);
+    piston1.set(Value.kReverse);
     // System.out.println("both extended");
   }
 
@@ -110,7 +113,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void runIntakeMotor(){
-    clawMotor.set(0.5);
+    clawMotor.set(0.3);
+  }
+
+  public void stopIntakeMotor(){
+    clawMotor.set(0);
   }
 
   public void stopWristMotor() {

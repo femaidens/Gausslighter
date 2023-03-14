@@ -4,8 +4,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+// import edu.wpi.first.wpilibj.AddressableLED;
+// import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 
 // import java.io.IOException;
 // import java.nio.file.Path;
@@ -30,8 +30,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
   private Command autonChooser;
-  private AddressableLED led;
-  private AddressableLEDBuffer ledBuffer;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -50,20 +48,9 @@ public class Robot extends TimedRobot {
   //  } catch (IOException ex) {
   //     DriverStation.reportError("Unable to open trajectory: " + trajectoryJSON, ex.getStackTrace());
   //  }
-    led = new AddressableLED(Ports.LEDPorts.PWM);
-    ledBuffer = new AddressableLEDBuffer(Constants.LEDConstants.LED_LENGTH);
-    
-    led.setData(ledBuffer);
-    led.start();
   }
 
-  public void lightShow(){
 
-  }
-
-  public void HPLight(){
-    
-  }
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
@@ -79,8 +66,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    lightShow();
-    led.setData(ledBuffer);
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

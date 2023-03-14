@@ -30,6 +30,9 @@ public class ArmLateral extends SubsystemBase {
     // motor instantiations
     rightExtendMotor = new CANSparkMax(ArmPorts.RIGHT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
     leftExtendMotor = new CANSparkMax(ArmPorts.LEFT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
+    rightExtendMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
+    leftExtendMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
+
 
     // encoder instantiations
     extendRetractEncoder = leftExtendMotor.getEncoder(); // subject to change
