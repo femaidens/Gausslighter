@@ -99,7 +99,7 @@ public class Intake extends SubsystemBase {
   // MANUAL
 
   public void setWristAngleManual(double input){
-    wristMotor.set(input*0.5);
+    wristMotor.set(input*0.5); //increase
   }
 
   public boolean atWristAngle(double angle){

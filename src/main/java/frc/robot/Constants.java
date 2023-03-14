@@ -29,6 +29,9 @@ public final class Constants {
   public static final double PPR = 1024;
   public static final double WHEEL_DIAMETER = 0.0762; // meters
 
+  public static class LEDConstants {
+    public static final int LED_LENGTH = 60; //change as necessary
+  }
   public static class ArmConstants {
 
     public static final double EXTEND_MARGIN = 0.1;

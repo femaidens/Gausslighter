@@ -9,6 +9,10 @@ import edu.wpi.first.wpilibj.XboxController;
 /** Add your docs here. */
 public final class Ports {
 
+    public static final class LEDPorts{
+        public static final int PWM = 0; //pwm led port NOT MXP OR DIO
+    }
+
     public static final class JoystickPorts {
         // public static final int ROTATION_JOY = 0;
         // public static final int LATERAL_JOY = 1;
