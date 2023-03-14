@@ -22,6 +22,16 @@ public class LED extends SubsystemBase {
     led.setData(ledBuffer);
     led.start();
   }
+
+  // switches off all LEDs
+  public void showProgramCleanUp(int delayTime) {
+    for (int i = 0; i < Constants.LEDConstants.LED_PIN_LENGTH; i++) {
+      ledBuffer.setHSV(i, 0, 0, 0);
+    }
+    led.setData(ledBuffer);
+ }
+
+ 
   public void lightShow(){
 
   }
