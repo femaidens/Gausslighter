@@ -9,11 +9,21 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants.*;
 import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import java.util.ArrayList;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.pathplanner.lib.PathConstraints;
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 /** Add your docs here. */
 public class Autos {
@@ -22,21 +32,40 @@ public class Autos {
     private final ArmLateral armLat;
     private final ArmAngle armAng;
     private final ArrayList TrajectoryPointsList;
+    private final SendableChooser<Command> chooser;
+    private final SwerveDriveKinematics kinematics;
+    private final PIDController xPIDController;
+    private final PIDController yPIDController;
+    private final PIDController rotPIDController;
+    private final SwerveModuleState states;
+    private List<PathPoint> points;
+    private Object SCORE_AND_CHARGE;
 
-    public Autos(Drivetrain drivetrain, Intake intake, ArmLateral armLat, ArmAngle armAng, ArrayList TrajectoryPointsList) {
+    public Autos(Drivetrain drivetrain, Intake intake, ArmLateral armLat, 
+    ArmAngle armAng, ArrayList TrajectoryPointsList, SwerveDriveKinematics kinematics) {
         this.drivetrain = drivetrain;
         this.intake = intake;
         this.armLat = armLat;
         this.armAng = armAng;
+        this.kinematics = kinematics;
         this.TrajectoryPointsList = TrajectoryPointsList;
-    }
+        chooser = new SendableChooser<>();
+        chooser.addOption("score and charge", ());
 
-    public Command scoreAndCharge(Drivetrain drivetrain){
+        var states =
+        new SwerveModuleState[] {
+          new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+          new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+          new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+          new SwerveModuleState(0, Rotation2d.fromDegrees(45))};
+    }        
+
+    public Command scoreAndCharge(Drivetrain drivetrain, ArmLateral armLat, ArmAngle armAng){
         return Commands.sequence (
             new SetArmAngle(armAng, ArmConstants.PositionConfig.highConeAngle, true),
             new SetArmExtension(armLat, ArmConstants.PositionConfig.highLength),
-            new OpenClaw(intake)
-            //drivetrain command to drive backward onto charge
+            new OpenClaw(intake),
+            new Follow(drivetrain, SCORE_AND_CHARGE, true)
         );
     }
 
@@ -49,4 +78,5 @@ public class Autos {
             //drivetrain command to drive backward onto charge
         );
     }
+
 }

@@ -262,27 +262,18 @@ public class RobotContainer {
     //     new Pose2d(3, 0, new Rotation2d(0)),
     //     config);
 
-    // var thetaController = new ProfiledPIDController(
-    //     AutoConstants.PThetaController, 0, 0, AutoConstants.kThetaControllerConstraints);
-    // thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
     // SwerveControllerCommand swerveControllerCommand = new SwerveControllerCommand(
     //     exampleTrajectory,
     //     drivetrain::getPose, // Functional interface to feed supplier
     //     DriveConstants.DRIVE_KINEMATICS,
 
-    //     // Position controllers
-    //     new PIDController(AutoConstants.PXController, 0, 0),
-    //     new PIDController(AutoConstants.PYController, 0, 0),
-    //     thetaController,
-    //     drivetrain::setModuleStates,
-    //     drivetrain);
 
     // // Reset odometry to the starting pose of the trajectory.
     // drivetrain.resetOdometry(exampleTrajectory.getInitialPose());
 
     // // Run path following command, then stop at the end.
     // return swerveControllerCommand.andThen(() -> drivetrain.drive(0, 0, 0, false));
-    return autonChooser.getSelected();
+    //return autonChooser.getSelected();
+    return Autos.getCommand();
   }
 }
