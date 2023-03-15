@@ -9,6 +9,7 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,6 +29,7 @@ public class Intake extends SubsystemBase {
   private final PIDController wristAnglePID;
   // private final DutyCycleEncoder wristEncoder;
   private final AbsoluteEncoder wristEncoder;
+  private final Timer timer;
   // private static int margin = 3; // margin for claw angle in terms of ticks,
   // can change later
 
@@ -56,16 +58,19 @@ public class Intake extends SubsystemBase {
 
     // encoder config
     wristEncoder.setPositionConversionFactor(360);
+
+    timer = new Timer();
   }
 
   public void openClaw() { // retracting pistons
     piston1.set(Value.kForward);
-    // piston2.set(Value.kReverse);
+    // piston2.set(Value.kForward);
+    //System.out.println("piston state: " + piston1.);
   }
 
   public void closeClawCube() { // extends pistons & clamps onto the gamepiece
-    piston1.set(Value.kForward);
-    // piston2.set(Value.kForward);
+    piston1.set(Value.kReverse);
+    // piston2.set(Value.kReverse);
     // System.out.println("both extended");
   }
 
@@ -102,7 +107,7 @@ public class Intake extends SubsystemBase {
   // MANUAL
 
   public void setWristAngleManual(double input){
-    wristMotor.set(input*0.5); //increase
+    wristMotor.set(input*0.3); //increase
   }
 
   public boolean atWristAngle(double angle){
@@ -112,12 +117,31 @@ public class Intake extends SubsystemBase {
     return false; 
   }
 
+  // public void runIntakeMotor(){
+  //   if (clawMotor.getOutputCurrent() > IntakeConstants.MAX_CLAW_CURRENT){
+  //     System.out.println("current > 25A");
+  //     clawMotor.set(0.3);
+  //   }
+  //   if (timer.hasElapsed(0.5)){
+  //     stopIntakeMotor();
+  //   }
+  //   else{
+  //     clawMotor.set(0.3);
+  //   }
+  // }
+
   public void runIntakeMotor(){
-    clawMotor.set(0.3);
+    clawMotor.set(1);
+    //System.out.println("current: " + clawMotor.getOutputCurrent());
+
   }
 
   public void stopIntakeMotor(){
     clawMotor.set(0);
+    timer.reset();
+  }
+  public void runWristMotor(){
+    wristMotor.set(0.5);
   }
 
   public void stopWristMotor() {

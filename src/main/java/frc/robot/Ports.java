@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public final class Ports {
 
     public static final class LEDPorts{
-        public static final int PWM = 6; //pwm led port NOT MXP OR DIO
+        public static final int PWM = 9; //pwm led port NOT MXP OR DIO
     }
 
     public static final class JoystickPorts {

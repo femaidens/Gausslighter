@@ -82,6 +82,10 @@ public class Drivetrain extends SubsystemBase {
         });
 
     SmartDashboard.putNumber("Gyro Angle: ", gyro.getAngle());
+    // SmartDashboard.putNumber("Wrist Angle", frontLeft.get());
+    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
+    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
+    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
   }
 
   /**

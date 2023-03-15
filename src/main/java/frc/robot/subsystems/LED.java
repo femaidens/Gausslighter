@@ -45,7 +45,7 @@ public class LED extends SubsystemBase {
 
   public void ConeLED(){
     for (int i = 0; i < Constants.LEDConstants.LED_PIN_LENGTH; i++){
-      ledBuffer.setRGB(i, 255, 0, 255);
+      ledBuffer.setRGB(i, 255, 0, 0);
     }
     led.setData(ledBuffer);
   }
@@ -53,7 +53,7 @@ public class LED extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    CubeLED();
-    led.setData(ledBuffer);
+    // CubeLED();
+    // led.setData(ledBuffer);
   }
 }

@@ -162,8 +162,32 @@ public class RobotContainer {
     //     intake)
     //   );
     // INTAKE 2
+    Trigger runIntakeButton = operJoy.x();
+    runIntakeButton
+      .onTrue(
+        new RunIntake(intake)
+      )
+      .onFalse(
+        new RunCommand(
+          () -> intake.stopIntakeMotor(), 
+          intake)
+      );
+      // Trigger runWristButton = operJoy.y();
+      // runWristButton
+      //   .onTrue(
+      //     new RunIntake(intake)
+      //   )
+      //   .onFalse(
+      //     new RunCommand(
+      //       () -> intake.stopIntakeMotor(), 
+      //       intake)
+      //   );
     Trigger intakeButton = operJoy.leftBumper();
     intakeButton
+        // .onTrue(
+        //   new CloseClaw2(intake)
+        // );
+
         // .onTrue(
         //   new RunCommand(
         //     () -> intake.runIntakeMotor(), 
@@ -176,10 +200,7 @@ public class RobotContainer {
         // );
 
         .onTrue(
-          Commands.sequence(
-          new CloseClaw2(intake), 
-          new RunIntake(intake)
-          )
+          new CloseClaw2(intake)
         );
 
     Trigger scoreButton2 = operJoy.rightBumper();

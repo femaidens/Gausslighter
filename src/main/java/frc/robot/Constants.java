@@ -31,7 +31,7 @@ public final class Constants {
 
   public static class LEDConstants {
     //public static final int LED_DATA_LENGTH = 1; //change as necessary
-    public static final int LED_PIN_LENGTH = 180;
+    public static final int LED_PIN_LENGTH = 60;
   }
   public static class ArmConstants {
 
@@ -95,6 +95,7 @@ public final class Constants {
     public static final double wristSpeed = 0.1;
     public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
     public static final int WRIST_MOTOR_CURRENT_LIMIT = 30; // amps
+    public static final int MAX_CLAW_CURRENT = 25; //amps
 
 
 
