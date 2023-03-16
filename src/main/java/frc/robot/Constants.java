@@ -40,8 +40,9 @@ public final class Constants {
     public static final double ANGLE_FACTOR = 360; // 360 deg/rev
     public static final double DEFAULT_ARM_ANGLE = 3.4;
     public static final double ANGLE_OFFSET = 0.046808;
-    public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 35; // amps
-    public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 35; // amps
+    public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 30; // amps
+    public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 30; // amps
+
 
 
 
@@ -95,7 +96,9 @@ public final class Constants {
     public static final double wristSpeed = 0.1;
     public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
     public static final int WRIST_MOTOR_CURRENT_LIMIT = 30; // amps
-    public static final int MAX_CLAW_CURRENT = 25; //amps
+    // public static final int MAX_CLAW_CURRENT = 25; //amps
+    public static final int CLAW_MOTOR_SECONDARY_LIMIT = 35; // amps
+    public static final int WRIST_MOTOR_SECONDARY_LIMIT = 35; // amps
 
 
 

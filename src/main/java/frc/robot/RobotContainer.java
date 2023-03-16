@@ -33,6 +33,7 @@ import frc.robot.subsystems.LED;
 // import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -76,8 +77,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    // drivetrain.resetGyro();
-    // drivetrain.resetEncoders();
+    drivetrain.resetGyro();
+    drivetrain.resetEncoders();
 
     // // auton config
     // SmartDashboard.putData("Choose Auto: ", autonChooser);
@@ -103,14 +104,24 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
+        new ParallelCommandGroup(
+          new RunCommand(
             () -> drivetrain.drive( // all joy.get values were prev negative
                 MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
                 MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
                 MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
                 true, true),
-            drivetrain)
-
+            drivetrain),
+            new RunCommand(
+              () -> drivetrain.getJoystickValue(driveJoy))
+            )
+        // new RunCommand(
+        //     () -> drivetrain.drive( // all joy.get values were prev negative
+        //         MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
+        //         MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
+        //         MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
+        //         true, true),
+        //     drivetrain)
     );
   }
 
@@ -139,6 +150,11 @@ public class RobotContainer {
           new RunCommand(
             () -> led.ConeLED(), 
             led)
+        )
+        .onFalse(
+          new RunCommand(
+            () -> led.lightShow(),
+            led)
         );
     Trigger cubeLEDButton = operJoy.back(); //7
     cubeLEDButton
@@ -146,7 +162,13 @@ public class RobotContainer {
           new RunCommand(
             () -> led.CubeLED(), 
             led)
+        )
+        .onFalse(
+          new RunCommand(
+            () -> led.lightShow(),
+            led)
         );
+    
     // //INTAKE 1
     // Trigger intakeCubeButton = operJoy.leftBumper();
     // intakeCubeButton
@@ -161,6 +183,7 @@ public class RobotContainer {
     //     () -> intake.openClaw(), 
     //     intake)
     //   );
+
     // INTAKE 2
     Trigger runIntakeButton = operJoy.x();
     runIntakeButton
@@ -172,47 +195,35 @@ public class RobotContainer {
           () -> intake.stopIntakeMotor(), 
           intake)
       );
-      // Trigger runWristButton = operJoy.y();
-      // runWristButton
-      //   .onTrue(
-      //     new RunIntake(intake)
-      //   )
-      //   .onFalse(
-      //     new RunCommand(
-      //       () -> intake.stopIntakeMotor(), 
-      //       intake)
-      //   );
+
+    Trigger runWristButton = operJoy.y();
+    runWristButton
+      .onTrue(
+        new RunIntake(intake)
+      )
+      .onFalse(
+        new RunCommand(
+          () -> intake.stopWristMotor(), 
+          intake)
+      );
+
     Trigger intakeButton = operJoy.leftBumper();
     intakeButton
-        // .onTrue(
-        //   new CloseClaw2(intake)
-        // );
-
-        // .onTrue(
-        //   new RunCommand(
-        //     () -> intake.runIntakeMotor(), 
-        //     intake)
-        // )
-        // .onFalse(
-        //   new RunCommand(
-        //     () -> intake.stopIntakeMotor(), 
-        //     intake)
-        // );
-
         .onTrue(
           new CloseClaw2(intake)
         );
 
+
     Trigger scoreButton2 = operJoy.rightBumper();
     scoreButton2
-        .onTrue(
-          new RunCommand(
-          () -> intake.openClaw(), 
-          intake)
-        );
-        // .onTrue(new OpenClaw(intake));
+        // .onTrue(
+        //   new RunCommand(
+        //   () -> intake.openClaw(), 
+        //   intake)
+        // );
+        .onTrue(new OpenClaw(intake));
 
-    // ARM LATERAL 
+    //ARM LATERAL 
     Trigger extendButton = operJoy.rightTrigger();
     extendButton
       .onTrue(

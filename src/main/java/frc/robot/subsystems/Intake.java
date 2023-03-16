@@ -6,6 +6,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -44,8 +46,16 @@ public class Intake extends SubsystemBase {
     // motor instantiations
     wristMotor = new CANSparkMax(IntakePorts.WRIST_MOTOR_PORT, MotorType.kBrushless);
     clawMotor = new CANSparkMax(IntakePorts.CLAW_MOTOR_PORT, MotorType.kBrushless);
+   
+    // motor configs
+    wristMotor.setIdleMode(IdleMode.kCoast);
+
+    // current limits
     wristMotor.setSmartCurrentLimit(IntakeConstants.WRIST_MOTOR_CURRENT_LIMIT);
+    wristMotor.setSecondaryCurrentLimit(IntakeConstants.WRIST_MOTOR_SECONDARY_LIMIT);
     clawMotor.setSmartCurrentLimit(IntakeConstants.CLAW_MOTOR_CURRENT_LIMIT);
+    clawMotor.setSecondaryCurrentLimit(IntakeConstants.CLAW_MOTOR_SECONDARY_LIMIT);
+
 
 
     // encoder instantiations
@@ -73,7 +83,6 @@ public class Intake extends SubsystemBase {
     // piston2.set(Value.kReverse);
     // System.out.println("both extended");
   }
-
   
   public void closeClawCone() { // extends pistons & clamps onto the gamepiece
     piston1.set(Value.kReverse);
@@ -107,7 +116,7 @@ public class Intake extends SubsystemBase {
   // MANUAL
 
   public void setWristAngleManual(double input){
-    wristMotor.set(input*0.3); //increase
+    wristMotor.set(-input*0.15); //increase
   }
 
   public boolean atWristAngle(double angle){
@@ -131,7 +140,7 @@ public class Intake extends SubsystemBase {
   // }
 
   public void runIntakeMotor(){
-    clawMotor.set(1);
+    clawMotor.set(0.3);
     //System.out.println("current: " + clawMotor.getOutputCurrent());
 
   }
@@ -141,7 +150,7 @@ public class Intake extends SubsystemBase {
     timer.reset();
   }
   public void runWristMotor(){
-    wristMotor.set(0.5);
+    wristMotor.set(0.07);
   }
 
   public void stopWristMotor() {

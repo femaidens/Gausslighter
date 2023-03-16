@@ -28,7 +28,7 @@ public class ArmAngle extends SubsystemBase {
     // motor instantiation
     angleMotor = new CANSparkMax(ArmPorts.ANG_MOTOR_PORT, MotorType.kBrushless);
     angleMotor.setInverted(true);
-    angleMotor.setIdleMode(IdleMode.kBrake);
+    angleMotor.setIdleMode(IdleMode.kCoast);
     angleMotor.setSmartCurrentLimit(ArmConstants.ARM_ANGLE_MOTOR_CURRENT_LIMIT);
 
     // encoder instantiation
