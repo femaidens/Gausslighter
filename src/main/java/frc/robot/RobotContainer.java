@@ -65,7 +65,7 @@ public class RobotContainer {
     private final LED led = new LED();
 
   // The driver's controller
-  CommandXboxController operJoy = new CommandXboxController(Ports.JoystickPorts.OPER_JOY);
+  // CommandXboxController operJoy = new CommandXboxController(Ports.JoystickPorts.OPER_JOY);
   CommandXboxController driveJoy = new CommandXboxController(Ports.JoystickPorts.DRIVE_JOY);
   // private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
   // private final Joystick rotationJoy = new Joystick(Ports.JoystickPorts.ROTATION_JOY);
@@ -86,7 +86,7 @@ public class RobotContainer {
     // autonChooser.addOption("p2", new Path2(drivetrain));
 
     // Configure default commands
-
+/*
     intake.setDefaultCommand(
       new RunCommand(
         () -> intake.setWristAngleManual(
@@ -100,7 +100,7 @@ public class RobotContainer {
           MathUtil.applyDeadband(operJoy.getRightY(), 0.1)),
         armAngle)
     );
-
+*/
     drivetrain.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
@@ -143,6 +143,8 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+
+/*
     //LEDS
     Trigger coneLEDButton = operJoy.start(); //8
     coneLEDButton
@@ -168,7 +170,7 @@ public class RobotContainer {
             () -> led.lightShow(),
             led)
         );
-    
+*/
     // //INTAKE 1
     // Trigger intakeCubeButton = operJoy.leftBumper();
     // intakeCubeButton
@@ -183,7 +185,7 @@ public class RobotContainer {
     //     () -> intake.openClaw(), 
     //     intake)
     //   );
-
+/*
     // INTAKE 2
     Trigger runIntakeButton = operJoy.x();
     runIntakeButton
@@ -246,7 +248,8 @@ public class RobotContainer {
           () -> armLateral.stopExtensionMotors(), 
           armLateral)
       );
-  
+
+*/
     // drive buttons
     Trigger xDriveButton = driveJoy.leftBumper();
     xDriveButton
