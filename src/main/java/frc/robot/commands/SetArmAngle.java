@@ -34,7 +34,7 @@ public class SetArmAngle extends CommandBase {
         armAngle.increaseAngle(goalAngle);
       }
       else {
-      armAngle.decreaseAngle(goalAngle);
+        armAngle.decreaseAngle(goalAngle);
       }
     }
   }

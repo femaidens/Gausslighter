@@ -57,7 +57,8 @@ public class RobotContainer {
   XboxController driveJoy = new XboxController(Ports.JoystickPorts.DRIVE_JOY);
   // private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
   // private final Joystick rotationJoy = new Joystick(Ports.JoystickPorts.ROTATION_JOY);
-  private final SendableChooser<Command> autonChooser = new SendableChooser<>();
+  private final SendableChooser<Command> autonChooser = new SendableChooser<Command>();
+  // autonChooser.addOption("score and charge", new ScoreAndCharge()); adding command to auton chooser, fix syntax idk y it gives errors :(
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -81,6 +82,7 @@ public class RobotContainer {
           MathUtil.applyDeadband(operJoy.getLeftY(), 0.1)),
         armLateral)
     );
+
     drivetrain.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
@@ -102,13 +104,6 @@ public class RobotContainer {
     );
   }
 
-  // public void configureAuton() {
-  //   SmartDashboard.putData("Choose Auto: ", autonChooser);
-
-  //   autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
-  //   autonChooser.addOption("p2", new Path2(drivetrain));
-  //   autonChooser.addOption("test auton", new TestAuton1(drivetrain, intake, armAngle, armLateral));
-  // }
 
   /**
    * Use this method to define your button->command mappings. Buttons can be
@@ -244,6 +239,7 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
+
   public Command getAutonomousCommand() {
     // Create config for trajectory
     // TrajectoryConfig config = new TrajectoryConfig(
@@ -273,7 +269,6 @@ public class RobotContainer {
 
     // // Run path following command, then stop at the end.
     // return swerveControllerCommand.andThen(() -> drivetrain.drive(0, 0, 0, false));
-    //return autonChooser.getSelected();
-    return Autos.getCommand();
+    return autonChooser.getSelected();
   }
 }

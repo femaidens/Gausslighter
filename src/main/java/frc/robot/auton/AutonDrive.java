@@ -2,49 +2,36 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.auton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.pathplanner.lib.PathConstraints;
 import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPoint;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.Drivetrain;
 
-public class Follow extends CommandBase {
-
+public class AutonDrive extends CommandBase {
+  /** Creates a new AutonDrive. */
   private final Drivetrain drivetrain;
   private Object SCORE_AND_CHARGE;
   private List<PathPoint> points;
-  private final SwerveDriveKinematics kinematics;
+  //private final SwerveDriveKinematics kinematics;
   private final PIDController xPIDController;
   private final PIDController yPIDController;
   private final PIDController rotPIDController;
-  private final SwerveModuleState states;
-  private final PathPlannerTrajectory trajectory;
-  private final boolean resetPosition;
 
-  /** Creates a new Follow. */
-  public Follow(Drivetrain drivetrain, 
-                PathPlannerTrajectory trajectory, 
-                boolean resetPosition) {
+  public AutonDrive(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
-    this.trajectory = trajectory;
-    this.resetPosition = resetPosition;
+    //this.trajectory = trajectory;
 
     xPIDController = new PIDController(
           ArmConstants.AnglePID.kP,
@@ -63,11 +50,7 @@ public class Follow extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      
-
-  if (resetPosition) drivetrain.resetOdometry(trajectory.getInitialPose());
-
-  PathConstraints trajectoryConstraints = new PathConstraints(
+    PathConstraints trajectoryConstraints = new PathConstraints(
               DriveConstants.MAX_VELOCITY_CHASSIS,
               DriveConstants.MAX_ACCEL_CHASSIS);
 
@@ -82,10 +65,11 @@ public class Follow extends CommandBase {
       System.out.println("Trajectory successfully generated!");
   }
 
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    drivetrain.drive(-0.25, 0, 0, true, true);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
@@ -97,4 +81,3 @@ public class Follow extends CommandBase {
     return false;
   }
 }
-
