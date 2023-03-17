@@ -22,6 +22,7 @@ import frc.robot.subsystems.Intake;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreDriveToGP extends SequentialCommandGroup {
   public ScoreDriveToGP(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+    // can be used for every starting position in the community (assuming that you are aligned with the gamepieces at the center)
     addCommands(
       new SetArmAngle(armAngle, PositionConfig.highConeAngle, true),
       new SetArmExtension(armLateral, PositionConfig.highLength),
@@ -29,7 +30,7 @@ public class ScoreDriveToGP extends SequentialCommandGroup {
       new WaitCommand(3.0), //wait for piece to fall onto node
       new CloseClaw2(intake),
       new SetArmExtension(armLateral, PositionConfig.defaultAngle),
-      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, 6.0)
+      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, 6.0) // drive backwards to leave community and drive towards the gamepiece at the center
     );
   }
 }
