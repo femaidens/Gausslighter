@@ -7,8 +7,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.Ports;
+import frc.robot.Constants.LEDConstants;
 
 public class LED extends SubsystemBase {
   /** Creates a new LED. */
@@ -23,29 +25,62 @@ public class LED extends SubsystemBase {
     led.start();
   }
 
+  public void lightShow(){
+    purpGreen();
+    showProgramCleanUp();
+    rainbow();
+    showProgramCleanUp();
+  }
+  
   // switches off all LEDs
-  public void showProgramCleanUp(int delayTime) {
-    for (int i = 0; i < Constants.LEDConstants.LED_PIN_LENGTH; i++) {
+  public void showProgramCleanUp() {
+    for (int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++) {
       ledBuffer.setHSV(i, 0, 0, 0);
     }
     led.setData(ledBuffer);
- }
+  }
 
- 
-  public void lightShow(){
+  public void rainbow(){
+    int first = 0; //idk if this is right
+    for (int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++) {
+      final int hue = (first + (i * 180 / LEDConstants.LED_PIN_LENGTH)) % 180;
+      ledBuffer.setHSV(i, hue, 255, 128);
+    }
+    // Increase by to make the rainbow "move"
+    first += 3;
+    // Check bounds
+    first %= 180;
+  }
 
+  public void purpGreen(){
+    boolean green = false;
+    for (int i = 0; i < LEDConstants.LED_PIN_LENGTH/6; i+=1) {
+      for (int j = 0; j < 6; j++){
+        if (green){
+          ledBuffer.setHSV(i*6+j, 96, 255, 88);
+        }
+        else{
+          ledBuffer.setHSV(i*6+j, 203, 195, 227); //purple  
+        }
+      } //alternating purple n green every 6
+      if (i%2 == 0) green = true;
+      else{
+        green = false;
+      }
+      led.setData(ledBuffer);
+    }
   }
 
   public void CubeLED(){
-    for (int i = 0; i < Constants.LEDConstants.LED_PIN_LENGTH; i++){
-      ledBuffer.setRGB(i, 139, 0, 139);
+    for (int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++){
+      ledBuffer.setRGB(i, 207, 98, 100); // azure radiance (blue)
     }
     led.setData(ledBuffer);
   }
 
   public void ConeLED(){
-    for (int i = 0; i < Constants.LEDConstants.LED_PIN_LENGTH; i++){
-      ledBuffer.setRGB(i, 255, 0, 0);
+    for (int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++){
+      ledBuffer.setRGB(i, 56, 225, 225); //yellow
     }
     led.setData(ledBuffer);
   }
@@ -53,7 +88,5 @@ public class LED extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // CubeLED();
-    // led.setData(ledBuffer);
   }
 }
