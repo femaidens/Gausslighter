@@ -2,10 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.auton;
+package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Drivetrain;
 
 public class AutonDrive extends CommandBase {
@@ -16,6 +16,8 @@ public class AutonDrive extends CommandBase {
   private final double rot;
   private final boolean fieldRelative;
   private final boolean rateLimit;
+  private final double driveTime; // how much time robot should drive for
+  private final Timer timer = new Timer();
 
   public AutonDrive(
     Drivetrain drivetrain, 
@@ -23,7 +25,8 @@ public class AutonDrive extends CommandBase {
     double ySpeed, 
     double rot, 
     boolean fieldRelative, 
-    boolean rateLimit)
+    boolean rateLimit,
+    double driveTime)
   {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
@@ -32,6 +35,7 @@ public class AutonDrive extends CommandBase {
     this.rot = rot;
     this.fieldRelative = fieldRelative;
     this.rateLimit = rateLimit;
+    this.driveTime = driveTime;
   }
 
   // Called when the command is initially scheduled.
@@ -41,8 +45,9 @@ public class AutonDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.drive(xSpeed, ySpeed, rot, fieldRelative, rateLimit); 
-    // may need to change rot value to get onto charge station
+    while (timer.get() < driveTime) {
+      drivetrain.drive(xSpeed, ySpeed, rot, fieldRelative, rateLimit); 
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -54,6 +59,6 @@ public class AutonDrive extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (timer.get() >= driveTime); // check if desired drive time has been reached, if so then stop driving
   }
 }

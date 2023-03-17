@@ -4,10 +4,10 @@
 
 package frc.robot.auton;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.PositionConfig;
+import frc.robot.commands.AutonDrive;
 import frc.robot.commands.CloseClaw2;
 import frc.robot.commands.OpenClaw;
 import frc.robot.commands.SetArmAngle;
@@ -22,20 +22,9 @@ import frc.robot.subsystems.Intake;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreAndIntake extends SequentialCommandGroup {
   /** Creates a new ScoreAndIntake. */
-  private Drivetrain drivetrain;
-  private ArmAngle armAngle;
-  private ArmLateral armLateral;
-  private Intake intake;
-  private Timer timer;
-
   public ScoreAndIntake(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    this.armAngle = armAngle;
-    this.armLateral = armLateral;
-    this.intake = intake;
-    this.drivetrain = drivetrain;
-
     addCommands(
       new SetArmAngle(armAngle, PositionConfig.highConeAngle, true),
       new SetArmExtension(armLateral, PositionConfig.highLength),
@@ -43,14 +32,7 @@ public class ScoreAndIntake extends SequentialCommandGroup {
       new WaitCommand(3.0), //wait for piece to fall onto node
       new CloseClaw2(intake),
       new SetArmExtension(armLateral, PositionConfig.defaultAngle),
-      new AutonDrive(drivetrain, -0.25, 0, 0, true, true)
+      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, 6.0)
     );
-
-    timer.start();
-    while (!(timer.hasElapsed(15))) {
-      if(timer.hasElapsed(2.5)) { // move farther back
-        //end command
-      }
-    }
   }
 }
