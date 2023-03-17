@@ -20,21 +20,16 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreAndIntake extends SequentialCommandGroup {
-  public ScoreAndIntake(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+public class ScoreDriveToGP extends SequentialCommandGroup {
+  public ScoreDriveToGP(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     addCommands(
       new SetArmAngle(armAngle, PositionConfig.highConeAngle, true),
       new SetArmExtension(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
-      new WaitCommand(3.0), //wait for piece to fall onto node & change after testing
+      new WaitCommand(3.0), //wait for piece to fall onto node
       new CloseClaw2(intake),
       new SetArmExtension(armLateral, PositionConfig.defaultAngle),
-      new SetArmAngle(armAngle, PositionConfig.defaultAngle, false),
-      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, 6.0),
-      new AutonDrive(drivetrain, 0, 0.25, 0, true, true, 2.0),
-      new AutonDrive(drivetrain, 0.15, 0, 0, true, true, 2.0),
-      new OpenClaw(intake),
-      new CloseClaw2(intake)
+      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, 6.0)
     );
   }
 }
