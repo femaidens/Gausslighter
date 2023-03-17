@@ -48,7 +48,7 @@ public class Intake extends SubsystemBase {
     clawMotor = new CANSparkMax(IntakePorts.CLAW_MOTOR_PORT, MotorType.kBrushless);
    
     // motor configs
-    wristMotor.setIdleMode(IdleMode.kCoast);
+    wristMotor.setIdleMode(IdleMode.kBrake);
 
     // current limits
     wristMotor.setSmartCurrentLimit(IntakeConstants.WRIST_MOTOR_CURRENT_LIMIT);
@@ -140,6 +140,11 @@ public class Intake extends SubsystemBase {
   // }
 
   public void runIntakeMotor(){
+    timer.start();
+    if (timer.get() > 2){ //runs intake motor for 3 seconds to intake
+      timer.reset();
+      return;
+    }
     clawMotor.set(0.3);
     //System.out.println("current: " + clawMotor.getOutputCurrent());
 
