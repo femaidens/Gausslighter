@@ -27,7 +27,7 @@ public class CloseClaw2 extends CommandBase {
   @Override
   public void execute() {
     intake.closeClawCube();
-    System.out.println("closing claw");
+    //System.out.println("closing claw"); added this line into the intake subsystem
   }
 
   // Called once the command ends or is interrupted.

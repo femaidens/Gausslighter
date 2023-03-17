@@ -20,15 +20,15 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreAndCharge extends SequentialCommandGroup {
-  /** Creates a new ScoreAndCharge. */
+public class ScoreDepartCharge extends SequentialCommandGroup {
+  /** Creates a new ScoreDepartCharge. */
   private Drivetrain drivetrain;
   private ArmAngle armAngle;
   private ArmLateral armLateral;
   private Intake intake;
   private Timer timer;
 
-  public ScoreAndCharge(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+  public ScoreDepartCharge(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     this.armAngle = armAngle;
@@ -49,12 +49,14 @@ public class ScoreAndCharge extends SequentialCommandGroup {
     timer.start();
 
     while (!(timer.hasElapsed(15))) {
-      if(timer.hasElapsed(2.0)) {
+      if(timer.hasElapsed(2.5)) {
+        addCommands(new AutonDrive(drivetrain, 0.25, 0, 0, true, true));
+
+        if (timer.hasElapsed(1.5)) {
           //end command
+        }
+      }
     }
-    }
-
-
+    
   }
-
 }
