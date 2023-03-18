@@ -150,7 +150,14 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-
+    Trigger showLEDButton = operJoy.a();
+    showLEDButton
+        .onTrue(
+          new RunCommand(
+            () -> led.lightShow(), 
+            led)
+        );
+        
     //LEDS
     Trigger coneLEDButton = operJoy.start(); //8
     coneLEDButton
@@ -196,19 +203,21 @@ public class RobotContainer {
         new RunIntake(intake)
       )
       .onFalse(
-        new RunCommand(
+        new InstantCommand(
           () -> intake.stopIntakeMotor(), 
           intake)
       );
 
-    Trigger runWristButton = operJoy.y();
-    runWristButton
+    Trigger reverseIntakeButton = operJoy.y();
+    reverseIntakeButton
       .onTrue(
-        new RunIntake(intake)
+        new RunCommand(
+          () -> intake.reverseIntakeMotor(), 
+          intake)
       )
       .onFalse(
-        new RunCommand(
-          () -> intake.stopWristMotor(), 
+        new InstantCommand(
+          () -> intake.stopIntakeMotor(), 
           intake)
       );
 

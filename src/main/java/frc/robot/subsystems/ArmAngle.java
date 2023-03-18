@@ -33,7 +33,7 @@ public class ArmAngle extends SubsystemBase {
 
     // encoder instantiation
     angEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
-    angEncoder.setInverted(false);
+    angEncoder.setInverted(true);
     angEncoder.setPositionConversionFactor(360);
 
     // angEncoder.setPositionOffset(0.821184);

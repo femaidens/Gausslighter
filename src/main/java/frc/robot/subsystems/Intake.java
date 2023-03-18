@@ -116,7 +116,7 @@ public class Intake extends SubsystemBase {
   // MANUAL
 
   public void setWristAngleManual(double input){
-    wristMotor.set(-input*0.15); //increase
+    wristMotor.set(-input*0.3); //increase
   }
 
   public boolean atWristAngle(double angle){
@@ -140,12 +140,22 @@ public class Intake extends SubsystemBase {
   // }
 
   public void runIntakeMotor(){
-    timer.start();
+    //timer.start();
     if (timer.get() > 2){ //runs intake motor for 3 seconds to intake
       timer.reset();
       return;
     }
-    clawMotor.set(0.3);
+    clawMotor.set(1);
+    //System.out.println("current: " + clawMotor.getOutputCurrent());
+  }
+
+  public void reverseIntakeMotor(){
+    //timer.start();
+    if (timer.get() > 2){ //runs intake motor for 3 seconds to intake
+      timer.reset();
+      return;
+    }
+    clawMotor.set(-1);
     //System.out.println("current: " + clawMotor.getOutputCurrent());
 
   }

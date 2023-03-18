@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
@@ -29,6 +30,7 @@ public class LED extends SubsystemBase {
   }
 
   public void lightShow(){
+    new PrintCommand("running light show");
     purpGreen();
     showProgramCleanUp();
     new WaitCommand(1.5);
@@ -88,6 +90,7 @@ public class LED extends SubsystemBase {
   }
 
   public void CubeLED(){
+    new PrintCommand("running cube leds");
     timer.start();
     for (int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++){
       ledBuffer.setRGB(i, 207, 98, 100); // azure radiance (blue)
@@ -100,6 +103,7 @@ public class LED extends SubsystemBase {
   }
 
   public void ConeLED(){
+    new PrintCommand("running cone leds");
     timer.start();
     for (int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++){
       ledBuffer.setRGB(i, 56, 225, 225); //yellow
@@ -114,5 +118,6 @@ public class LED extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
   }
 }

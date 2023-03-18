@@ -167,7 +167,6 @@ public class Drivetrain extends SubsystemBase {
     double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED;
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED;
     double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED;
-    System.out.println("x speed: " + xSpeedDelivered);
     var swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(gyro.getAngle()))
