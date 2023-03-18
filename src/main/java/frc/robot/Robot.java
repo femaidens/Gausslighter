@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import javax.tools.JavaFileObject.Kind;
-
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-
 // import java.io.IOException;
 // import java.nio.file.Path;
 

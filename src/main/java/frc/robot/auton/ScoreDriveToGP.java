@@ -7,6 +7,7 @@ package frc.robot.auton;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.PositionConfig;
+import frc.robot.Constants.*;
 import frc.robot.commands.AutonDrive;
 import frc.robot.commands.CloseClaw2;
 import frc.robot.commands.OpenClaw;
@@ -30,7 +31,8 @@ public class ScoreDriveToGP extends SequentialCommandGroup {
       new WaitCommand(3.0), //wait for piece to fall onto node
       new CloseClaw2(intake),
       new SetArmExtension(armLateral, PositionConfig.defaultAngle),
-      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, 6.0) // drive backwards to leave community and drive towards the gamepiece at the center
+      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, 
+      AutoConstants.SCORE_AND_CHARGE_TIME + 3.0) // drive backwards to leave community and drive towards the gamepiece at the center
     );
   }
 }

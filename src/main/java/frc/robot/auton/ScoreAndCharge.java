@@ -6,6 +6,7 @@ package frc.robot.auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.commands.AutonDrive;
 import frc.robot.commands.CloseClaw2;
@@ -34,7 +35,7 @@ public class ScoreAndCharge extends SequentialCommandGroup {
       new WaitCommand(3.0), //wait for piece to fall onto node
       new CloseClaw2(intake),
       new SetArmExtension(armLateral, PositionConfig.defaultAngle),
-      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, 4.0)
+      new AutonDrive(drivetrain, -AutoConstants.CHARGE_SPEED, 0, 0, true, true, AutoConstants.SCORE_AND_CHARGE_TIME)
     );
   }
 }

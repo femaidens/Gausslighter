@@ -6,6 +6,7 @@ package frc.robot.auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.commands.AutonDrive;
 import frc.robot.commands.CloseClaw2;
@@ -27,13 +28,13 @@ public class ScoreAndIntake extends SequentialCommandGroup {
       new SetArmExtension(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
       new WaitCommand(3.0), //wait for piece to fall onto node & change after testing
-      new CloseClaw2(intake),
       new SetArmExtension(armLateral, PositionConfig.defaultAngle),
       new SetArmAngle(armAngle, PositionConfig.defaultAngle, false),
-      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, 6.0),
-      new AutonDrive(drivetrain, 0, 0.25, 0, true, true, 2.0),
-      new AutonDrive(drivetrain, 0.15, 0, 0, true, true, 2.0),
-      new OpenClaw(intake),
+      new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, true, true, 
+      AutoConstants.SCORE_AND_CHARGE_TIME + 2.0), //move backward enough so that arm doesn't hit game piece when rotating
+      new AutonDrive(drivetrain, 0, 0, 180, true, true, 1.0),
+      new AutonDrive(drivetrain, 0.05, 0, 0, true, true, 1.0), 
+      //move forward slightly to get to gamepiece, claw is already open from scoring
       new CloseClaw2(intake)
     );
   }

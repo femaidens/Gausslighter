@@ -7,11 +7,10 @@ package frc.robot;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
-import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Ports.ButtonPorts;
 import frc.robot.Ports.XboxControllerMap.Button;
+import frc.robot.auton.ScoreAndCharge;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -23,14 +22,9 @@ import frc.robot.subsystems.Intake;
 // import frc.robot.subsystems.Drivetrain;
 // import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-// import java.util.List;
-// import java.util.HashMap;
-// import java.util.List;
 
 // import com.pathplanner.lib.PathConstraints;
 // import com.pathplanner.lib.PathPlanner;
@@ -57,7 +51,7 @@ public class RobotContainer {
   XboxController driveJoy = new XboxController(Ports.JoystickPorts.DRIVE_JOY);
   // private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
   // private final Joystick rotationJoy = new Joystick(Ports.JoystickPorts.ROTATION_JOY);
-  private final SendableChooser<Command> autonChooser = new SendableChooser<Command>();
+  private final SendableChooser<Command> autonChooser;
   // autonChooser.addOption("score and charge", new ScoreAndCharge()); adding command to auton chooser, fix syntax idk y it gives errors :(
 
   /**
@@ -102,6 +96,13 @@ public class RobotContainer {
         //         true),
         //     drivetrain)
     );
+
+    autonChooser = new SendableChooser<Command>();
+
+    autonChooser.addOption("score and charge", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score and intake", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score, leave community, and charge", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score and drive to game piece", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
   }
 
 

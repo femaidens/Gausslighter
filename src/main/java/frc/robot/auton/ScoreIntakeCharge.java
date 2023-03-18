@@ -6,8 +6,8 @@ package frc.robot.auton;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ArmConstants.PositionConfig;
+import frc.robot.Constants.*;
 import frc.robot.commands.AutonDrive;
 import frc.robot.commands.CloseClaw2;
 import frc.robot.commands.OpenClaw;
@@ -21,24 +21,26 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreDepartCharge extends SequentialCommandGroup {
-  /** Creates a new ScoreDepartCharge. */
-
-  public ScoreDepartCharge(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+public class ScoreIntakeCharge extends SequentialCommandGroup {
+  /** Creates a new ScoreIntakeCharge. */
+  public ScoreIntakeCharge(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new SetArmAngle(armAngle, PositionConfig.highConeAngle, true),
       new SetArmExtension(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
-      new WaitCommand(3.0), //wait for piece to fall onto node
-      new CloseClaw2(intake),
+      new WaitCommand(3.0), //wait for piece to fall onto node & change after testing
       new SetArmExtension(armLateral, PositionConfig.defaultAngle),
-      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, AutoConstants.SCORE_AND_CHARGE_TIME + 3.0),
-      // drive backward for a longer time to move out of community
-      new AutonDrive(drivetrain, AutoConstants.CHARGE_SPEED, 0, 0, true, true, 0.5)
-      // drive forward at a slower speed for less time to engage on station
+      new SetArmAngle(armAngle, PositionConfig.defaultAngle, false),
+      new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, true, true, 
+      AutoConstants.SCORE_AND_CHARGE_TIME + 2.0), //move backward enough so that arm doesn't hit game piece when rotating
+      new AutonDrive(drivetrain, 0, 0, 180, true, true, 1.0),
+      new AutonDrive(drivetrain, AutoConstants.CHARGE_SPEED, 0, 0, true, true, 1.0), 
+      //move forward slightly to get to gamepiece, claw is already open from scoring
+      new CloseClaw2(intake),
+      new AutonDrive(drivetrain, -0.1, 0, 0, true, true, 1.5) 
+
     );
-    
   }
 }

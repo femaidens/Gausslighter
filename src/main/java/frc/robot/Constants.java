@@ -203,6 +203,10 @@ public final class Constants {
     public static final double PYController = 1;
     public static final double PThetaController = 1;
 
+    public static final double SCORE_AND_CHARGE_TIME = 4.0;
+    public static final double SCORE_AND_CHARGE_SPEED = 0.25; //auto speed
+    public static final double CHARGE_SPEED = 0.05;
+
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
         AUTON_MAX_ANGULAR_SPEED, AUTON_MAX_ANGULAR_SPEED_SQUARED);
@@ -211,4 +215,5 @@ public final class Constants {
   public static final class NeoMotorConstants {
     public static final double FREE_SPEED_RPM = 5676;
   }
+
 }
