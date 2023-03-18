@@ -81,7 +81,7 @@ public class LED extends SubsystemBase {
   public void CubeLED(){
     new PrintCommand("running cube leds");
     for (int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++){
-      ledBuffer.setRGB(i, 0, 0, 225); // blue
+      ledBuffer.setRGB(i, 0, 0, 255); // blue
     }
     led.setData(ledBuffer);
   }
@@ -89,7 +89,7 @@ public class LED extends SubsystemBase {
   public void ConeLED(){
     new PrintCommand("running cone leds");
     for (int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++){
-      ledBuffer.setRGB(i,225, 0 ,0); //red
+      ledBuffer.setRGB(i,255, 255 ,0); //red
     }
     led.setData(ledBuffer);
   }
