@@ -120,7 +120,7 @@ public class Intake extends SubsystemBase {
   }
 
   public boolean atWristAngle(double angle){
-    double currentAngle = wristEncoder.getPosition()*360;
+    double currentAngle = wristEncoder.getPosition();
     //System.out.println("current angle: " + currentAngle);
     if (Math.abs(currentAngle - angle) < 2){
         return true;

@@ -56,6 +56,7 @@ public class LED extends SubsystemBase {
     boolean green = false;
     for (int i = 0; i < LEDConstants.LED_PIN_LENGTH/6; i+=1) {
       for (int j = 0; j < 6; j++){
+
         if (green){
           ledBuffer.setRGB(i*6+j, 90, 244, 0);
         }
@@ -63,13 +64,16 @@ public class LED extends SubsystemBase {
         else{
           ledBuffer.setRGB(i*6+j, 200, 0, 255); //purple  
         }
-      //} //alternating purple n green every 6
-      if (i%2 == 0) green = true;
-      else{
-        green = false;
+        //} //alternating purple n green every 6
+        // if (i%2 == 0) green = true;
+        // else {
+        //   green = false;
+        // }
+        
       }
-      }
-      new WaitCommand(0.5);
+      green = !green;
+      new WaitCommand(3);
+
     }
     led.setData(ledBuffer);
   }
