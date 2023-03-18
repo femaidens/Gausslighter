@@ -29,6 +29,10 @@ public final class Constants {
   public static final double PPR = 1024;
   public static final double WHEEL_DIAMETER = 0.0762; // meters
 
+  public static class LEDConstants {
+    //public static final int LED_DATA_LENGTH = 1; //change as necessary
+    public static final int LED_PIN_LENGTH = 60;
+  }
   public static class ArmConstants {
 
     public static final double EXTEND_MARGIN = 0.1;
@@ -36,6 +40,11 @@ public final class Constants {
     public static final double ANGLE_FACTOR = 360; // 360 deg/rev
     public static final double DEFAULT_ARM_ANGLE = 3.4;
     public static final double ANGLE_OFFSET = 0.046808;
+    public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 30; // amps
+    public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 30; // amps
+
+
+
 
     public static class FeedForward { // to be tested
       public static final double kS = 0;
@@ -69,6 +78,7 @@ public final class Constants {
       // public static final double highConeExtend = 0.7;//unique desired vVelocity for extending arm to score
 
       //starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
+      //find unit conversion units, current: inches
       public static final double defaultLength = 0;
       public static final double lowLength = -3;
       public static final double midLength = 6.5;
@@ -81,9 +91,16 @@ public final class Constants {
   public static class IntakeConstants { //for claw
     public static final double tickFactor =  Constants.CPR / 360;
     public static final double intakeMargin = 3;
-    public static final double clawAngle = 180;
+    public static final double clawAngle = 120;
     public static final double defaultClawAngle = 200; //placeholder
     public static final double wristSpeed = 0.1;
+    public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
+    public static final int WRIST_MOTOR_CURRENT_LIMIT = 30; // amps
+    // public static final int MAX_CLAW_CURRENT = 25; //amps
+    public static final int CLAW_MOTOR_SECONDARY_LIMIT = 35; // amps
+    public static final int WRIST_MOTOR_SECONDARY_LIMIT = 35; // amps
+
+
 
     public static final class PID { // to be tested
       public final static double kP = 0.2;
@@ -107,7 +124,6 @@ public final class Constants {
     // Distance between centers of right and left wheels on robot
     public static final double WHEEL_BASE = Units.inchesToMeters(26.5);
     // Distance between front and back wheels on robot -> replace with known values
-    public static final Translation2d startPos = new Translation2d(2.06, 3.30);
     
     public static final SwerveDriveKinematics DRIVE_KINEMATICS = new SwerveDriveKinematics(
         new Translation2d(WHEEL_BASE / 2, TRACK_WIDTH / 2), // fl
@@ -122,13 +138,7 @@ public final class Constants {
     public static final double RR_CHASSIS_ANGULAR_OFFSET = Math.PI / 2;
 
     public static final boolean GYRO_REVERSED = false;
-    public static final double MAX_VELOCITY_CHASSIS = 1; //placeholder
-    public static final double MAX_ACCEL_CHASSIS = 1; //placeholder
-    public static final double kTrajectoryEndPoseXFieldRelativeM = 0.50;
-    public static final double kTrajectoryEndPoseYFieldRelativeM = 0.50;
-    public static final double kTrajectoryEndHeadingFieldRelativeDeg = 0.00; // This value is calculated instead
-    public static final double kTrajectoryEndAngleFieldRelativeDeg = 90;
-    }
+  }
 
   public static final class ModuleConstants {
 
@@ -142,7 +152,7 @@ public final class Constants {
 
     public static final int DRIVE_MOTOR_CURRENT_LIMIT = 35; // amps
     public static final int TURNING_MOTOR_CURRENT_LIMIT = 35; // amps
-
+    
     public static final IdleMode kDriveMotorIdleMode = IdleMode.kBrake;
     public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
 
@@ -215,5 +225,5 @@ public final class Constants {
   public static final class NeoMotorConstants {
     public static final double FREE_SPEED_RPM = 5676;
   }
-
 }
+  

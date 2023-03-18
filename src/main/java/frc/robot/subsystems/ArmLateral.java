@@ -90,6 +90,7 @@ public class ArmLateral extends SubsystemBase {
   // }
 
   public void setLength(double input){
+
     if (input == 0) stopExtensionMotors();
     // if (topSwitch.get() || botSwitch.get()) { //hit limit switch
     //   stopExtensionMotors();
@@ -99,6 +100,9 @@ public class ArmLateral extends SubsystemBase {
       rightExtendMotor.set(input*0.7);
     // }
   }
+
+
+
   public boolean atLength(double length){
     double currentLength = extendRetractEncoder.getPosition(); //might have to find a scale factor
     if (currentLength <= length + 2 && currentLength > length - 2) return true;

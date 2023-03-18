@@ -72,8 +72,7 @@ public class Drivetrain extends SubsystemBase {
           rearRight.getPosition()
       });
 
-  public Drivetrain() {
-  }
+  public Drivetrain() {}
 
   @Override
   public void periodic() {

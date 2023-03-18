@@ -4,13 +4,20 @@
 
 package frc.robot;
 
+import java.util.HashMap;
+
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.auto.PIDConstants;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.Ports.ButtonPorts;
 import frc.robot.Ports.XboxControllerMap.Button;
-import frc.robot.auton.ScoreAndCharge;
+import frc.robot.auton.manual.ScoreAndCharge;
+import frc.robot.auton.pathplanner.Autos;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -41,7 +48,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems
-    private final Drivetrain drivetrain = new Drivetrain();
+    private static final Drivetrain drivetrain = new Drivetrain();
     private final ArmAngle armAngle = new ArmAngle();
     private final ArmLateral armLateral = new ArmLateral();
     private final Intake intake = new Intake();
@@ -63,10 +70,15 @@ public class RobotContainer {
     // drivetrain.resetGyro();
     // drivetrain.resetEncoders();
 
-    // // auton config
-    // SmartDashboard.putData("Choose Auto: ", autonChooser);
+    // auton config
+    autonChooser = new SendableChooser<Command>();
+    SmartDashboard.putData("Choose Auto: ", autonChooser);
     // autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("p2", new Path2(drivetrain));
+    autonChooser.addOption("score and charge", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score and intake", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score, leave community, and charge", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score and drive to game piece", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
 
     // Configure default commands
 
@@ -97,12 +109,6 @@ public class RobotContainer {
         //     drivetrain)
     );
 
-    autonChooser = new SendableChooser<Command>();
-
-    autonChooser.addOption("score and charge", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score and intake", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score, leave community, and charge", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score and drive to game piece", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
   }
 
 
@@ -234,6 +240,8 @@ public class RobotContainer {
     //   // new SetClawAngle(intake, IntakeConstants.clawAngle)));
     // // substation distance (95cm) is similar to mid node distance (90cm)
   }
+
+  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
