@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.AutonDrive;
-import frc.robot.commands.CloseClaw2;
+import frc.robot.commands.ExtendArm;
+import frc.robot.commands.Intake2.CloseClaw2;
 import frc.robot.commands.OpenClaw;
+import frc.robot.commands.RetractArm;
 import frc.robot.commands.SetArmAngle;
-import frc.robot.commands.SetArmExtension;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Drivetrain;
@@ -29,12 +30,12 @@ public class ScoreRightIntake extends SequentialCommandGroup {
     // ALLIANCE COLOR --> true = blue and false = red
 
       addCommands(
-        new SetArmAngle(armAngle, PositionConfig.highConeAngle, true),
-        new SetArmExtension(armLateral, PositionConfig.highLength),
+        new SetArmAngle(armAngle, PositionConfig.highConeAngle),
+        new ExtendArm(armLateral, PositionConfig.highLength),
         new OpenClaw(intake),
         new WaitCommand(3.0), //wait for piece to fall onto node & change after testing
-        new SetArmExtension(armLateral, PositionConfig.defaultAngle),
-        new SetArmAngle(armAngle, PositionConfig.defaultAngle, false),
+        new RetractArm(armLateral, PositionConfig.defaultAngle),
+        new SetArmAngle(armAngle, PositionConfig.defaultAngle),
         new AutonDrive(drivetrain, 0, 0, -90, true, true, 2.0), 
         //robot turns to its left to face wall
         new AutonDrive(drivetrain, 0, 0, -90, true, true, 2.0),

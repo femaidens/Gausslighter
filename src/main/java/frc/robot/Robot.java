@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+// import edu.wpi.first.wpilibj.AddressableLED;
+// import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+
 // import java.io.IOException;
 // import java.nio.file.Path;
 
@@ -26,7 +29,6 @@ public class Robot extends TimedRobot {
 
   private RobotContainer robotContainer;
   private Command autonChooser;
-  
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -47,6 +49,8 @@ public class Robot extends TimedRobot {
   //  }
   }
 
+
+
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -61,6 +65,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

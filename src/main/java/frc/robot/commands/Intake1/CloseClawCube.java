@@ -2,21 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Intake1;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmLateral;
+import frc.robot.subsystems.Intake;
 
-public class SetArmExtension extends CommandBase {
-  /** Creates a new setArmAngle. */
-  public final ArmLateral armLateral;
-  private double position;
-
-  public SetArmExtension(ArmLateral armLateral, double position) {
+public class CloseClawCube extends CommandBase {
+  /** Creates a new CloseClawCube. */
+  public final Intake intake;
+  public CloseClawCube(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armLateral = armLateral;
-    this.position = position;
-    addRequirements(armLateral);
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
@@ -26,18 +23,16 @@ public class SetArmExtension extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armLateral.setLength(position); // placeholder, not sure what input is
+    intake.closeClawCube();
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    armLateral.stopExtensionMotors();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return armLateral.atLength(position);
+    return true;
   }
 }

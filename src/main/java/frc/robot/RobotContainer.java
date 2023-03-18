@@ -4,32 +4,43 @@
 
 package frc.robot;
 
-import java.util.HashMap;
-
-import com.pathplanner.lib.PathPlannerTrajectory;
-import com.pathplanner.lib.auto.PIDConstants;
+import org.ejml.equation.Sequence;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Axis;
+import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.Ports.ButtonPorts;
-import frc.robot.Ports.XboxControllerMap.Button;
 import frc.robot.auton.manual.ScoreAndCharge;
-import frc.robot.auton.pathplanner.Autos;
+import frc.robot.auton.manual.ScoreCenterIntake;
+import frc.robot.auton.manual.ScoreDepartCharge;
+import frc.robot.auton.manual.ScoreDriveToGP;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
+import frc.robot.commands.Intake1.CloseClawCone;
+import frc.robot.commands.Intake1.CloseClawCube;
+import frc.robot.commands.Intake2.CloseClaw2;
+import frc.robot.commands.Intake2.RunIntake;
+import frc.robot.commands.LEDS.PurpGreenLEDS;
+import frc.robot.commands.LEDS.coneLEDS;
+import frc.robot.commands.LEDS.cubeLEDS;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LED;
 // import frc.robot.subsystems.Drivetrain;
 // import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -52,10 +63,11 @@ public class RobotContainer {
     private final ArmAngle armAngle = new ArmAngle();
     private final ArmLateral armLateral = new ArmLateral();
     private final Intake intake = new Intake();
+    private final LED led = new LED();
 
   // The driver's controller
-  XboxController operJoy = new XboxController(Ports.JoystickPorts.OPER_JOY);
-  XboxController driveJoy = new XboxController(Ports.JoystickPorts.DRIVE_JOY);
+  CommandXboxController operJoy = new CommandXboxController(Ports.JoystickPorts.OPER_JOY);
+  CommandXboxController driveJoy = new CommandXboxController(Ports.JoystickPorts.DRIVE_JOY);
   // private final Joystick lateralJoy = new Joystick(Ports.JoystickPorts.LATERAL_JOY);
   // private final Joystick rotationJoy = new Joystick(Ports.JoystickPorts.ROTATION_JOY);
   private final SendableChooser<Command> autonChooser;
@@ -67,8 +79,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
-    // drivetrain.resetGyro();
-    // drivetrain.resetEncoders();
+    drivetrain.resetGyro();
+    drivetrain.resetEncoders();
 
     // auton config
     autonChooser = new SendableChooser<Command>();
@@ -76,37 +88,53 @@ public class RobotContainer {
     // autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("p2", new Path2(drivetrain));
     autonChooser.addOption("score and charge", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score and intake", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score, leave community, and charge", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score and drive to game piece", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score and intake", new ScoreCenterIntake(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score, leave community, and charge", new ScoreDepartCharge(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score and drive to game piece", new ScoreDriveToGP(drivetrain, intake, armAngle, armLateral));
 
     // Configure default commands
-
-    armLateral.setDefaultCommand(
+    intake.setDefaultCommand(
       new RunCommand(
-        () -> armLateral.setLength(
+        () -> intake.setWristAngleManual(
           MathUtil.applyDeadband(operJoy.getLeftY(), 0.1)),
-        armLateral)
+        intake)
+    );
+    
+    armAngle.setDefaultCommand(
+      new RunCommand(
+        () -> armAngle.setAngle(
+          MathUtil.applyDeadband(operJoy.getRightY(), 0.1)),
+        armAngle)
     );
 
     drivetrain.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
+        // new ParallelCommandGroup(
+          new RunCommand(
             () -> drivetrain.drive( // all joy.get values were prev negative
                 MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
                 MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
                 MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
                 true, true),
             drivetrain)
-
+            // new RunCommand(
+            //   () -> drivetrain.getJoystickValue(driveJoy))
+            );
         // new RunCommand(
-        //     () -> drivetrain.drive(
-        //         MathUtil.applyDeadband(-lateralJoy.getY(), 0.05),
-        //         MathUtil.applyDeadband(-lateralJoy.getX(), 0.05),
-        //         MathUtil.applyDeadband(-rotationJoy.getX(), 0.05),
-        //         true),
+        //     () -> drivetrain.drive( // all joy.get values were prev negative
+        //         MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
+        //         MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
+        //         MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
+        //         true, true),
         //     drivetrain)
+
+    led.setDefaultCommand(
+      // new RunCommand(
+      //   () -> led.lightShow(),
+      //   led)
+      //new SequentialCommandGroup(new PurpGreenLEDS(led), new rainbowLEDS(led))
+      new PurpGreenLEDS(led)
     );
 
   }
@@ -122,123 +150,145 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
-    //changing claw INTAKE 1
-    // new JoystickButton(operJoy, Button.A)
-    //     .onTrue(new OpenClaw(intake));
-    // new JoystickButton(operJoy, Button.B)
-    //     .onTrue(new CloseClawCube(intake)); (make commands for these)
-    // new JoystickButton(operJoy, Button.Y)
-    //     .onTrue(new CloseClawCone(intake));
-    //changing claw INTAKE 2
-    new JoystickButton(operJoy, Button.A)
-        .onTrue(new OpenClaw(intake));
-    new JoystickButton(operJoy, Button.B)
-        .onTrue(new CloseClaw2(intake));
 
-    //changing arm angles (trigger buttons)
-    new JoystickButton(operJoy, Button.LT)
+    Trigger showLEDButton = operJoy.a();
+    showLEDButton
         .onTrue(
-          new RunCommand(
-            () -> armAngle.decreaseAngle(operJoy.getLeftTriggerAxis()),
-            armAngle));
-    new JoystickButton(operJoy, Button.RT)
-        .onTrue(
-          new RunCommand(
-            () -> armAngle.increaseAngle(operJoy.getRightTriggerAxis()),
-            armAngle));
-    // new JoystickButton(driveJoy, XboxController.Button.kA.value)
-    //     .whileTrue(
-    //       new RunCommand(
-    //         () -> drivetrain.setX(),
-    //         drivetrain));
-
-    // // resets robot heading (gyro)
-    // new JoystickButton(driveJoy, 6) // RB
+          new PurpGreenLEDS(led)
+          // RunCommand(
+          //   () -> led.lightShow(), 
+          //   led)
+        );
+        
+    //LEDS
+    // Trigger coneLEDButton = operJoy.start(); //8
+    // coneLEDButton
     //     .onTrue(
-    //         new RunCommand(
-    //           () -> drivetrain.resetGyro(),
-    //           drivetrain));
+    //       new StartEndCommand(() -> led.ConeLED(), PurpGreenLEDS(led), led)
+    //     );
+    // Trigger cubeLEDButton = operJoy.back(); 
+    // cubeLEDButton
+    //     .onTrue(
+    //       new StartEndCommand(() -> led.CubeLED(), () -> led.lightShow(), led)
+    //     );
+    Trigger coneLEDButton = operJoy.start(); //8 right
+    coneLEDButton
+        .onTrue(
+          new coneLEDS(led)
+        );
     
-    // figure out better/more efficient way of creating/binding these cmds to buttons
-    // final Trigger midCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.A);
-    // midCubeButton.onTrue(Commands.sequence(
-    //   new SetArmAngle(armAngle, PositionConfig.midCubeAngle), 
-    //   new SetArmExtension(armLateral, PositionConfig.midCubeExtend), 
-    //   new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    Trigger cubeLEDButton = operJoy.back(); //7 left
+    cubeLEDButton
+      .onTrue(
+        new cubeLEDS(led)
+      );
+    // //INTAKE 1
+    // Trigger intakeCubeButton = operJoy.leftBumper();
+    // intakeCubeButton
+    //   .onTrue(new CloseClawCube(intake));
+    // Trigger intakeConeButton = operJoy.rightBumper();
+    //   intakeConeButton
+    //     .onTrue(new CloseClawCone(intake));
+    // Trigger scoreButton1 = operJoy.start(); //TESTING NEEDED THIS BUTTON
+    // scoreButton1
+    //   .onTrue(
+    //     new RunCommand(
+    //     () -> intake.openClaw(), 
+    //     intake)
+    //   );
 
-    // final Trigger midConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.B);
-    // midConeButton.onTrue(Commands.sequence(
-    //   new SetArmAngle(armAngle, PositionConfig.midConeAngle)));
-    //   // new SetArmExtension(armLateral, PositionConfig.midConeExtend), 
-    //   // new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    // INTAKE 2
+    Trigger runIntakeButton = operJoy.x();
+    runIntakeButton
+      .onTrue(
+        new RunIntake(intake)
+      )
+      .onFalse(
+        new InstantCommand(
+          () -> intake.stopIntakeMotor(), 
+          intake)
+      );
+      // .onTrue(
+      //   new StartEndCommand(RunIntake(intake), () -> intake.stopIntakeMotor(), intake)
+      // );
+      
 
-    /* 
-    final JoystickButton midCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.A);
-    midCubeButton.whileTrue(
-      // new RunCommand(
-      //   () -> armAngle.setAngle(armAngle.getArmAngle(), ArmConstants.PositionConfig.midConeAngle))
+    Trigger reverseIntakeButton = operJoy.y();
+    reverseIntakeButton
+      .onTrue(
+        new RunCommand(
+          () -> intake.reverseIntakeMotor(), 
+          intake)
+      )
+      .onFalse(
+        new InstantCommand(
+          () -> intake.stopIntakeMotor(), 
+          intake)
+      );
+      // .onTrue(
+      //   new StartEndCommand(() -> intake.reverseIntakeMotor(), () -> intake.stopIntakeMotor(), intake)
       // );
 
-       //Commands.sequence
-      new RunCommand(
-        () -> armAngle.downArm(),
-        armAngle));
-      // new SetArmAngle(armAngle, PositionConfig.midCubeAngle));
-      // new SetArmExtension(armLateral, PositionConfig.midCubeExtend), 
-      // new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    Trigger intakeButton = operJoy.leftBumper();
+    intakeButton
+        .onTrue(
+          new CloseClaw2(intake)
+        );
 
-    */
 
-    /*
-    final Trigger midConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.B);
-    midConeButton.onTrue(
-      new RunCommand(
-        () -> intake.closeClawCone(),
-        intake));
+    Trigger scoreButton2 = operJoy.rightBumper();
+    scoreButton2
+        // .onTrue(
+        //   new RunCommand(
+        //   () -> intake.openClaw(), 
+        //   intake)
+        // );
+        .onTrue(new OpenClaw(intake));
 
-      // new SetArmAngle(armAngle, PositionConfig.midConeAngle)));
-      // new SetArmExtension(armLateral, PositionConfig.midConeExtend), 
-      // new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    //ARM LATERAL 
+    Trigger extendButton = operJoy.rightTrigger();
+    extendButton
+      .onTrue(
+            new RunCommand(
+              () -> armLateral.extendArm(),
+              armLateral))
+      // .onTrue(
+      //       new SequentialCommandGroup(
+      //         () -> armLateral.setInitial(), () -> armLateral.extendArm())
+      // )
+      .onFalse(
+        new RunCommand(
+          () -> armLateral.stopExtensionMotors(), 
+          armLateral)
+      );
 
-    */
 
-    // final Trigger highCubeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.X); //change command for testing angle
-    // highCubeButton.onTrue(Commands.sequence(
-    //   new SetArmAngle(armAngle, PositionConfig.highCubeAngle)));
-    //   // new SetArmExtension(armLateral, PositionConfig.highCubeExtend), 
-    //   // new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    Trigger retractButton = operJoy.leftTrigger();
+    retractButton
+      .onTrue(
+            new RunCommand(
+              () -> armLateral.retractArm(),
+              armLateral))
+      .onFalse(
+        new RunCommand(
+          () -> armLateral.stopExtensionMotors(), 
+          armLateral)
+      );
 
-    // final Trigger highConeButton = new JoystickButton(operJoy, Ports.XboxControllerMap.Button.Y);
-    // highConeButton.onTrue(Commands.sequence(
-    //   new SetArmAngle(armAngle, PositionConfig.highConeAngle)));
-    //   // new SetArmExtension(armLateral, PositionConfig.highConeExtend), 
-    //   // new SetClawAngle(intake, IntakeConstants.clawAngle)));
+    // drive buttons
+    Trigger xDriveButton = driveJoy.leftBumper();
+    xDriveButton
+        .whileTrue(
+          new InstantCommand(
+            () -> drivetrain.setX(),
+            drivetrain));
 
-    // final Trigger resetIntakeButton = new JoystickButton(operJoy, ButtonPorts.RESET_INTAKE_BUTTON_PORT);
-    // resetIntakeButton.onTrue(
-    //   // Commands.parallel(
-    //   new SetArmAngle(armAngle, ArmConstants.DEFAULT_ARM_ANGLE));
-    //   // new SetArmExtension(armLateral, PositionConfig.defaultExtension), 
-    //   // new SetClawAngle(intake, IntakeConstants.defaultClawAngle)));
-
-    // final Trigger floorScoreButton = new JoystickButton(operJoy, ButtonPorts.FLOOR_SCORE_BUTTON_PORT);
-    // floorScoreButton.onTrue(Commands.sequence(
-    //   new OpenClaw(intake), 
-    //   new SetArmExtension(armLateral, PositionConfig.defaultExtension), 
-    //   new SetClawAngle(intake, IntakeConstants.clawAngle)));
-
-    // final Trigger floorIntakeButton = new JoystickButton(operJoy, ButtonPorts.FLOOR_INTAKE_BUTTON_PORT);
-    // floorIntakeButton.onTrue(Commands.sequence(
-    //   new OpenClaw(intake), 
-    //   new IntakeGP(intake), 
-    //   new CloseClaw(intake)));
-
-    // final Trigger humanPlayerButton = new JoystickButton(operJoy, ButtonPorts.HP_BUTTON_PORT);
-    // humanPlayerButton.onTrue(Commands.sequence(
-    //   new SetArmAngle(armAngle, PositionConfig.highConeAngle))); 
-    //   // new SetArmExtension(armLateral, PositionConfig.midConeExtend), 
-    //   // new SetClawAngle(intake, IntakeConstants.clawAngle)));
-    // // substation distance (95cm) is similar to mid node distance (90cm)
+    Trigger resetGyroButton = driveJoy.rightBumper();
+    resetGyroButton
+        .onTrue(
+            new InstantCommand(
+              () -> drivetrain.resetGyro(),
+              drivetrain));
   }
 
   

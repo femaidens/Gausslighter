@@ -24,6 +24,7 @@ import frc.robot.Ports.*;
 import frc.robot.subsystems.modules.RevSwerveModule;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -47,8 +48,7 @@ public class Drivetrain extends SubsystemBase {
       DrivetrainPorts.REAR_RIGHT_TURNING,
       DriveConstants.RR_CHASSIS_ANGULAR_OFFSET);
 
-  private final RevSwerveModule[] swerveModules = {rearRight, rearLeft, frontRight, frontLeft};
-
+  
   // imu sensor/gyro
   private final ADIS16470_IMU gyro = new ADIS16470_IMU();
 
@@ -85,8 +85,16 @@ public class Drivetrain extends SubsystemBase {
             rearLeft.getPosition(),
             rearRight.getPosition()
         });
-
+    //System.out.println("spark 8 angle: " + frontLeft.getPosition().angle);
     SmartDashboard.putNumber("Gyro Angle: ", gyro.getAngle());
+    // SmartDashboard.putNumber("Wrist Angle", frontLeft.get());
+    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
+    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
+    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
+  }
+
+  public void getJoystickValue(CommandXboxController joystick){
+    System.out.println("current value: " + joystick.getRightY());
   }
 
   /**
@@ -162,7 +170,6 @@ public class Drivetrain extends SubsystemBase {
     double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED;
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED;
     double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED;
-
     var swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(gyro.getAngle()))
@@ -240,5 +247,6 @@ public class Drivetrain extends SubsystemBase {
       rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     }
     
+
 
 }

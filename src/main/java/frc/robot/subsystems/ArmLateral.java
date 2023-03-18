@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
@@ -24,15 +25,24 @@ public class ArmLateral extends SubsystemBase {
   private final SimpleMotorFeedforward armExtensionFF; // -> use this somewhere!
   private final DigitalInput topSwitch;
   private final DigitalInput botSwitch;
+  private double armLength = 0;
+  // private double initial = 0;
 
   public ArmLateral() {
 
     // motor instantiations
     rightExtendMotor = new CANSparkMax(ArmPorts.RIGHT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
     leftExtendMotor = new CANSparkMax(ArmPorts.LEFT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
+    rightExtendMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
+    leftExtendMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
+    rightExtendMotor.setIdleMode(IdleMode.kBrake);
+    leftExtendMotor.setIdleMode(IdleMode.kBrake);
+
+
 
     // encoder instantiations
     extendRetractEncoder = leftExtendMotor.getEncoder(); // subject to change
+    // extendRetractEncoder.setPositionConversionFactor(ArmConstants.LATERAL_PFACTOR); //divide by revs for fully extend
 
     // feedback controllers
 
@@ -52,7 +62,8 @@ public class ArmLateral extends SubsystemBase {
     botSwitch = new DigitalInput(ArmPorts.BOT_SWITCH_PORT);
 
     // motor config
-    leftExtendMotor.setInverted(true);
+    leftExtendMotor.setInverted(false); // correct orientation
+    rightExtendMotor.setInverted(true); // makes retract negative
   }
 
   // public void extendPosition(double position) {
@@ -89,23 +100,73 @@ public class ArmLateral extends SubsystemBase {
   //   // rightExtendMotor.setVoltage(extendArmPID); //negate one side
   // }
 
-  public void setLength(double input){
-
-    if (input == 0) stopExtensionMotors();
-    // if (topSwitch.get() || botSwitch.get()) { //hit limit switch
-    //   stopExtensionMotors();
-    // }
-    // else{
-      leftExtendMotor.set(input*0.7); //right direction?
-      rightExtendMotor.set(input*0.7);
-    // }
+  // public void setLength(double input){
+  //   if (input == 0) stopExtensionMotors();
+  //   // if (topSwitch.get() || botSwitch.get()) { //hit limit switch
+  //   //   stopExtensionMotors();
+  //   // }
+  //   // else{
+  //     leftExtendMotor.set(input*0.7); //right direction?
+  //     rightExtendMotor.set(input*0.7);
+  //   // }
+  // }
+  // public void setInitial(){
+  //   initial = extendRetractEncoder.getPosition();
+  // }
+  public void retractArm(){
+    if (!botSwitch.get()) { //hit limit switch (true = not hit; false = hit)
+      //System.out.println("limit switch activated! \n");
+      stopExtensionMotors();
+      extendRetractEncoder.setPosition(0);
+      return;
+    }
+    else{
+    //   System.out.println("input: " + input);
+    //   leftExtendMotor.set(-input); //right direction?
+    //   rightExtendMotor.set(-input);
+    // // }
+      //armLength -= initial - extendRetractEncoder.getPosition();
+      System.out.println("retracting");
+      leftExtendMotor.set(-0.3);
+      rightExtendMotor.set(-0.3);
+    }
   }
 
+  public void extendArm(){
+    if (!topSwitch.get()) { //hit limit switch
+      //System.out.println("limit switch activated! \n");
+      stopExtensionMotors();
+      extendRetractEncoder.setPosition(ArmConstants.LATERAL_LENGTH);
+      return;
+    }
+    else{
+      //System.out.println("extending");
+    //   System.out.println("input: " + input);
+    //   leftExtendMotor.set(-input); //right direction?
+    //   rightExtendMotor.set(-input);
+    // // }
+      //armLength += initial - extendRetractEncoder.getPosition();
+      leftExtendMotor.set(0.3);
+      rightExtendMotor.set(0.3);
+      //System.out.println("current rots: " + extendRetractEncoder.getPosition());
+    }
+  }
 
+  // public void testLT(){
+  //   System.out.println("LT true");
+  // }
+
+  // public void testRT(){
+  //   System.out.println("RT true");
+  // }
+
+  // public void notActive(){
+  //   System.out.println("not active");
+  // }
 
   public boolean atLength(double length){
     double currentLength = extendRetractEncoder.getPosition(); //might have to find a scale factor
-    if (currentLength <= length + 2 && currentLength > length - 2) return true;
+    if (Math.abs(currentLength - length) < 1) return true;
     return false;
   }
 
@@ -117,13 +178,13 @@ public class ArmLateral extends SubsystemBase {
   }
 
   // find distance/revolution, return double after confirmation -> works
-  public void getPositionFactor(double ticks) {
+  public void getPositionFactor() {
     double currentTicks = extendRetractEncoder.getPosition();
 
-    while (currentTicks < ticks) {
-      leftExtendMotor.set(-0.05);
+    // while (currentTicks < ticks) {
+      //leftExtendMotor.set(-0.05);
       System.out.println("current ticks: " + currentTicks);
-    }
+    //}
   }
 
   // public void extendDistance(double distance) {
@@ -155,7 +216,13 @@ public class ArmLateral extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("At Length: ", atLength(ArmConstants.PositionConfig.midLength)); //random length
+    SmartDashboard.putNumber("conversion factor: ", extendRetractEncoder.getPositionConversionFactor());
+    SmartDashboard.putNumber("current rots: ", extendRetractEncoder.getPosition());
+    SmartDashboard.putBoolean("At Low: ", atLength(ArmConstants.PositionConfig.lowLength)); 
+    SmartDashboard.putBoolean("At Mid: ", atLength(ArmConstants.PositionConfig.midLength)); 
+    SmartDashboard.putBoolean("At High: ", atLength(ArmConstants.PositionConfig.highLength)); 
+    SmartDashboard.putBoolean("At HP: ", atLength(ArmConstants.PositionConfig.doubleHPLength)); 
+
     SmartDashboard.putNumber("Arm Position: ", extendRetractEncoder.getPosition());
     SmartDashboard.putNumber("Arm Lateral Speed: ", leftExtendMotor.get());
   }

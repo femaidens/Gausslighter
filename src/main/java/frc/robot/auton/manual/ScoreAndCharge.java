@@ -9,10 +9,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.commands.AutonDrive;
-import frc.robot.commands.CloseClaw2;
+import frc.robot.commands.ExtendArm;
+import frc.robot.commands.Intake2.CloseClaw2;
 import frc.robot.commands.OpenClaw;
+import frc.robot.commands.RetractArm;
 import frc.robot.commands.SetArmAngle;
-import frc.robot.commands.SetArmExtension;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Drivetrain;
@@ -27,12 +28,12 @@ public class ScoreAndCharge extends SequentialCommandGroup {
   public ScoreAndCharge(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     // assuming center start position, CAN BE USED FOR EITHER ALLIANCE COLOR
     addCommands(
-      new SetArmAngle(armAngle, PositionConfig.highConeAngle, true),
-      new SetArmExtension(armLateral, PositionConfig.highLength),
+      new SetArmAngle(armAngle, PositionConfig.highConeAngle),
+      new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
       new WaitCommand(3.0), //wait for piece to fall onto node
       new CloseClaw2(intake),
-      new SetArmExtension(armLateral, PositionConfig.defaultAngle),
+      new RetractArm(armLateral, PositionConfig.defaultAngle),
       new AutonDrive(drivetrain, -AutoConstants.CHARGE_SPEED, 0, 0, true, true, AutoConstants.SCORE_AND_CHARGE_TIME)
     );
   }

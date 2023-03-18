@@ -2,41 +2,41 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.Intake2;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmAngle;
+import frc.robot.subsystems.Intake;
 
-public class SetArmAngle extends CommandBase {
-  /** Creates a new setArmAngle. */
-  private final ArmAngle armAngle;
-  private double goalAngle;
+public class CloseClaw2 extends CommandBase {
+  /** Creates a new PickUp. */
 
-  public SetArmAngle(ArmAngle armAngle, double goalAngle) {
+  public final Intake intake;
+
+  public CloseClaw2(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armAngle = armAngle;
-    addRequirements(armAngle);
+    this.intake = intake;
+    addRequirements(intake);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armAngle.setAngle(goalAngle);
+    intake.closeClawCube();
+    //System.out.println("closing claw");
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    armAngle.stopAngleMotor();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return armAngle.atAngle(goalAngle);
+    return true;
   }
 }

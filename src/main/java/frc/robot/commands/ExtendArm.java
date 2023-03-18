@@ -5,17 +5,18 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmAngle;
+import frc.robot.subsystems.ArmLateral;
 
-public class SetArmAngle extends CommandBase {
-  /** Creates a new setArmAngle. */
-  private final ArmAngle armAngle;
-  private double goalAngle;
+public class ExtendArm extends CommandBase {
+  /** Creates a new ExtendArm. */
+  public final ArmLateral armLateral;
+  private double position;
 
-  public SetArmAngle(ArmAngle armAngle, double goalAngle) {
+  public ExtendArm(ArmLateral armLateral, double position) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armAngle = armAngle;
-    addRequirements(armAngle);
+    this.armLateral = armLateral;
+    this.position = position;
+    addRequirements(armLateral);
   }
 
   // Called when the command is initially scheduled.
@@ -25,18 +26,18 @@ public class SetArmAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armAngle.setAngle(goalAngle);
+    armLateral.extendArm();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armAngle.stopAngleMotor();
+    armLateral.stopExtensionMotors();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return armAngle.atAngle(goalAngle);
+    return armLateral.atLength(position);
   }
 }

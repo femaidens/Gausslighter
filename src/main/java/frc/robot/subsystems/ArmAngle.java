@@ -13,8 +13,10 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 //import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Ports.*;
 
 public class ArmAngle extends SubsystemBase {
@@ -29,9 +31,13 @@ public class ArmAngle extends SubsystemBase {
     angleMotor = new CANSparkMax(ArmPorts.ANG_MOTOR_PORT, MotorType.kBrushless);
     angleMotor.setInverted(true);
     angleMotor.setIdleMode(IdleMode.kBrake);
+    angleMotor.setSmartCurrentLimit(ArmConstants.ARM_ANGLE_MOTOR_CURRENT_LIMIT);
 
     // encoder instantiation
     angEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+    angEncoder.setInverted(true);
+    angEncoder.setPositionConversionFactor(360);
+
     // angEncoder.setPositionOffset(0.821184);
     // angEncoder.setDutyCycleRange(0.0467, adjustmentAngle);
     // angEncoder.setDistancePerRotation(ArmConstants.ANGLE_FACTOR);
@@ -42,23 +48,37 @@ public class ArmAngle extends SubsystemBase {
     //     ArmConstants.AnglePID.kI,
     //     ArmConstants.AnglePID.kD);
   }
-  public void increaseAngle(double input){ //SPEED IS INVERTED
+  // public void increaseAngle(double input){ //SPEED IS INVERTED
+  //   if (input == 0) angleMotor.set(0);
+  //   angleMotor.set(-input*0.85);
+  //   // if (input > 0.25){ //arm angle increasing
+  //   //     angleMotor.set(-0.3);
+  //   // }
+  //   // else if (input < -0.25){ //arm angle decreasing
+  //   //     angleMotor.set(0.3);
+  //   // }
+  //   // else{
+  //   //     angleMotor.set(0);
+  //   // }
+  // }
+
+  // public void decreaseAngle(double input){
+  //   if (input == 0) angleMotor.set(0);
+  //   angleMotor.set(input*0.85);
+  //   // if (input > 0.25){ //arm angle increasing
+  //   //     angleMotor.set(-0.3);
+  //   // }
+  //   // else if (input < -0.25){ //arm angle decreasing
+  //   //     angleMotor.set(0.3);
+  //   // }
+  //   // else{
+  //   //     angleMotor.set(0);
+  //   // }
+  // }
+
+  public void setAngle(double input){
     if (input == 0) angleMotor.set(0);
     angleMotor.set(-input*0.85);
-    // if (input > 0.25){ //arm angle increasing
-    //     angleMotor.set(-0.3);
-    // }
-    // else if (input < -0.25){ //arm angle decreasing
-    //     angleMotor.set(0.3);
-    // }
-    // else{
-    //     angleMotor.set(0);
-    // }
-  }
-
-  public void decreaseAngle(double input){
-    if (input == 0) angleMotor.set(0);
-    angleMotor.set(input*0.85);
     // if (input > 0.25){ //arm angle increasing
     //     angleMotor.set(-0.3);
     // }
@@ -76,10 +96,20 @@ public class ArmAngle extends SubsystemBase {
   }
 
   public boolean atAngle(double angle){ //whether at angle w/ an offset of 2 degrees
-    double currentAngle = angEncoder.getPosition()*360;
-    System.out.println("current angle: " + currentAngle);
-    if (currentAngle <= angle + 2 && currentAngle > angle - 2) return true;
-    return false; 
+    double currentAngle = angEncoder.getPosition();
+    // boolean atDesiredAngle = true;
+
+    //System.out.println(Math.abs(currentAngle-angle));
+    //System.out.println("current angle: " + currentAngle);
+    if (Math.abs(currentAngle - angle) < 2){
+      new PrintCommand("at 36 degs");
+      return true;
+    }
+    else{
+      return false;
+    }
+
+    // SmartDashboard.putBoolean("At angle", atDesiredAngle);
   }
 
   public void stopAngleMotor() {
@@ -100,8 +130,9 @@ public class ArmAngle extends SubsystemBase {
   @Override
   public void periodic() {
     //SmartDashboard.putNumber("Arm Offset: ", angEncoder.getPositionOffset());
-    SmartDashboard.putBoolean("At angle", atAngle(ArmConstants.PositionConfig.midCubeAngle));
-    SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition()*360);
+    //atAngle(PositionConfig.midConeAngle);
+    SmartDashboard.putBoolean("At arm angle", atAngle(36));
+    SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition());
     SmartDashboard.putNumber("Arm Angle Speed: ", angleMotor.get());
   }
 

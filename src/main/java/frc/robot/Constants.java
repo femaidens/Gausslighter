@@ -31,7 +31,7 @@ public final class Constants {
 
   public static class LEDConstants {
     //public static final int LED_DATA_LENGTH = 1; //change as necessary
-    public static final int LED_PIN_LENGTH = 60;
+    public static final int LED_PIN_LENGTH = 177;
   }
   public static class ArmConstants {
 
@@ -42,6 +42,9 @@ public final class Constants {
     public static final double ANGLE_OFFSET = 0.046808;
     public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 30; // amps
     public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 30; // amps
+    public static final double LATERAL_LENGTH = 30.3125;
+    public static final double LATERAL_ROTATIONS = 2; // test
+    public static final double  LATERAL_PFACTOR = LATERAL_LENGTH/LATERAL_ROTATIONS; //divide this by # of revs for fully extend
 
 
 
@@ -79,8 +82,7 @@ public final class Constants {
 
       //starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
       //find unit conversion units, current: inches
-      public static final double defaultLength = 0;
-      public static final double lowLength = -3;
+      public static final double lowLength = 0;
       public static final double midLength = 6.5;
       public static final double highLength = 26;
       public static final double doubleHPLength = 13.069;
