@@ -153,7 +153,7 @@ public class ArmLateral extends SubsystemBase {
 
   public boolean atLength(double length){
     double currentLength = extendRetractEncoder.getPosition(); //might have to find a scale factor
-    if (currentLength <= length + 2 && currentLength > length - 2) return true;
+    if (Math.abs(currentLength - length) == 1) return true;
     return false;
   }
 

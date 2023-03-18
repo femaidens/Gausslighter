@@ -159,26 +159,29 @@ public class RobotContainer {
         );
         
     //LEDS
-    Trigger coneLEDButton = operJoy.start(); //8
-    coneLEDButton
-        .onTrue(
-          new StartEndCommand(() -> led.ConeLED(), () -> led.lightShow(), led)
-        );
+    // Trigger coneLEDButton = operJoy.start(); //8
+    // coneLEDButton
+    //     .onTrue(
+    //       new StartEndCommand(() -> led.ConeLED(), () -> led.lightShow(), led)
+    //     );
     // Trigger cubeLEDButton = operJoy.back(); 
     // cubeLEDButton
     //     .onTrue(
     //       new StartEndCommand(() -> led.CubeLED(), () -> led.lightShow(), led)
     //     );
+    Trigger coneLEDButton = operJoy.start(); //8
+    coneLEDButton
+        .onTrue(
+          new RunCommand(
+            () -> led.ConeLED(), 
+            led)
+        );
+    
     Trigger cubeLEDButton = operJoy.back(); //7
     cubeLEDButton
         .onTrue(
           new RunCommand(
             () -> led.CubeLED(), 
-            led)
-        )
-        .onFalse(
-          new RunCommand(
-            () -> led.lightShow(),
             led)
         );
     // //INTAKE 1

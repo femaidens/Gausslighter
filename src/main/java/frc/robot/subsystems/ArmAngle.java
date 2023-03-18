@@ -94,9 +94,9 @@ public class ArmAngle extends SubsystemBase {
   }
 
   public boolean atAngle(double angle){ //whether at angle w/ an offset of 2 degrees
-    double currentAngle = angEncoder.getPosition()*360;
+    double currentAngle = angEncoder.getPosition();
     //System.out.println("current angle: " + currentAngle);
-    if (currentAngle <= angle + 2 && currentAngle > angle - 2) return true;
+    if (Math.abs(currentAngle - angle) == 1) return true;
     return false; 
   }
 
