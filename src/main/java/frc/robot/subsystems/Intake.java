@@ -122,7 +122,9 @@ public class Intake extends SubsystemBase {
   public boolean atWristAngle(double angle){
     double currentAngle = wristEncoder.getPosition()*360;
     //System.out.println("current angle: " + currentAngle);
-    if (currentAngle <= angle + 2 && currentAngle > angle - 2) return true;
+    if (Math.abs(currentAngle - angle) < 2){
+        return true;
+    }
     return false; 
   }
 
@@ -145,7 +147,7 @@ public class Intake extends SubsystemBase {
       timer.reset();
       return;
     }
-    clawMotor.set(1);
+    clawMotor.set(-0.8);
     //System.out.println("current: " + clawMotor.getOutputCurrent());
   }
 
@@ -155,7 +157,7 @@ public class Intake extends SubsystemBase {
       timer.reset();
       return;
     }
-    clawMotor.set(-1);
+    clawMotor.set(0.8);
     //System.out.println("current: " + clawMotor.getOutputCurrent());
 
   }

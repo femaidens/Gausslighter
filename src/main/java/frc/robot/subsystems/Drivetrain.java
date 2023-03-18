@@ -82,7 +82,7 @@ public class Drivetrain extends SubsystemBase {
             rearLeft.getPosition(),
             rearRight.getPosition()
         });
-
+    //System.out.println("spark 8 angle: " + frontLeft.getPosition().angle);
     SmartDashboard.putNumber("Gyro Angle: ", gyro.getAngle());
     // SmartDashboard.putNumber("Wrist Angle", frontLeft.get());
     // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
@@ -242,5 +242,6 @@ public class Drivetrain extends SubsystemBase {
       rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
       rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     }
+
 
 }

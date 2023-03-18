@@ -24,6 +24,9 @@ import frc.robot.commands.Intake1.CloseClawCone;
 import frc.robot.commands.Intake1.CloseClawCube;
 import frc.robot.commands.Intake2.CloseClaw2;
 import frc.robot.commands.Intake2.RunIntake;
+import frc.robot.commands.LEDS.PurpGreenLEDS;
+import frc.robot.commands.LEDS.coneLEDS;
+import frc.robot.commands.LEDS.cubeLEDS;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Drivetrain;
@@ -36,6 +39,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -125,9 +129,11 @@ public class RobotContainer {
         //     drivetrain)
 
     led.setDefaultCommand(
-      new RunCommand(
-        () -> led.lightShow(),
-        led)
+      // new RunCommand(
+      //   () -> led.lightShow(),
+      //   led)
+      //new SequentialCommandGroup(new PurpGreenLEDS(led), new rainbowLEDS(led))
+      new PurpGreenLEDS(led)
     );
   }
 
@@ -153,37 +159,34 @@ public class RobotContainer {
     Trigger showLEDButton = operJoy.a();
     showLEDButton
         .onTrue(
-          new RunCommand(
-            () -> led.lightShow(), 
-            led)
+          new PurpGreenLEDS(led)
+          // RunCommand(
+          //   () -> led.lightShow(), 
+          //   led)
         );
         
     //LEDS
     // Trigger coneLEDButton = operJoy.start(); //8
     // coneLEDButton
     //     .onTrue(
-    //       new StartEndCommand(() -> led.ConeLED(), () -> led.lightShow(), led)
+    //       new StartEndCommand(() -> led.ConeLED(), PurpGreenLEDS(led), led)
     //     );
     // Trigger cubeLEDButton = operJoy.back(); 
     // cubeLEDButton
     //     .onTrue(
     //       new StartEndCommand(() -> led.CubeLED(), () -> led.lightShow(), led)
     //     );
-    Trigger coneLEDButton = operJoy.start(); //8
+    Trigger coneLEDButton = operJoy.start(); //8 right
     coneLEDButton
         .onTrue(
-          new RunCommand(
-            () -> led.ConeLED(), 
-            led)
+          new coneLEDS(led)
         );
     
-    Trigger cubeLEDButton = operJoy.back(); //7
+    Trigger cubeLEDButton = operJoy.back(); //7 left
     cubeLEDButton
-        .onTrue(
-          new RunCommand(
-            () -> led.CubeLED(), 
-            led)
-        );
+      .onTrue(
+        new cubeLEDS(led)
+      );
     // //INTAKE 1
     // Trigger intakeCubeButton = operJoy.leftBumper();
     // intakeCubeButton
@@ -210,6 +213,10 @@ public class RobotContainer {
           () -> intake.stopIntakeMotor(), 
           intake)
       );
+      // .onTrue(
+      //   new StartEndCommand(RunIntake(intake), () -> intake.stopIntakeMotor(), intake)
+      // );
+      
 
     Trigger reverseIntakeButton = operJoy.y();
     reverseIntakeButton
@@ -223,6 +230,9 @@ public class RobotContainer {
           () -> intake.stopIntakeMotor(), 
           intake)
       );
+      // .onTrue(
+      //   new StartEndCommand(() -> intake.reverseIntakeMotor(), () -> intake.stopIntakeMotor(), intake)
+      // );
 
     Trigger intakeButton = operJoy.leftBumper();
     intakeButton
@@ -247,11 +257,17 @@ public class RobotContainer {
             new RunCommand(
               () -> armLateral.extendArm(),
               armLateral))
+      // .onTrue(
+      //       new SequentialCommandGroup(
+      //         () -> armLateral.setInitial(), () -> armLateral.extendArm())
+      // )
       .onFalse(
         new RunCommand(
           () -> armLateral.stopExtensionMotors(), 
           armLateral)
       );
+
+
     Trigger retractButton = operJoy.leftTrigger();
     retractButton
       .onTrue(

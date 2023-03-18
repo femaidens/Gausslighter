@@ -13,8 +13,10 @@ import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 //import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Ports.*;
 
 public class ArmAngle extends SubsystemBase {
@@ -95,9 +97,19 @@ public class ArmAngle extends SubsystemBase {
 
   public boolean atAngle(double angle){ //whether at angle w/ an offset of 2 degrees
     double currentAngle = angEncoder.getPosition();
+    // boolean atDesiredAngle = true;
+
+    //System.out.println(Math.abs(currentAngle-angle));
     //System.out.println("current angle: " + currentAngle);
-    if (Math.abs(currentAngle - angle) == 1) return true;
-    return false; 
+    if (Math.abs(currentAngle - angle) < 2){
+      new PrintCommand("at 36 degs");
+      return true;
+    }
+    else{
+      return false;
+    }
+
+    // SmartDashboard.putBoolean("At angle", atDesiredAngle);
   }
 
   public void stopAngleMotor() {
@@ -118,7 +130,8 @@ public class ArmAngle extends SubsystemBase {
   @Override
   public void periodic() {
     //SmartDashboard.putNumber("Arm Offset: ", angEncoder.getPositionOffset());
-    SmartDashboard.putBoolean("At angle", atAngle(ArmConstants.PositionConfig.midCubeAngle));
+    //atAngle(PositionConfig.midConeAngle);
+    SmartDashboard.putBoolean("At arm angle", atAngle(36));
     SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition());
     SmartDashboard.putNumber("Arm Angle Speed: ", angleMotor.get());
   }
