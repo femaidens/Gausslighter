@@ -11,6 +11,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.AutonDrive;
 import frc.robot.commands.ExtendArm;
 import frc.robot.commands.Intake2.CloseClaw2;
+import frc.robot.commands.Intake2.RunIntake;
 import frc.robot.commands.OpenClaw;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.SetArmAngle;
@@ -42,6 +43,7 @@ public class ScoreLeftIntake extends SequentialCommandGroup {
       //robot turns to its right again to face game pieces
       new AutonDrive(drivetrain, AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, true, true, 4.0),
       //drive forward to game piece, placeholder speed
+      new RunIntake(intake),
       new CloseClaw2(intake)
       );
     }

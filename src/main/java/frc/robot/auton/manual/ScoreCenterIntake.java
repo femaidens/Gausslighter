@@ -11,6 +11,7 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.commands.AutonDrive;
 import frc.robot.commands.ExtendArm;
 import frc.robot.commands.Intake2.CloseClaw2;
+import frc.robot.commands.Intake2.RunIntake;
 import frc.robot.commands.OpenClaw;
 import frc.robot.commands.RetractArm;
 import frc.robot.commands.SetArmAngle;
@@ -38,6 +39,7 @@ public class ScoreCenterIntake extends SequentialCommandGroup {
       new AutonDrive(drivetrain, 0, 0, 180, true, true, 1.0),
       new AutonDrive(drivetrain, 0.05, 0, 0, true, true, 1.0), 
       //move forward slightly to get to gamepiece, claw is already open from scoring
+      new RunIntake(intake),
       new CloseClaw2(intake)
     );  
   }
