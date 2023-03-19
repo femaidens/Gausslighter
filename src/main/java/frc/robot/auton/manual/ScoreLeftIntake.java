@@ -30,7 +30,7 @@ public class ScoreLeftIntake extends SequentialCommandGroup {
     // ALLIANCE COLOR --> true = blue and false = red
 
       addCommands(
-      new SetArmAngle(armAngle, PositionConfig.highConeAngle),
+      new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
       new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
       new WaitCommand(3.0), //wait for piece to fall onto node & change after testing

@@ -7,13 +7,10 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxAbsoluteEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
-//import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
-//import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 import frc.robot.Constants.ArmConstants.PositionConfig;
@@ -21,73 +18,32 @@ import frc.robot.Ports.*;
 
 public class ArmAngle extends SubsystemBase {
   private final CANSparkMax angleMotor;
-  //private final PIDController anglePIDController; // angle of lifting arm
   private final SparkMaxAbsoluteEncoder angEncoder;
-  //private double adjustmentAngle;
 
   public ArmAngle() {
 
     // motor instantiation
     angleMotor = new CANSparkMax(ArmPorts.ANG_MOTOR_PORT, MotorType.kBrushless);
+
+    // motor configs
     angleMotor.setInverted(true);
     angleMotor.setIdleMode(IdleMode.kBrake);
     angleMotor.setSmartCurrentLimit(ArmConstants.ARM_ANGLE_MOTOR_CURRENT_LIMIT);
 
+    // for cansparkmax encoder -> 1 rev = 4096 ticks
+    // default direction = clockwise
     // encoder instantiation
     angEncoder = angleMotor.getAbsoluteEncoder(Type.kDutyCycle);
+
+    // encoder configs
     angEncoder.setInverted(true);
     angEncoder.setPositionConversionFactor(360);
-
-    // angEncoder.setPositionOffset(0.821184);
-    // angEncoder.setDutyCycleRange(0.0467, adjustmentAngle);
-    // angEncoder.setDistancePerRotation(ArmConstants.ANGLE_FACTOR);
-    
-    // feedback controllers
-    // anglePIDController = new PIDController(
-    //     ArmConstants.AnglePID.kP,
-    //     ArmConstants.AnglePID.kI,
-    //     ArmConstants.AnglePID.kD);
+  
   }
-  // public void increaseAngle(double input){ //SPEED IS INVERTED
-  //   if (input == 0) angleMotor.set(0);
-  //   angleMotor.set(-input*0.85);
-  //   // if (input > 0.25){ //arm angle increasing
-  //   //     angleMotor.set(-0.3);
-  //   // }
-  //   // else if (input < -0.25){ //arm angle decreasing
-  //   //     angleMotor.set(0.3);
-  //   // }
-  //   // else{
-  //   //     angleMotor.set(0);
-  //   // }
-  // }
-
-  // public void decreaseAngle(double input){
-  //   if (input == 0) angleMotor.set(0);
-  //   angleMotor.set(input*0.85);
-  //   // if (input > 0.25){ //arm angle increasing
-  //   //     angleMotor.set(-0.3);
-  //   // }
-  //   // else if (input < -0.25){ //arm angle decreasing
-  //   //     angleMotor.set(0.3);
-  //   // }
-  //   // else{
-  //   //     angleMotor.set(0);
-  //   // }
-  // }
 
   public void setAngle(double input){
     if (input == 0) angleMotor.set(0);
     angleMotor.set(-input*0.85);
-    // if (input > 0.25){ //arm angle increasing
-    //     angleMotor.set(-0.3);
-    // }
-    // else if (input < -0.25){ //arm angle decreasing
-    //     angleMotor.set(0.3);
-    // }
-    // else{
-    //     angleMotor.set(0);
-    // }
   }
 
   public double getArmAngle() {
@@ -97,43 +53,33 @@ public class ArmAngle extends SubsystemBase {
 
   public boolean atAngle(double angle){ //whether at angle w/ an offset of 2 degrees
     double currentAngle = angEncoder.getPosition();
-    // boolean atDesiredAngle = true;
 
-    //System.out.println(Math.abs(currentAngle-angle));
-    //System.out.println("current angle: " + currentAngle);
-    if (Math.abs(currentAngle - angle) < 2){
-      new PrintCommand("at 36 degs");
+    if (Math.abs(currentAngle - angle) < 1){ // change 1 back to 2 if margin is too small
+      // new PrintCommand("at 36 degs");
       return true;
     }
-    else{
+
+    else {
       return false;
     }
-
-    // SmartDashboard.putBoolean("At angle", atDesiredAngle);
   }
 
   public void stopAngleMotor() {
     angleMotor.set(0);
   }
 
-  // // arm angle pid not setting angle, change name later
-  // public void setAngle(double goalAngle) {
-  //   //INVERTED ANGLE MOTOR TO SPIN PROPERLY
-  //   // positive speed = lower arm
-  //   // negative speed = raise arm
-  //   double adjustmentAngle = anglePIDController.calculate(angEncoder.getPosition(), goalAngle);
-  //   angleMotor.setVoltage(adjustmentAngle);
-
-  //   System.out.println("Arm Voltage: " + adjustmentAngle);
-  // }
-
   @Override
   public void periodic() {
-    //SmartDashboard.putNumber("Arm Offset: ", angEncoder.getPositionOffset());
-    //atAngle(PositionConfig.midConeAngle);
-    SmartDashboard.putBoolean("At arm angle", atAngle(36));
+
+    // boolean boxes
+    SmartDashboard.putBoolean("Start Angle", atAngle(PositionConfig.defaultAngle));
+    SmartDashboard.putBoolean("Floor Angle", atAngle(PositionConfig.lowNodeAngle));
+    SmartDashboard.putBoolean("Mid/HP Angle", atAngle(PositionConfig.midNodeAngle));
+    SmartDashboard.putBoolean("High Angle", atAngle(PositionConfig.highNodeAngle));
+
+    // values
     SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition());
-    SmartDashboard.putNumber("Arm Angle Speed: ", angleMotor.get());
+    SmartDashboard.putNumber("Arm Angular Speed: ", angleMotor.get());
   }
 
   @Override
@@ -142,7 +88,3 @@ public class ArmAngle extends SubsystemBase {
   }
 
 }
-
-// for cansparkmax encoder -> 1 rev = 4096 ticks
-
-// default direction = clockwise

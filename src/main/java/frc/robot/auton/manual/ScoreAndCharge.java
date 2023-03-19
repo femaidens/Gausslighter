@@ -28,13 +28,15 @@ public class ScoreAndCharge extends SequentialCommandGroup {
   public ScoreAndCharge(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     // assuming center start position, CAN BE USED FOR EITHER ALLIANCE COLOR
     addCommands(
-      new SetArmAngle(armAngle, PositionConfig.highConeAngle),
+      new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
       new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
       new WaitCommand(3.0), //wait for piece to fall onto node
       new CloseClaw2(intake),
       new RetractArm(armLateral, PositionConfig.defaultAngle),
-      new AutonDrive(drivetrain, -AutoConstants.CHARGE_SPEED, 0, 0, true, true, AutoConstants.SCORE_AND_CHARGE_TIME)
+      new AutonDrive(drivetrain, 
+        -AutoConstants.CHARGE_SPEED, 0, 0, true, true, 
+        AutoConstants.SCORE_AND_CHARGE_TIME)
     );
   }
 }

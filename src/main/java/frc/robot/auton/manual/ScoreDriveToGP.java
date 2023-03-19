@@ -26,7 +26,7 @@ public class ScoreDriveToGP extends SequentialCommandGroup {
   public ScoreDriveToGP(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     // can be used for every starting position in the community (assuming that you are aligned with the gamepieces at the center)
     addCommands(
-      new SetArmAngle(armAngle, PositionConfig.highConeAngle),
+      new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
       new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
       new WaitCommand(3.0), //wait for piece to fall onto node

@@ -68,25 +68,19 @@ public final class Constants {
     }
     
     public static class PositionConfig { // subject to change
-      public static final double defaultAngle = 59.922;
-      public static final double midCubeAngle = 36.233; //unique desired goalAngle for changing angle to score
-      public static final double midConeAngle = 36.233;
-      public static final double highCubeAngle = 59.922;
-      public static final double highConeAngle = 59.922;
+      // arm angles (for both intakes)
+      public static final double defaultAngle = 61;
+      public static final double lowNodeAngle = 1.986;
+      public static final double midNodeAngle = 36.233;
+      public static final double highNodeAngle = 36.233;
 
-      // public static final double defaultExtension = 0;
-      // public static final double midCubeExtend = 0.4;//unique desired vVelocity for extending arm to score
-      // public static final double midConeExtend = 0.5;//unique desired vVelocity for extending arm to score
-      // public static final double highCubeExtend = 0.6;//unique desired vVelocity for extending arm to score
-      // public static final double highConeExtend = 0.7;//unique desired vVelocity for extending arm to score
-
-      //starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
-      //find unit conversion units, current: inches
+      // starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
+      // find unit conversion units, current: inches
+      // desired extension distance
       public static final double lowLength = 0;
       public static final double midLength = 6.5;
       public static final double highLength = 26;
       public static final double doubleHPLength = 13.069;
-
     }
   }
 
@@ -96,6 +90,7 @@ public final class Constants {
     public static final double clawAngle = 120;
     public static final double defaultClawAngle = 200; //placeholder
     public static final double wristSpeed = 0.1;
+    public static final double DEFAULT_WRIST_ANGLE = 2.0; // PLACEHOLDER
     public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
     public static final int WRIST_MOTOR_CURRENT_LIMIT = 30; // amps
     // public static final int MAX_CLAW_CURRENT = 25; //amps
@@ -228,4 +223,3 @@ public final class Constants {
     public static final double FREE_SPEED_RPM = 5676;
   }
 }
-  

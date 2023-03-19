@@ -29,7 +29,7 @@ public class ScoreDepartCharge extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SetArmAngle(armAngle, PositionConfig.highConeAngle),
+      new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
       new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
       new WaitCommand(3.0), //wait for piece to fall onto node

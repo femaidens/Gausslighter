@@ -27,7 +27,7 @@ public class ScoreCenterIntake extends SequentialCommandGroup {
   public ScoreCenterIntake(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     // assuming center start position, CAN BE USED FOR EITHER ALLIANCE COLOR
     addCommands(
-      new SetArmAngle(armAngle, PositionConfig.highConeAngle),
+      new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
       new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
       new WaitCommand(3.0), //wait for piece to fall onto node & change after testing

@@ -8,11 +8,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LED;
 
-public class coneLEDS extends CommandBase {
-  /** Creates a new coneLEDS. */
+public class ConeLEDS extends CommandBase{
+  
+  /** Creates a new ConeLEDS. */
   private final LED led;
   private final Timer timer;
-  public coneLEDS(LED led) {
+  
+  public ConeLEDS(LED led) {
     this.led = led;
     addRequirements(led);
     timer = new Timer();
