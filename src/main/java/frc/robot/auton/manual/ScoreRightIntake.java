@@ -4,6 +4,7 @@
 
 package frc.robot.auton.manual;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.PositionConfig;
@@ -24,27 +25,28 @@ import frc.robot.subsystems.Intake;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreRightIntake extends SequentialCommandGroup {
-  /** Creates a new ScoreRightIntake. */
     public ScoreRightIntake (Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
-
     // right starting position (relative to the driver station), 
-    // ALLIANCE COLOR --> true = blue and false = red
-
       addCommands(
+        // score high
         new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
         new ExtendArm(armLateral, PositionConfig.highLength),
         new OpenClaw(intake),
-        new WaitCommand(3.0), //wait for piece to fall onto node & change after testing
+        new WaitCommand(AutoConstants.GP_SCORE_TIME), //wait for piece to fall onto node (change wait time after testing)
+
+      // move toward gamepiece around charge station
         new RetractArm(armLateral, PositionConfig.defaultAngle),
         new SetArmAngle(armAngle, PositionConfig.defaultAngle),
-        new AutonDrive(drivetrain, 0, 0, -90, true, true, 2.0), 
-        //robot turns to its left to face wall
-        new AutonDrive(drivetrain, 0, 0, -90, true, true, 2.0),
-        //robot turns to its left again to face game pieces
-        new AutonDrive(drivetrain, AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, true, true, 4.0),
-        //drive forward to game piece, placeholder speed
-        new RunIntake(intake),
-        new CloseClaw2(intake)
-      );
+          Commands.parallel(
+            new CloseClaw2(intake),
+            new AutonDrive(drivetrain, 0, 0, -90, true, true, 2.0)
+          ), // turns to its left to face wall
+        new AutonDrive(drivetrain, 0, 0, -90, true, true, 2.0), // turns to its left again to face game pieces
+
+        //drive forward to intake to game piece (placeholder speed and time)
+        Commands.parallel(
+          new RunIntake(intake),
+          new AutonDrive(drivetrain, AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, true, true, 4.0)) 
+    );
   }
 }

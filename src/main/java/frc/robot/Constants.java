@@ -46,9 +46,6 @@ public final class Constants {
     public static final double LATERAL_ROTATIONS = 2; // test
     public static final double  LATERAL_PFACTOR = LATERAL_LENGTH/LATERAL_ROTATIONS; //divide this by # of revs for fully extend
 
-
-
-
     public static class FeedForward { // to be tested
       public static final double kS = 0;
       public static final double kV = 0;
@@ -213,6 +210,7 @@ public final class Constants {
     public static final double SCORE_AND_CHARGE_TIME = 4.0;
     public static final double SCORE_AND_CHARGE_SPEED = 0.25; //auto speed
     public static final double CHARGE_SPEED = 0.05;
+    public static final double GP_SCORE_TIME = 2.0; // how long gp takes to fall out of intake and onto node
 
     // Constraint for the motion profiled robot angle controller
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(

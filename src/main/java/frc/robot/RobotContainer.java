@@ -10,10 +10,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.Constants.ArmConstants.PositionConfig;
-import frc.robot.auton.manual.ScoreAndCharge;
+import frc.robot.auton.manual.ScoreAndEngage;
 import frc.robot.auton.manual.ScoreCenterIntake;
-import frc.robot.auton.manual.ScoreDepartCharge;
+import frc.robot.auton.manual.ScoreDepartEngage;
 import frc.robot.auton.manual.ScoreDriveToGP;
+import frc.robot.auton.manual.ScoreIntakeEngage;
+import frc.robot.auton.manual.ScoreLeftIntake;
+import frc.robot.auton.manual.ScoreRightIntake;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -22,7 +25,6 @@ import frc.robot.commands.*;
 // import frc.robot.commands.Intake1.CloseClawCube;
 import frc.robot.commands.Intake2.CloseClaw2;
 import frc.robot.commands.Intake2.RunIntake;
-import frc.robot.commands.LEDS.PurpGreenLEDS;
 import frc.robot.commands.LEDS.*;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
@@ -83,10 +85,17 @@ public class RobotContainer {
     SmartDashboard.putData("Choose Auto: ", autonChooser);
     // autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("p2", new Path2(drivetrain));
-    autonChooser.addOption("score and charge", new ScoreAndCharge(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score and intake", new ScoreCenterIntake(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score, leave community, and charge", new ScoreDepartCharge(drivetrain, intake, armAngle, armLateral));
+    
+    autonChooser.addOption("score and engage", new ScoreAndEngage(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("score and drive to game piece", new ScoreDriveToGP(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score, leave community and engage", new ScoreDepartEngage(drivetrain, intake, armAngle, armLateral));
+
+    autonChooser.addOption("score and center intake", new ScoreCenterIntake(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score and left intake", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score and right intake", new ScoreRightIntake(drivetrain, intake, armAngle, armLateral));
+
+    autonChooser.addOption("score, center intake and engage", new ScoreIntakeEngage(drivetrain, intake, armAngle, armLateral));
+    
 
     // Configure default commands
     drivetrain.setDefaultCommand(

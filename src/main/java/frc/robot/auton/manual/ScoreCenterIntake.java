@@ -4,6 +4,7 @@
 
 package frc.robot.auton.manual;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.PositionConfig;
@@ -24,23 +25,30 @@ import frc.robot.subsystems.Intake;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreCenterIntake extends SequentialCommandGroup {
-  /** Creates a new ScoreCenterIntake. */
   public ScoreCenterIntake(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
-    // assuming center start position, CAN BE USED FOR EITHER ALLIANCE COLOR
+    // assuming center start position
     addCommands(
+      // score high
       new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
       new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
-      new WaitCommand(3.0), //wait for piece to fall onto node & change after testing
+      new WaitCommand(AutoConstants.GP_SCORE_TIME), //wait for piece to fall onto node (change time after testing)
+
+      // move toward gamepiece through charge station
       new RetractArm(armLateral, PositionConfig.defaultAngle),
       new SetArmAngle(armAngle, PositionConfig.defaultAngle),
-      new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, true, true, 
-      AutoConstants.SCORE_AND_CHARGE_TIME + 2.0), //move backward enough so that arm doesn't hit game piece when rotating
-      new AutonDrive(drivetrain, 0, 0, 180, true, true, 1.0),
-      new AutonDrive(drivetrain, 0.05, 0, 0, true, true, 1.0), 
-      //move forward slightly to get to gamepiece, claw is already open from scoring
-      new RunIntake(intake),
-      new CloseClaw2(intake)
-    );  
+      Commands.parallel(
+        new CloseClaw2(intake),
+        new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, 
+          true, true,AutoConstants.SCORE_AND_CHARGE_TIME + 2.0)),
+
+      // turn around and intake gamepiece
+      Commands.parallel( 
+        new RunIntake(intake), 
+        new AutonDrive(drivetrain, 0, 0, 180, true, true, 1.0)),
+      
+        // move slightly forward to intake
+      new AutonDrive(drivetrain, 0.05, 0, 0, true, true, 1.0) 
+    );
   }
 }

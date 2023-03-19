@@ -4,6 +4,7 @@
 
 package frc.robot.auton.manual;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AutoConstants;
@@ -22,21 +23,23 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreAndCharge extends SequentialCommandGroup {
-  /** Creates a new ScoreAndCharge. */
-
-  public ScoreAndCharge(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
-    // assuming center start position, CAN BE USED FOR EITHER ALLIANCE COLOR
+public class ScoreAndEngage extends SequentialCommandGroup {
+  public ScoreAndEngage(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+    // assuming center start position
     addCommands(
+      // score high
       new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
       new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
-      new WaitCommand(3.0), //wait for piece to fall onto node
-      new CloseClaw2(intake),
+      new WaitCommand(AutoConstants.GP_SCORE_TIME), //wait for piece to fall onto node
+
+      // move backward to engage on charge station
       new RetractArm(armLateral, PositionConfig.defaultAngle),
-      new AutonDrive(drivetrain, 
-        -AutoConstants.CHARGE_SPEED, 0, 0, true, true, 
-        AutoConstants.SCORE_AND_CHARGE_TIME)
+      new SetArmAngle(armAngle, PositionConfig.defaultAngle),
+        Commands.parallel(
+          new CloseClaw2(intake),
+          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, 
+          true, true,AutoConstants.SCORE_AND_CHARGE_TIME))
     );
   }
 }

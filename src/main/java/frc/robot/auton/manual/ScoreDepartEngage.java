@@ -4,6 +4,7 @@
 
 package frc.robot.auton.manual;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AutoConstants;
@@ -22,24 +23,25 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreDepartCharge extends SequentialCommandGroup {
-  // assuming center start position and drives through charge station, CAN BE USED FOR EITHER ALLIANCE COLOR
-
-  public ScoreDepartCharge(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+public class ScoreDepartEngage extends SequentialCommandGroup {
+  public ScoreDepartEngage(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+    // assuming center start position
     addCommands(
+      // score high
       new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
       new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
-      new WaitCommand(3.0), //wait for piece to fall onto node
-      new CloseClaw2(intake),
+      new WaitCommand(AutoConstants.GP_SCORE_TIME), //wait for piece to fall onto node
+
+      // drive backwards to leave community
       new RetractArm(armLateral, PositionConfig.defaultAngle),
-      new AutonDrive(drivetrain, -0.25, 0, 0, true, true, AutoConstants.SCORE_AND_CHARGE_TIME + 3.0),
-      // drive backward for a longer time to move out of community
+        Commands.parallel(
+          new CloseClaw2(intake),
+          new AutonDrive(drivetrain, -0.25, 0, 0, 
+          true, true, AutoConstants.SCORE_AND_CHARGE_TIME + 3.0)),
+      
+      // drive forward to engage (at slower speed for less time)
       new AutonDrive(drivetrain, AutoConstants.CHARGE_SPEED, 0, 0, true, true, 0.5)
-      // drive forward at a slower speed for less time to engage on station
     );
-    
   }
 }
