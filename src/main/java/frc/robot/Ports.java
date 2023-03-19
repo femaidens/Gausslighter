@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
-
 /** Add your docs here. */
 public final class Ports {
 

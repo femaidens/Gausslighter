@@ -4,15 +4,15 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LED;
 
-public class cubeLEDS extends CommandBase {
+public class CubeLEDS extends CommandBase {
   /** Creates a new coneLEDS. */
   private final LED led;
   private final Timer timer;
-  public cubeLEDS(LED led) {
+
+  public CubeLEDS(LED led) {
     this.led = led;
     addRequirements(led);
     timer = new Timer();
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -25,8 +25,7 @@ public class cubeLEDS extends CommandBase {
     if (timer.get() > secs) return true;
     return false;
   }
-
-
+  
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {

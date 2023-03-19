@@ -9,7 +9,8 @@ import frc.robot.subsystems.Intake;
 
 public class CloseClawCone extends CommandBase {
   /** Creates a new CloseClawCone. */
-  public final Intake intake;
+  private final Intake intake;
+
   public CloseClawCone(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;

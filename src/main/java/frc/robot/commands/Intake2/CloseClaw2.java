@@ -10,7 +10,7 @@ import frc.robot.subsystems.Intake;
 public class CloseClaw2 extends CommandBase {
   /** Creates a new PickUp. */
 
-  public final Intake intake;
+  private final Intake intake;
 
   public CloseClaw2(Intake intake) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -26,8 +26,7 @@ public class CloseClaw2 extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.closeClawCube();
-    //System.out.println("closing claw");
+    intake.closeClaw();
   }
 
   // Called once the command ends or is interrupted.
