@@ -32,24 +32,25 @@ public class ScoreIntakeEngage extends SequentialCommandGroup {
       new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
       new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
-      new WaitCommand(AutoConstants.GP_SCORE_TIME), //wait for piece to fall onto node (change wait time after testing)
+      new WaitCommand(AutoConstants.GP_SCORE_TIME), //wait for piece to fall onto node
 
       // move toward gamepiece through charge station
       new RetractArm(armLateral, PositionConfig.defaultAngle),
       new SetArmAngle(armAngle, PositionConfig.defaultAngle),
         Commands.parallel(
           new CloseClaw2(intake),
-          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, 
-          true, true, AutoConstants.SCORE_AND_CHARGE_TIME + 2.0)),
+          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0, 
+            true, true, AutoConstants.NODE_TO_GP_TIME)),
 
-      // turn around and drive forward to intake
+      // turn around and drive forward to intake (placeholder speed)
       Commands.parallel(
           new RunIntake(intake),
           new AutonDrive(drivetrain, 0, 0, 180, true, true, 1.0)),
-      new AutonDrive(drivetrain, AutoConstants.CHARGE_SPEED, 0, 0, true, true, 1.0), 
+      new AutonDrive(drivetrain, 0.1, 0, 0, true, true, 1.0), 
 
       //move backward onto charge station
-      new AutonDrive(drivetrain, -0.1, 0, 0, true, true, 1.5)
+      new AutonDrive(drivetrain, -0.1, 0, 0, true, true, 
+        AutoConstants.NODE_TO_GP_TIME - AutoConstants.NODE_TO_CHARGE_TIME)
     );
   }
 }

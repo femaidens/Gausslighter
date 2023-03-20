@@ -32,23 +32,21 @@ public class ScoreCenterIntake extends SequentialCommandGroup {
       new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
       new ExtendArm(armLateral, PositionConfig.highLength),
       new OpenClaw(intake),
-      new WaitCommand(AutoConstants.GP_SCORE_TIME), //wait for piece to fall onto node (change time after testing)
+      new WaitCommand(AutoConstants.GP_SCORE_TIME), //wait for piece to fall onto node
 
       // move toward gamepiece through charge station
       new RetractArm(armLateral, PositionConfig.defaultAngle),
       new SetArmAngle(armAngle, PositionConfig.defaultAngle),
-      Commands.parallel(
-        new CloseClaw2(intake),
-        new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, 
-          true, true,AutoConstants.SCORE_AND_CHARGE_TIME + 2.0)),
+        Commands.parallel(
+          new CloseClaw2(intake),
+          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0, 
+            true, true, AutoConstants.NODE_TO_GP_TIME + 3.0)), // extra drivetime to account for driving thru charge station
 
-      // turn around and intake gamepiece
+      // turn around, move forward and intake gamepiece
       Commands.parallel( 
         new RunIntake(intake), 
         new AutonDrive(drivetrain, 0, 0, 180, true, true, 1.0)),
-      
-        // move slightly forward to intake
-      new AutonDrive(drivetrain, 0.05, 0, 0, true, true, 1.0) 
+        new AutonDrive(drivetrain, 0.05, 0, 0, true, true, 1.0)
     );
   }
 }

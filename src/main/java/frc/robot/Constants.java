@@ -207,8 +207,11 @@ public final class Constants {
     public static final double PYController = 1;
     public static final double PThetaController = 1;
 
-    public static final double SCORE_AND_CHARGE_TIME = 4.0;
-    public static final double SCORE_AND_CHARGE_SPEED = 0.25; //auto speed
+    public static final double NODE_TO_CHARGE_TIME = 4.0; // time needed to engage, starting from center
+    public static final double NODE_TO_GP_TIME = NODE_TO_CHARGE_TIME + 2.0; // drive thru charge station
+    public static final double LEAVE_COMMUNITY_TIME = 5.0; // robot is close to charge station but not on it
+
+    public static final double SCORE_AND_ENGAGE_SPEED = 0.25; //auto speed
     public static final double CHARGE_SPEED = 0.05;
     public static final double GP_SCORE_TIME = 2.0; // how long gp takes to fall out of intake and onto node
 

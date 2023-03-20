@@ -26,7 +26,7 @@ import frc.robot.subsystems.Intake;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreLeftIntake extends SequentialCommandGroup {
   public ScoreLeftIntake(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
-    // left starting position (relative to the driver station),
+    // assuming center starting position, driving around charge station to intake
     addCommands(
         // score high
         new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
@@ -41,13 +41,14 @@ public class ScoreLeftIntake extends SequentialCommandGroup {
             new CloseClaw2(intake),
             new AutonDrive(drivetrain, 0, 0, 90, true, true, 2.0)
           ), // turns to its right to face wall
+        new AutonDrive(drivetrain, 0.1 , 0, 0, true, true, 2.0), // drive towards wall
         new AutonDrive(drivetrain, 0, 0, 90, true, true, 2.0), // turns to its right again to face game pieces
         
         // drive forward to game piece (placeholder speed)
         Commands.parallel(
           new RunIntake(intake),
-          new AutonDrive(drivetrain, AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, 
-            true, true, 4.0))  
+          new AutonDrive(drivetrain, AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0, 
+            true, true, AutoConstants.NODE_TO_GP_TIME))  
     );
   }
 }

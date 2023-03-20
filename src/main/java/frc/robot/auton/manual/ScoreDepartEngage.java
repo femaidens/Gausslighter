@@ -35,13 +35,15 @@ public class ScoreDepartEngage extends SequentialCommandGroup {
 
       // drive backwards to leave community
       new RetractArm(armLateral, PositionConfig.defaultAngle),
+      new SetArmAngle(armAngle, PositionConfig.defaultAngle),
         Commands.parallel(
           new CloseClaw2(intake),
-          new AutonDrive(drivetrain, -0.25, 0, 0, 
-          true, true, AutoConstants.SCORE_AND_CHARGE_TIME + 3.0)),
+          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0, 
+          true, true, AutoConstants.LEAVE_COMMUNITY_TIME)),
       
-      // drive forward to engage (at slower speed for less time)
-      new AutonDrive(drivetrain, AutoConstants.CHARGE_SPEED, 0, 0, true, true, 0.5)
+      // drive forward to engage
+      new AutonDrive(drivetrain, AutoConstants.CHARGE_SPEED, 0, 0, 
+        true, true, AutoConstants.LEAVE_COMMUNITY_TIME - AutoConstants.NODE_TO_CHARGE_TIME)
     );
   }
 }

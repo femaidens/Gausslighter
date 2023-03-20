@@ -25,7 +25,7 @@ import frc.robot.subsystems.Intake;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ScoreDriveToGP extends SequentialCommandGroup {
   public ScoreDriveToGP(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
-    // can be used for every starting position in the community (assuming you're aligned with the gamepieces)
+    // usable for all start positions in community (assuming you're aligned with a gamepiece outside of community)
     addCommands(
       // score high
       new SetArmAngle(armAngle, PositionConfig.highNodeAngle),
@@ -38,8 +38,9 @@ public class ScoreDriveToGP extends SequentialCommandGroup {
       new SetArmAngle(armAngle, PositionConfig.defaultAngle),
         Commands.parallel(
           new CloseClaw2(intake),
-          new AutonDrive(drivetrain, -0.25, 0, 0, true, true, 
-            AutoConstants.SCORE_AND_CHARGE_TIME + 3.0))
+          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0, true, true, 
+            AutoConstants.NODE_TO_GP_TIME)),
+      new AutonDrive(drivetrain, 0, 0, 180, true, true, 2.0) // turn to face gp
     );
   }
 }

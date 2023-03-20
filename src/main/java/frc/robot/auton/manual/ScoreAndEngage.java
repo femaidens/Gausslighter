@@ -38,8 +38,8 @@ public class ScoreAndEngage extends SequentialCommandGroup {
       new SetArmAngle(armAngle, PositionConfig.defaultAngle),
         Commands.parallel(
           new CloseClaw2(intake),
-          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_CHARGE_SPEED, 0, 0, 
-          true, true,AutoConstants.SCORE_AND_CHARGE_TIME))
+          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0, 
+            true, true, AutoConstants.NODE_TO_CHARGE_TIME))
     );
   }
 }
