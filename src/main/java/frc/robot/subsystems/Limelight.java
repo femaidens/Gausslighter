@@ -19,16 +19,15 @@ public class Limelight extends SubsystemBase {
   NetworkTableEntry ts = table.getEntry("ts");
   NetworkTableEntry ty = table.getEntry("ty");
 
-  public Limelight() {
+  public Limelight() {}
+
+  @Override
+  public void periodic() {
+    // This method will be called once per scheduler run
     SmartDashboard.putNumber("TV", tv.getDouble(0.0));
     SmartDashboard.putNumber("TX", tx.getDouble(0.0));
     SmartDashboard.putNumber("TA", ta.getDouble(0.0));
     SmartDashboard.putNumber("TS", ts.getDouble(0.0));
     SmartDashboard.putNumber("TY", ty.getDouble(0.0));
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }
