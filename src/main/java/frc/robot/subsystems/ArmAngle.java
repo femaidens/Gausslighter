@@ -72,14 +72,14 @@ public class ArmAngle extends SubsystemBase {
   public void periodic() {
 
     // boolean boxes
-    SmartDashboard.putBoolean("Start Angle", atAngle(PositionConfig.defaultAngle));
-    SmartDashboard.putBoolean("Floor Angle", atAngle(PositionConfig.lowNodeAngle));
-    SmartDashboard.putBoolean("Mid/HP Angle", atAngle(PositionConfig.midNodeAngle));
-    SmartDashboard.putBoolean("High Angle", atAngle(PositionConfig.highNodeAngle));
+    SmartDashboard.putBoolean("@ default angle", atAngle(PositionConfig.defaultAngle));
+    SmartDashboard.putBoolean("@ low angle", atAngle(PositionConfig.lowNodeAngle));
+    SmartDashboard.putBoolean("@ mid/hp angle", atAngle(PositionConfig.midNodeAngle));
+    SmartDashboard.putBoolean("@ high angle", atAngle(PositionConfig.highNodeAngle));
 
     // values
-    SmartDashboard.putNumber("Arm Angle: ", angEncoder.getPosition());
-    SmartDashboard.putNumber("Arm Angular Speed: ", angleMotor.get());
+    SmartDashboard.putNumber("arm angle", angEncoder.getPosition());
+    SmartDashboard.putNumber("arm angular speed", angleMotor.get());
   }
 
   @Override

@@ -37,46 +37,32 @@ public final class Constants {
 
     public static final double EXTEND_MARGIN = 0.1;
     public static final double EXTEND_FACTOR = (WHEEL_DIAMETER * Math.PI) / CPR; // test for distance per rotation
+    
     public static final double ANGLE_FACTOR = 360; // 360 deg/rev
-    public static final double DEFAULT_ARM_ANGLE = 3.4;
     public static final double ANGLE_OFFSET = 0.046808;
     public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 30; // amps
     public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 30; // amps
-    public static final double LATERAL_LENGTH = 30.3125;
-    public static final double LATERAL_ROTATIONS = 2; // test
-    public static final double  LATERAL_PFACTOR = LATERAL_LENGTH/LATERAL_ROTATIONS; //divide this by # of revs for fully extend
 
-    public static class FeedForward { // to be tested
-      public static final double kS = 0;
-      public static final double kV = 0;
-      public static final double kA = 0;
+    public static class LateralConstants{
+      public static final double LATERAL_LENGTH = 28.5;
+      public static final double LATERAL_ROTATIONS = 2; // test
+      public static final double  LATERAL_PFACTOR = 1; // LATERAL_LENGTH/LATERAL_ROTATIONS; //divide this by # of revs for fully extend
     }
 
-    public static class AnglePID { // to be tested
-      public final static double kP = 2;
-      public final static double kI = 0.0;
-      public final static double kD = 0.0;
-    }
-
-    public static class ExtendPID { // to be tested
-      public final static double kP = 0.2;
-      public final static double kI = 0.0;
-      public final static double kD = 0.0;
-    }
-    
     public static class PositionConfig { // subject to change
       // arm angles (for both intakes)
       public static final double defaultAngle = 61;
       public static final double lowNodeAngle = 1.986;
-      public static final double midNodeAngle = 36.233;
-      public static final double highNodeAngle = 36.233;
+      public static final double midNodeAngle = 30.2; // also hp angle 43.5
+      public static final double highNodeAngle = 30.2;
 
       // starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
       // find unit conversion units, current: inches
-      // desired extension distance
-      public static final double lowLength = 0;
-      public static final double midLength = 6.5;
-      public static final double highLength = 26;
+      // desired extension distance -> change after raised crossbar
+      public static final double defaultLength = 0;
+      public static final double lowLength = defaultLength;
+      public static final double midLength = defaultLength;
+      public static final double highLength = 28.5; 
       public static final double doubleHPLength = 13.069;
     }
   }
@@ -84,23 +70,23 @@ public final class Constants {
   public static class IntakeConstants { //for claw
     public static final double tickFactor =  Constants.CPR / 360;
     public static final double intakeMargin = 3;
-    public static final double clawAngle = 120;
-    public static final double defaultClawAngle = 200; //placeholder
-    public static final double wristSpeed = 0.1;
+
     public static final double DEFAULT_WRIST_ANGLE = 2.0; // PLACEHOLDER
+    public static final double INTAKE_WRIST_ANGLE = 100; // TEST
+    public static final double SUPPORT_WRIST_ANGLE = 200; // TEST
+
+    public static final double WRIST_SPEED = 0.1;
     public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
     public static final int WRIST_MOTOR_CURRENT_LIMIT = 30; // amps
     // public static final int MAX_CLAW_CURRENT = 25; //amps
     public static final int CLAW_MOTOR_SECONDARY_LIMIT = 35; // amps
     public static final int WRIST_MOTOR_SECONDARY_LIMIT = 35; // amps
 
-
-
-    public static final class PID { // to be tested
-      public final static double kP = 0.2;
-      public final static double kI = 0.0;
-      public final static double kD = 0.0;
-    }
+    // public static final class PID { // to be tested
+    //   public final static double kP = 0.2;
+    //   public final static double kI = 0.0;
+    //   public final static double kD = 0.0;
+    // }
   }
 
   public static final class DriveConstants {
@@ -207,12 +193,12 @@ public final class Constants {
     public static final double PYController = 1;
     public static final double PThetaController = 1;
 
-    public static final double NODE_TO_CHARGE_TIME = 4.0; // time needed to engage, starting from center
+    public static final double NODE_TO_CHARGE_TIME = 5.0; // test run was 5.44 sec time needed to engage, starting from center
     public static final double NODE_TO_GP_TIME = NODE_TO_CHARGE_TIME + 2.0; // drive thru charge station
     public static final double LEAVE_COMMUNITY_TIME = 5.0; // robot is close to charge station but not on it
 
     public static final double SCORE_AND_ENGAGE_SPEED = 0.25; //auto speed
-    public static final double CHARGE_SPEED = 0.05;
+    public static final double CHARGE_SPEED = 0.2;
     public static final double GP_SCORE_TIME = 2.0; // how long gp takes to fall out of intake and onto node
 
     // Constraint for the motion profiled robot angle controller

@@ -86,7 +86,7 @@ public class Drivetrain extends SubsystemBase {
             rearRight.getPosition()
         });
     //System.out.println("spark 8 angle: " + frontLeft.getPosition().angle);
-    SmartDashboard.putNumber("Gyro Angle: ", gyro.getAngle());
+    SmartDashboard.putNumber("gyro angle", gyro.getAngle());
     // SmartDashboard.putNumber("Wrist Angle", frontLeft.get());
     // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
     // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());

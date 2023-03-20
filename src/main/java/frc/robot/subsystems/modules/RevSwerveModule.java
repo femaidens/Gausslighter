@@ -145,10 +145,12 @@ public class RevSwerveModule {
         new Rotation2d(turningEncoder.getPosition()));
 
     // setpoints for drive & turning sparkmaxes
-    double driveFF = driveFFController.calculate(optimizedDesiredState.speedMetersPerSecond);
+    // double driveFF = driveFFController.calculate(optimizedDesiredState.speedMetersPerSecond);
 
-    drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity, 0,
-        driveFF);
+    // drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity, 0,
+    //     driveFF);
+
+    drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 
     optimizedDesiredState = m_desiredState;

@@ -13,10 +13,12 @@ import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.auton.manual.ScoreAndEngage;
 import frc.robot.auton.manual.ScoreCenterIntake;
 import frc.robot.auton.manual.ScoreDepartEngage;
-import frc.robot.auton.manual.ScoreDriveToGP;
 import frc.robot.auton.manual.ScoreIntakeEngage;
 import frc.robot.auton.manual.ScoreLeftIntake;
 import frc.robot.auton.manual.ScoreRightIntake;
+import frc.robot.auton.manual.ScoreDriveToGP;
+import frc.robot.auton.manual.practice.*;
+
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -36,6 +38,7 @@ import frc.robot.subsystems.LED;
 import edu.wpi.first.wpilibj2.command.Command;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 // import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -83,18 +86,21 @@ public class RobotContainer {
     // auton config
     autonChooser = new SendableChooser<Command>();
     SmartDashboard.putData("Choose Auto: ", autonChooser);
+    autonChooser.addOption("score and tax", new ScoreTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("taxi", new Taxi(drivetrain));
+
     // autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("p2", new Path2(drivetrain));
     
     autonChooser.addOption("score and engage", new ScoreAndEngage(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score and drive to game piece", new ScoreDriveToGP(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score, leave community and engage", new ScoreDepartEngage(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("score and drive to game piece", new ScoreDriveToGP(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("score, leave community and engage", new ScoreDepartEngage(drivetrain, intake, armAngle, armLateral));
 
-    autonChooser.addOption("score and center intake", new ScoreCenterIntake(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score and left intake", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score and right intake", new ScoreRightIntake(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("score and center intake", new ScoreCenterIntake(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("score and left intake", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("score and right intake", new ScoreRightIntake(drivetrain, intake, armAngle, armLateral));
 
-    autonChooser.addOption("score, center intake and engage", new ScoreIntakeEngage(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("score, center intake and engage", new ScoreIntakeEngage(drivetrain, intake, armAngle, armLateral));
     
 
     // Configure default commands
@@ -133,8 +139,8 @@ public class RobotContainer {
   public void configureSystemDefaults(){
     drivetrain.resetGyro();
     drivetrain.resetEncoders();
-    armLateral.retractArm();
-    armAngle.setAngle(PositionConfig.defaultAngle);
+    // armLateral.retractArm();
+    // armAngle.setAngle(PositionConfig.defaultAngle);
     intake.setDefaultWristAngle(IntakeConstants.DEFAULT_WRIST_ANGLE);
   }
 
