@@ -9,40 +9,21 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
-import frc.robot.Constants.ArmConstants.PositionConfig;
-import frc.robot.auton.manual.ScoreAndEngage;
-import frc.robot.auton.manual.ScoreCenterIntake;
-import frc.robot.auton.manual.ScoreDepartEngage;
-import frc.robot.auton.manual.ScoreIntakeEngage;
-import frc.robot.auton.manual.ScoreLeftIntake;
-import frc.robot.auton.manual.ScoreRightIntake;
-import frc.robot.auton.manual.ScoreDriveToGP;
-import frc.robot.auton.manual.practice.*;
-
+import frc.robot.auton.manual.*;
+import frc.robot.auton.practice.*;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
-// import frc.robot.commands.Intake1.CloseClawCone;
-// import frc.robot.commands.Intake1.CloseClawCube;
-import frc.robot.commands.Intake2.CloseClaw2;
-import frc.robot.commands.Intake2.RunIntake;
-import frc.robot.commands.LEDS.*;
-import frc.robot.subsystems.ArmAngle;
-import frc.robot.subsystems.ArmLateral;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.LED;
-// import frc.robot.subsystems.Drivetrain;
-// import frc.robot.subsystems.Intake;
+import frc.robot.commands.leds.*;
+import frc.robot.commands.arm.*;
+import frc.robot.commands.intake1.*;
+import frc.robot.commands.intake2.*;
+import frc.robot.commands.wrist.*;
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
-// import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-// import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-// import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-// import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -86,8 +67,8 @@ public class RobotContainer {
     // auton config
     autonChooser = new SendableChooser<Command>();
     SmartDashboard.putData("Choose Auto: ", autonChooser);
-    autonChooser.addOption("score and tax", new ScoreTaxi(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("taxi", new Taxi(drivetrain));
+    autonChooser.addOption("score and charge", new ScoreTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.setDefaultOption("taxi", new Taxi(drivetrain));
 
     // autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("p2", new Path2(drivetrain));
@@ -141,7 +122,7 @@ public class RobotContainer {
     drivetrain.resetEncoders();
     // armLateral.retractArm();
     // armAngle.setAngle(PositionConfig.defaultAngle);
-    intake.setDefaultWristAngle(IntakeConstants.DEFAULT_WRIST_ANGLE);
+    intake.increaseWristAngle(IntakeConstants.SUPPORT_WRIST_ANGLE);
   }
 
 

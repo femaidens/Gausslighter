@@ -43,7 +43,7 @@ public class ArmAngle extends SubsystemBase {
 
   public void setAngle(double input){
     if (input == 0) angleMotor.set(0);
-    angleMotor.set(-input*0.85);
+    angleMotor.set(-input*0.9);
   }
 
   public double getArmAngle() {

@@ -74,7 +74,7 @@ public class ArmLateral extends SubsystemBase {
     if (!topSwitch.get()) { //hit limit switch
       System.out.println("top limit activated! \n");
       stopExtensionMotors();
-      lateralEncoder.getPosition();
+      // lateralEncoder.getPosition();
       lateralEncoder.setPosition(0);
       return;
     }

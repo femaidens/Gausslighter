@@ -108,7 +108,8 @@ public class Intake extends SubsystemBase {
     return false; 
   }
 
-  public void setDefaultWristAngle(double angle){
+  // originally setDefaultWristAngle
+  public void decreaseWristAngle(double angle){
     double currentAngle = wristEncoder.getPosition();
     if (Math.abs(currentAngle - angle) < 1){ // test angle of wrist when fully down
         wristMotor.stopMotor();
@@ -116,10 +117,7 @@ public class Intake extends SubsystemBase {
     wristMotor.set(-0.05);
   }
 
-  public void setWristAngle(double angle){
-    // intake wrist angle: 
-    // support obj wrist angle: 
-
+  public void increaseWristAngle(double angle){
     double currentAngle = wristEncoder.getPosition();
     if (Math.abs(currentAngle - angle) < 1){ // test angle of wrist when fully down
         wristMotor.stopMotor();

@@ -2,22 +2,20 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ArmLateral;
+import frc.robot.subsystems.ArmAngle;
 
-public class RetractArm extends CommandBase {
-  /** Creates a new RetractArm. */
-  public final ArmLateral armLateral;
-  private double position;
+public class SetArmAngle extends CommandBase {
+  /** Creates a new setArmAngle. */
+  private final ArmAngle armAngle;
+  private double goalAngle;
 
-  public RetractArm(ArmLateral armLateral, double position) {
+  public SetArmAngle(ArmAngle armAngle, double goalAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
-    this.armLateral = armLateral;
-    this.position = position;
-    addRequirements(armLateral);
-
+    this.armAngle = armAngle;
+    addRequirements(armAngle);
   }
 
   // Called when the command is initially scheduled.
@@ -27,18 +25,18 @@ public class RetractArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armLateral.retractArm();
+    armAngle.setAngle(goalAngle);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    armLateral.stopExtensionMotors();
+    armAngle.stopAngleMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return armLateral.atLength(position);
+    return armAngle.atAngle(goalAngle);
   }
 }

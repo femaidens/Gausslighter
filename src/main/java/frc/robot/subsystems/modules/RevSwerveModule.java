@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.modules;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+// import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -28,7 +28,7 @@ public class RevSwerveModule {
 
   private final SparkMaxPIDController drivePIDController;
   private final SparkMaxPIDController turningPIDController;
-  private final SimpleMotorFeedforward driveFFController;
+  // private final SimpleMotorFeedforward driveFFController;
 
   private double chassisAngularOffset;
 
@@ -51,7 +51,7 @@ public class RevSwerveModule {
 
     drivePIDController.setFeedbackDevice(driveEncoder);
     turningPIDController.setFeedbackDevice(turningEncoder);
-    driveFFController = new SimpleMotorFeedforward(Drive.kS, Drive.kV, Drive.kA);
+    // driveFFController = new SimpleMotorFeedforward(Drive.kS, Drive.kV, Drive.kA);
 
     // convert encoder values to units
     driveEncoder.setPositionConversionFactor(Drive.DRIVE_ENCODER_PFACTOR); // m
