@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Constants.*;
-import frc.robot.commands.AutonDrive;
 import frc.robot.commands.OpenClaw;
 import frc.robot.commands.arm.ExtendArm;
 import frc.robot.commands.arm.RetractArm;
@@ -25,9 +24,10 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreTaxi extends SequentialCommandGroup {
+public class Score extends SequentialCommandGroup {
   //starting @ left/right, facing nodes 
-  public ScoreTaxi(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+
+  public Score(Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     // usable for all start positions in community (assuming you're aligned with a gamepiece outside of community)
     addCommands(
       // score high
@@ -46,16 +46,10 @@ public class ScoreTaxi extends SequentialCommandGroup {
       ),
       // new WaitCommand(AutoConstants.GP_SCORE_TIME), //wait for piece to fall onto node
 
-      // drive backwards to leave community and towards gamepiece
+      // resetting robot config
       new RetractArm(armLateral, PositionConfig.defaultLength),
       new SetArmAngle(armAngle, PositionConfig.midNodeAngle),
-        Commands.parallel(
-          new CloseClaw2(intake),
-          new AutonDrive(drivetrain, 0, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, true, true, 
-            AutoConstants.NODE_TO_GP_TIME))
-      //new AutonDrive(drivetrain, 0, 0, 180, true, true, 2.0) // turn to face gp
-      // new AutonDrive(drivetrain, 0, AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, true, true, 
-      // AutoConstants.NODE_TO_CHARGE_TIME)
+      new CloseClaw2(intake)
     );
   }
 }

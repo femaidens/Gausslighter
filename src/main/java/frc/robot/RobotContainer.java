@@ -11,6 +11,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.auton.manual.*;
 import frc.robot.auton.practice.*;
+import frc.robot.auton.spbli.ScoreMid;
+import frc.robot.auton.spbli.ScoreMidCharge;
+import frc.robot.auton.spbli.TaxiCharge;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -48,6 +51,7 @@ public class RobotContainer {
     private final ArmLateral armLateral = new ArmLateral();
     private final Intake intake = new Intake();
     private final LED led = new LED();
+    private final Limelight limelight = new Limelight();
 
   // The driver's controller
   CommandXboxController operJoy = new CommandXboxController(Ports.JoystickPorts.OPER_JOY);
@@ -67,8 +71,22 @@ public class RobotContainer {
     // auton config
     autonChooser = new SendableChooser<Command>();
     SmartDashboard.putData("Choose Auto: ", autonChooser);
-    autonChooser.addOption("score and charge", new ScoreTaxi(drivetrain, intake, armAngle, armLateral));
-    autonChooser.setDefaultOption("taxi", new Taxi(drivetrain));
+    autonChooser.setDefaultOption("charge", new Charge(drivetrain, AutoConstants.AUTON_CHARGE_SPEED, AutoConstants.AUTON_CHARGE_TIME)
+    );
+    autonChooser.addOption("left taxi", new ShortTaxi(drivetrain));
+    autonChooser.addOption("right taxi", new LongTaxi(drivetrain));
+    autonChooser.addOption("score", new Score(intake, armAngle, armLateral));
+
+    autonChooser.addOption("score mid", new ScoreMid(intake, armAngle, armLateral));
+    autonChooser.addOption("score mid charge", new ScoreMidCharge(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("taxi charge", new TaxiCharge(drivetrain));
+    autonChooser.addOption("score left taxi", new ScoreLeftTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score right taxi", new ScoreRightTaxi(drivetrain, intake, armAngle, armLateral));
+
+    // autonChooser.addOption("score", new Score(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("score left taxi", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("score right taxi", new ScoreRightIntake(drivetrain, intake, armAngle, armLateral));
+
 
     // autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("p2", new Path2(drivetrain));
@@ -122,7 +140,7 @@ public class RobotContainer {
     drivetrain.resetEncoders();
     // armLateral.retractArm();
     // armAngle.setAngle(PositionConfig.defaultAngle);
-    intake.increaseWristAngle(IntakeConstants.SUPPORT_WRIST_ANGLE);
+    //intake.increaseWristAngle(IntakeConstants.SUPPORT_WRIST_ANGLE);
   }
 
 

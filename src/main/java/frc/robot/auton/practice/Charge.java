@@ -4,6 +4,8 @@
 
 package frc.robot.auton.practice;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.*;
 import frc.robot.commands.AutonDrive;
@@ -16,12 +18,23 @@ import frc.robot.subsystems.Intake;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Charge extends SequentialCommandGroup {
-  public Charge(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+  public Charge(Drivetrain drivetrain, double chargeSpeed, double chargeTime) {
     // SET UP ROBOT TO FACE CHARGE UP
     // starting on the center position; right in front and facing charge up
     addCommands(
-      new AutonDrive(drivetrain, 0, AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, true, true, 
-      AutoConstants.NODE_TO_CHARGE_TIME)
+      new InstantCommand(
+        () -> drivetrain.resetGyro()
+      ),
+      new PrintCommand("Running charge"),
+      new AutonDrive(drivetrain, chargeSpeed, 0, 0, true, true, 
+      chargeTime),
+      // new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0,
+      // true, true, AutoConstants.NODE_TO_CHARGE_TIME));
+      new PrintCommand("autonomous has ended")
+      // new AutonDrive(drivetrain, AutoConstants.SCORE_AND_ENGAGE_SPEED,0, 0, true, true, 
+      // 1)
+
+      //0.2 speed, 1 second = 37 inches
     );
   }
 }

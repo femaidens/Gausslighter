@@ -87,17 +87,21 @@ public class Intake extends SubsystemBase {
 
   // MANUAL
   public void setWristAngleManual(double input){
-    double wristAngleSpeed = 0.25;
-
-    if(input < 0){
-      wristMotor.set(-wristAngleSpeed); // decrease
-    }
-    else if (input > 0 ){
-      wristMotor.set(wristAngleSpeed); //increase
-    }
-    else {
-      stopWristMotor();
-    }
+    double wristAngleSpeed = 0.2;
+    // if (wristEncoder.getPosition() <= 18){
+    //   stopWristMotor();
+    // }
+    // else{
+      if(input < 0){
+        wristMotor.set(-wristAngleSpeed); // decrease
+      }
+      else if (input > 0 ){
+        wristMotor.set(wristAngleSpeed); //increase
+      }
+      else {
+        stopWristMotor();
+      }
+    //}
   }
 
   public boolean atWristAngle(double angle){
@@ -145,7 +149,9 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // boolean box
-    SmartDashboard.putBoolean("@ wrist angle", atWristAngle(IntakeConstants.INTAKE_WRIST_ANGLE));
+    SmartDashboard.putBoolean("@ intake wrist angle", atWristAngle(IntakeConstants.INTAKE_WRIST_ANGLE));
+    SmartDashboard.putBoolean("@ default wrist angle", atWristAngle(IntakeConstants.DEFAULT_WRIST_ANGLE));
+    SmartDashboard.putBoolean("@ score wrist angle", atWristAngle(IntakeConstants.SCORE_WRIST_ANGLE));
 
     // values
     SmartDashboard.putNumber("curr. wrist angle", wristEncoder.getPosition());

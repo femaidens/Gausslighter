@@ -40,7 +40,7 @@ public class ScoreDriveToGP extends SequentialCommandGroup {
       new SetArmAngle(armAngle, PositionConfig.midNodeAngle),
         Commands.parallel(
           new CloseClaw2(intake),
-          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0, true, true, 
+          new AutonDrive(drivetrain, -AutoConstants.CHARGE_SPEED, 0, 0, true, true, 
             AutoConstants.NODE_TO_GP_TIME)),
       new AutonDrive(drivetrain, 0, 0, 180, true, true, 2.0) // turn to face gp
     );

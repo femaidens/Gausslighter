@@ -39,7 +39,7 @@ public class ScoreCenterIntake extends SequentialCommandGroup {
       new SetArmAngle(armAngle, PositionConfig.defaultAngle),
         Commands.parallel(
           new CloseClaw2(intake),
-          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0, 
+          new AutonDrive(drivetrain, -AutoConstants.CHARGE_SPEED, 0, 0, 
             true, true, AutoConstants.NODE_TO_GP_TIME + 3.0)), // extra drivetime to account for driving thru charge station
 
       // turn around, move forward and intake gamepiece

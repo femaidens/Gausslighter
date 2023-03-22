@@ -18,7 +18,7 @@ import frc.robot.Ports.ArmPorts;
 
 public class ArmLateral extends SubsystemBase {
   private final RelativeEncoder lateralEncoder; // extending and retraction arm
-  private final CANSparkMax rightLateralMotor;
+  // private final CANSparkMax rightLateralMotor;
   private final CANSparkMax leftLateralMotor;
   private final DigitalInput topSwitch;
   private final DigitalInput botSwitch;
@@ -27,7 +27,7 @@ public class ArmLateral extends SubsystemBase {
   public ArmLateral() {
 
     // motor instantiations
-    rightLateralMotor = new CANSparkMax(ArmPorts.RIGHT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
+    // rightLateralMotor = new CANSparkMax(ArmPorts.RIGHT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
     leftLateralMotor = new CANSparkMax(ArmPorts.LEFT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
 
     // encoder instantiations
@@ -41,13 +41,13 @@ public class ArmLateral extends SubsystemBase {
     botSwitch = new DigitalInput(ArmPorts.BOT_SWITCH_PORT);
 
     // motor configs
-    rightLateralMotor.setIdleMode(IdleMode.kBrake);
+    // rightLateralMotor.setIdleMode(IdleMode.kBrake);
     leftLateralMotor.setIdleMode(IdleMode.kBrake);
 
     leftLateralMotor.setInverted(false); // correct orientation
-    rightLateralMotor.setInverted(true); // makes retract negative
+    // rightLateralMotor.setInverted(true); // makes retract negative
 
-    rightLateralMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
+    // rightLateralMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
     leftLateralMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
   }
 
@@ -62,7 +62,7 @@ public class ArmLateral extends SubsystemBase {
     else{
       System.out.println("retracting");
       leftLateralMotor.set(-0.4);
-      rightLateralMotor.set(-0.4);
+      // rightLateralMotor.set(-0.4);
       currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
       // change back to minus if increases moving backwards
     }
@@ -81,7 +81,7 @@ public class ArmLateral extends SubsystemBase {
 
     else{
       leftLateralMotor.set(0.4);
-      rightLateralMotor.set(0.4);
+      // rightLateralMotor.set(0.4);
       currentLength = lateralEncoder.getPosition();
     }
   }
@@ -93,7 +93,7 @@ public class ArmLateral extends SubsystemBase {
 
   public void stopExtensionMotors() {
     leftLateralMotor.set(0);
-    rightLateralMotor.set(0);
+    // rightLateralMotor.set(0);
   }
 
   @Override
@@ -112,7 +112,7 @@ public class ArmLateral extends SubsystemBase {
     SmartDashboard.putNumber("get lateral rotations ", lateralEncoder.getPosition());
 
 
-    SmartDashboard.putNumber("arm lateral speed", rightLateralMotor.get());
+    SmartDashboard.putNumber("arm lateral speed", leftLateralMotor.get());
     SmartDashboard.putNumber("lateral pfactor", lateralEncoder.getPositionConversionFactor());
 
   }

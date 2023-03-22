@@ -40,20 +40,19 @@ public class AutonDrive extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timer.start();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    timer.start();
-    while (timer.get() != driveTime) {
-      if (timer.get() < driveTime) {
+      // if (timer.get() < driveTime) {
         drivetrain.drive(xSpeed, ySpeed, rot, fieldRelative, rateLimit); 
-      }
-      else {
-        drivetrain.drive(0, 0, 0, true, true);
-      }
-    }
+      //}
+      // else {
+      //   drivetrain.drive(0, 0, 0, true, true);
+      // }
   }
 
   // Called once the command ends or is interrupted.

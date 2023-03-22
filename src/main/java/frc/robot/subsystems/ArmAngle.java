@@ -21,7 +21,6 @@ public class ArmAngle extends SubsystemBase {
   private final SparkMaxAbsoluteEncoder angEncoder;
 
   public ArmAngle() {
-
     // motor instantiation
     angleMotor = new CANSparkMax(ArmPorts.ANG_MOTOR_PORT, MotorType.kBrushless);
 
@@ -41,9 +40,17 @@ public class ArmAngle extends SubsystemBase {
   
   }
 
+  public void increaseArmAngle(double angle){
+
+  }
+
+  public void decreaseArmangle(double angle){
+    
+  }
+
   public void setAngle(double input){
     if (input == 0) angleMotor.set(0);
-    angleMotor.set(-input*0.9);
+    angleMotor.set(-input);
   }
 
   public double getArmAngle() {
@@ -74,8 +81,10 @@ public class ArmAngle extends SubsystemBase {
     // boolean boxes
     SmartDashboard.putBoolean("@ default angle", atAngle(PositionConfig.defaultAngle));
     SmartDashboard.putBoolean("@ low angle", atAngle(PositionConfig.lowNodeAngle));
-    SmartDashboard.putBoolean("@ mid/hp angle", atAngle(PositionConfig.midNodeAngle));
+    SmartDashboard.putBoolean("@ mid angle", atAngle(PositionConfig.midNodeAngle));
     SmartDashboard.putBoolean("@ high angle", atAngle(PositionConfig.highNodeAngle));
+    SmartDashboard.putBoolean("@ hp angle", atAngle(PositionConfig.hpAngle));
+
 
     // values
     SmartDashboard.putNumber("arm angle", angEncoder.getPosition());

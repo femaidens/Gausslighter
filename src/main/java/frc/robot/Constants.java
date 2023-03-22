@@ -51,18 +51,20 @@ public final class Constants {
 
     public static class PositionConfig { // subject to change
       // arm angles (for both intakes)
-      public static final double defaultAngle = 61;
+      public static final double defaultAngle = 63.9;
       public static final double lowNodeAngle = 1.986;
-      public static final double midNodeAngle = 30.2; // also hp angle 43.5
-      public static final double highNodeAngle = 30.2;
+      public static final double midNodeAngle = 30; 
+      public static final double highNodeAngle = 30;
+      public static final double hpAngle = 40;
+
 
       // starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
       // find unit conversion units, current: inches
       // desired extension distance -> change after raised crossbar
       public static final double defaultLength = 0;
       public static final double lowLength = defaultLength;
-      public static final double midLength = defaultLength;
-      public static final double highLength = 28.5; 
+      public static final double midLength = 24.26;
+      public static final double highLength = 46.3; 
       public static final double doubleHPLength = 13.069;
     }
   }
@@ -71,10 +73,10 @@ public final class Constants {
     public static final double tickFactor =  Constants.CPR / 360;
     public static final double intakeMargin = 3;
 
-    public static final double DEFAULT_WRIST_ANGLE = 114.9; // PLACEHOLDER
-    public static final double INTAKE_WRIST_ANGLE = 240.6; // TEST
-    public static final double SCORE_WRIST_ANGLE = 283.4; // TEST
-    public static final double SUPPORT_WRIST_ANGLE = 345; // TEST
+    public static final double DEFAULT_WRIST_ANGLE = 23.3; // PLACEHOLDER
+    public static final double INTAKE_WRIST_ANGLE = 83.3; // TEST
+    public static final double SCORE_WRIST_ANGLE = 125.0; // TEST
+    public static final double SUPPORT_WRIST_ANGLE = 197.7; // TEST
 
     public static final double WRIST_SPEED = 0.1;
     public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
@@ -190,16 +192,27 @@ public final class Constants {
     public static final double AUTON_MAX_ANGULAR_SPEED = Math.PI; // max angular speed rad/s
     public static final double AUTON_MAX_ANGULAR_SPEED_SQUARED = Math.PI; // angular speed rad/s^2
 
+    public static final double AUTON_INC_WRIST_ANGLE_TIME = 3.0; // CHANGE AFTER TESTING
+    public static final double AUTON_DEC_WRIST_ANGLE_TIME = 3.0;
+    public static final double AUTON_EXTEND_DEFAULT_ARM_TIME = 3.0;
+    public static final double AUTON_RETRACT_DEFAULT_ARM_TIME = 3.0;
+
+    public static final double AUTON_CHARGE_TIME = 3.0;
+    public static final double AUTON_CHARGE_SPEED = 3.0;
+    public static final double AUTON_TAXICHARGE_TIME = 2.0;
+
     public static final double PXController = 1;
     public static final double PYController = 1;
     public static final double PThetaController = 1;
 
-    public static final double NODE_TO_CHARGE_TIME = 5.0; // test run was 5.44 sec time needed to engage, starting from center
-    public static final double NODE_TO_GP_TIME = NODE_TO_CHARGE_TIME + 2.0; // drive thru charge station
-    public static final double LEAVE_COMMUNITY_TIME = 5.0; // robot is close to charge station but not on it
+    public static final double LEFT_TAXI_TIME = 3;
+    public static final double CHARGE_TIME = 3.475; // test run was 5.44 sec time needed to engage, starting from center
+    public static final double NODE_TO_GP_TIME = CHARGE_TIME + 2.0; // drive thru charge station
+    public static final double RIGHT_TAXI_TIME = 4; // robot is close to charge station but not on it
 
-    public static final double SCORE_AND_ENGAGE_SPEED = 0.25; //auto speed
-    public static final double CHARGE_SPEED = 0.2;
+    // public static final double SCORE_AND_ENGAGE_SPEED = 0.185; //change if needed for future paths
+    public static final double AUTON_SPEED = 0.185;
+    public static final double CHARGE_SPEED = 0.185;
     public static final double GP_SCORE_TIME = 2.0; // how long gp takes to fall out of intake and onto node
 
     // Constraint for the motion profiled robot angle controller

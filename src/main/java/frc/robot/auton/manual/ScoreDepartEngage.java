@@ -38,12 +38,13 @@ public class ScoreDepartEngage extends SequentialCommandGroup {
       new SetArmAngle(armAngle, PositionConfig.defaultAngle),
         Commands.parallel(
           new CloseClaw2(intake),
-          new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0, 
-          true, true, AutoConstants.LEAVE_COMMUNITY_TIME)),
+          new AutonDrive(drivetrain, -AutoConstants.CHARGE_SPEED, 0, 0, 
+          true, true, AutoConstants.RIGHT_TAXI_TIME)),
       
-      // drive forward to engage
+      // drive forward to engage -> CHANGE ALL TIME VALUES
+    
       new AutonDrive(drivetrain, AutoConstants.CHARGE_SPEED, 0, 0, 
-        true, true, AutoConstants.LEAVE_COMMUNITY_TIME - AutoConstants.NODE_TO_CHARGE_TIME)
+        true, true, AutoConstants.RIGHT_TAXI_TIME - AutoConstants.CHARGE_TIME)
     );
   }
 }

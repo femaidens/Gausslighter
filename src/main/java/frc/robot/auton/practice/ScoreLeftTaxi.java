@@ -5,18 +5,22 @@
 package frc.robot.auton.practice;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.commands.AutonDrive;
+import frc.robot.subsystems.ArmAngle;
+import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class Taxi extends SequentialCommandGroup {
-  public Taxi(Drivetrain drivetrain) {
-    // starting @ left/right, facing gp
+public class ScoreLeftTaxi extends SequentialCommandGroup {
+  //starting @ left/right, facing nodes 
+  public ScoreLeftTaxi(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+    // usable for all start positions in community (assuming you're aligned with a gamepiece outside of community)
     addCommands(
-      new AutonDrive(drivetrain, 0, AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 
-        true, true, AutoConstants.NODE_TO_CHARGE_TIME));
+      // score high
+      new Score(intake, armAngle, armLateral),
+      new ShortTaxi(drivetrain)
+    );
   }
 }

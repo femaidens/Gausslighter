@@ -47,7 +47,7 @@ public class ScoreRightIntake extends SequentialCommandGroup {
         //drive forward to intake to game piece (placeholder speed and time)
         Commands.parallel(
           new RunIntake(intake),
-          new AutonDrive(drivetrain, AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0, 
+          new AutonDrive(drivetrain, AutoConstants.CHARGE_SPEED, 0, 0, 
             true, true, AutoConstants.NODE_TO_GP_TIME))
     );
   }
