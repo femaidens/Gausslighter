@@ -40,12 +40,14 @@ public class ArmAngle extends SubsystemBase {
   
   }
 
-  public void increaseArmAngle(double angle){
-
+  public void increaseArmAngle(){
+    angleMotor.set(1);
+    System.out.print("increasing arm angle");
   }
 
-  public void decreaseArmangle(double angle){
-    
+  public void decreaseArmangle(){
+    angleMotor.set(-1);
+    System.out.print("decreasing arm angle");
   }
 
   public void setAngle(double input){

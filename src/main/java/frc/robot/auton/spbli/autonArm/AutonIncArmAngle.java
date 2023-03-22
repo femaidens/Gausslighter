@@ -2,37 +2,40 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.auton.spbli.arm;
+package frc.robot.auton.spbli.autonArm;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.ArmAngle;
 
 public class AutonIncArmAngle extends CommandBase {
   /** Creates a new AutonIncArmAngle. */
   private final ArmAngle armAngle;
-  private double goalAngle;
-  private double currAngle;
+  private Timer timer = new Timer();
 
-  public AutonIncArmAngle(ArmAngle armAngle, double goalAngle) {
+  public AutonIncArmAngle(ArmAngle armAngle) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armAngle = armAngle;
-    this.goalAngle = goalAngle;
-    currAngle = armAngle.getArmAngle();
+    addRequirements(armAngle);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    timer.start();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (currAngle < goalAngle) {
-      armAngle.increaseArmAngle(goalAngle);
-    }
-    else {
-      armAngle.stopAngleMotor();
-    }
+    //if (currAngle < goalAngle) {
+      armAngle.increaseArmAngle();
+    //}
+    // else {
+    //   armAngle.stopAngleMotor();
+    // }
   }
 
   // Called once the command ends or is interrupted.
@@ -44,6 +47,6 @@ public class AutonIncArmAngle extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return currAngle >= goalAngle;
+    return timer.get() > AutoConstants.AUTON_INC_ARM_ANGLE_TIME;
   }
 }

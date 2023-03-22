@@ -48,7 +48,7 @@ public class ScoreRightIntake extends SequentialCommandGroup {
         Commands.parallel(
           new RunIntake(intake),
           new AutonDrive(drivetrain, AutoConstants.CHARGE_SPEED, 0, 0, 
-            true, true, AutoConstants.NODE_TO_GP_TIME))
+            true, true, AutoConstants.LONG_TAXI_TIME))
     );
   }
 }

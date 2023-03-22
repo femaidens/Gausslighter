@@ -40,7 +40,7 @@ public class ScoreIntakeEngage extends SequentialCommandGroup {
         Commands.parallel(
           new CloseClaw2(intake),
           new AutonDrive(drivetrain, -AutoConstants.CHARGE_SPEED, 0, 0, 
-            true, true, AutoConstants.NODE_TO_GP_TIME)),
+            true, true, AutoConstants.LONG_TAXI_TIME)),
 
       // turn around and drive forward to intake (placeholder speed)
       Commands.parallel(
@@ -50,7 +50,7 @@ public class ScoreIntakeEngage extends SequentialCommandGroup {
 
       //move backward onto charge station
       new AutonDrive(drivetrain, -0.1, 0, 0, true, true, 
-        AutoConstants.NODE_TO_GP_TIME - AutoConstants.CHARGE_TIME)
+        AutoConstants.LONG_TAXI_TIME - AutoConstants.CHARGE_TIME)
     );
   }
 }

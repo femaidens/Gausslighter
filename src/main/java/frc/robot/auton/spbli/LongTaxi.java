@@ -4,26 +4,25 @@
 
 package frc.robot.auton.spbli;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.auton.practice.Charge;
-import frc.robot.auton.practice.LongTaxi;
+import frc.robot.commands.AutonDrive;
 import frc.robot.subsystems.Drivetrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class TaxiCharge extends SequentialCommandGroup {
-  /** Creates a new TaxiCharge. */
-  private final Drivetrain drivetrain;
-  public TaxiCharge(Drivetrain drivetrain) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-    this.drivetrain = drivetrain;
-
+public class LongTaxi extends SequentialCommandGroup {
+  public LongTaxi(Drivetrain drivetrain) {
+    // starting @ left/right, facing gp
     addCommands(
-      new LongTaxi(drivetrain),
-      new Charge(drivetrain, -AutoConstants.AUTON_CHARGE_SPEED, AutoConstants.AUTON_TAXICHARGE_TIME)
-    );
+      new InstantCommand(
+        () -> drivetrain.resetGyro()
+      ), 
+      new AutonDrive(drivetrain, AutoConstants.TAXI_SPEED, 0, 0, 
+        true, true, 4.5));
+
+      //node to gp = 224 => 222 in
   }
 }

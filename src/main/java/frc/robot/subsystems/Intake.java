@@ -92,6 +92,9 @@ public class Intake extends SubsystemBase {
     //   stopWristMotor();
     // }
     // else{
+      if(wristEncoder.getPosition() <= IntakeConstants.DEFAULT_WRIST_ANGLE || wristEncoder.getPosition() >= IntakeConstants.SUPPORT_WRIST_ANGLE){
+        stopWristMotor();
+      }
       if(input < 0){
         wristMotor.set(-wristAngleSpeed); // decrease
       }
@@ -140,7 +143,9 @@ public class Intake extends SubsystemBase {
   public void stopIntakeMotor(){
     clawMotor.set(0);
   }
-
+  public void runWristMotor(double speed){
+    wristMotor.set(speed);
+  }
   public void stopWristMotor() {
     wristMotor.set(0);
   }

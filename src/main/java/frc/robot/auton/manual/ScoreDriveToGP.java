@@ -41,7 +41,7 @@ public class ScoreDriveToGP extends SequentialCommandGroup {
         Commands.parallel(
           new CloseClaw2(intake),
           new AutonDrive(drivetrain, -AutoConstants.CHARGE_SPEED, 0, 0, true, true, 
-            AutoConstants.NODE_TO_GP_TIME)),
+            AutoConstants.LONG_TAXI_TIME)),
       new AutonDrive(drivetrain, 0, 0, 180, true, true, 2.0) // turn to face gp
     );
   }

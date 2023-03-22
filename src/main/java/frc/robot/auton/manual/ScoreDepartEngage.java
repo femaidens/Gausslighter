@@ -39,12 +39,12 @@ public class ScoreDepartEngage extends SequentialCommandGroup {
         Commands.parallel(
           new CloseClaw2(intake),
           new AutonDrive(drivetrain, -AutoConstants.CHARGE_SPEED, 0, 0, 
-          true, true, AutoConstants.RIGHT_TAXI_TIME)),
+          true, true, AutoConstants.LONG_TAXI_TIME)),
       
       // drive forward to engage -> CHANGE ALL TIME VALUES
     
       new AutonDrive(drivetrain, AutoConstants.CHARGE_SPEED, 0, 0, 
-        true, true, AutoConstants.RIGHT_TAXI_TIME - AutoConstants.CHARGE_TIME)
+        true, true, AutoConstants.LONG_TAXI_TIME - AutoConstants.CHARGE_TIME)
     );
   }
 }

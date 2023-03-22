@@ -10,10 +10,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.auton.manual.*;
-import frc.robot.auton.practice.*;
-import frc.robot.auton.spbli.ScoreMid;
-import frc.robot.auton.spbli.ScoreMidCharge;
-import frc.robot.auton.spbli.TaxiCharge;
+import frc.robot.auton.spbli.*;
+import frc.robot.auton.spbli.autonScoreCmds.ScoreHigh;
+import frc.robot.auton.spbli.autonScoreCmds.ScoreMid;
+import frc.robot.auton.spbli.autonScoreCmds.ScoreMidCharge;
+import frc.robot.auton.spbli.autonScoreCmds.TaxiCharge;
+import frc.robot.auton.spbli.autonScoreRoutines.ScoreLongTaxi;
+import frc.robot.auton.spbli.autonScoreRoutines.ScoreShortTaxi;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -73,15 +76,16 @@ public class RobotContainer {
     SmartDashboard.putData("Choose Auto: ", autonChooser);
     autonChooser.setDefaultOption("charge", new Charge(drivetrain, AutoConstants.AUTON_CHARGE_SPEED, AutoConstants.AUTON_CHARGE_TIME)
     );
+    autonChooser.addOption("score high", new ScoreHigh(intake, armAngle, armLateral));
     autonChooser.addOption("left taxi", new ShortTaxi(drivetrain));
-    autonChooser.addOption("right taxi", new LongTaxi(drivetrain));
+    // autonChooser.setDefaultOption("right taxi", new LongTaxi(drivetrain));
     autonChooser.addOption("score", new Score(intake, armAngle, armLateral));
 
     autonChooser.addOption("score mid", new ScoreMid(intake, armAngle, armLateral));
     autonChooser.addOption("score mid charge", new ScoreMidCharge(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("taxi charge", new TaxiCharge(drivetrain));
-    autonChooser.addOption("score left taxi", new ScoreLeftTaxi(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score right taxi", new ScoreRightTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score left taxi", new ScoreShortTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score right taxi", new ScoreLongTaxi(drivetrain, intake, armAngle, armLateral));
 
     // autonChooser.addOption("score", new Score(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("score left taxi", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
