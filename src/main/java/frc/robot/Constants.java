@@ -202,6 +202,9 @@ public final class Constants {
     public static final TrapezoidProfile.Constraints kThetaControllerConstraints = new TrapezoidProfile.Constraints(
       AUTON_MAX_ANGULAR_SPEED, AUTON_MAX_ANGULAR_SPEED_SQUARED);
 
+    // intake wheels
+    public static final double AUTON_OUTTAKE_TIME = 2;
+
     // wrist angles
     public static final double SUPPORT_WRIST_ANGLE_TIME = 2.3; // CHANGE AFTER TESTING was 1
     public static final double SCORE_WRIST_ANGLE_TIME = 0.95;

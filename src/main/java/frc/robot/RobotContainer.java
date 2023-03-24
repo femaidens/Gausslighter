@@ -14,6 +14,8 @@ import frc.robot.auton.spbli.*;
 import frc.robot.auton.spbli.autonScoreCmds.ScoreHigh;
 import frc.robot.auton.spbli.autonScoreCmds.ScoreMid;
 import frc.robot.auton.spbli.autonScoreCmds.ScoreMidCharge;
+import frc.robot.auton.spbli.autonScoreCmds.ShootHigh;
+import frc.robot.auton.spbli.autonScoreCmds.ShootMid;
 import frc.robot.auton.spbli.autonScoreCmds.TaxiCharge;
 import frc.robot.auton.spbli.autonScoreRoutines.ScoreLongTaxi;
 import frc.robot.auton.spbli.autonScoreRoutines.ScoreShortTaxi;
@@ -21,6 +23,11 @@ import frc.robot.auton.spbli.autonScoreRoutines.ScoreShortTaxi;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
+import frc.robot.commands.Intake2.CloseClaw2;
+import frc.robot.commands.Intake2.RunIntake;
+import frc.robot.commands.LEDS.ConeLEDS;
+import frc.robot.commands.LEDS.CubeLEDS;
+import frc.robot.commands.LEDS.PurpGreenLEDS;
 import frc.robot.commands.leds.*;
 import frc.robot.commands.arm.*;
 import frc.robot.commands.intake1.*;
@@ -76,33 +83,35 @@ public class RobotContainer {
     SmartDashboard.putData("Choose Auto: ", autonChooser);
     autonChooser.setDefaultOption("charge", new Charge(drivetrain, AutoConstants.AUTON_CHARGE_SPEED, AutoConstants.AUTON_CHARGE_TIME)
     );
-    autonChooser.addOption("score high", new ScoreHigh(intake, armAngle, armLateral));
-    autonChooser.addOption("left taxi", new ShortTaxi(drivetrain));
-    // autonChooser.setDefaultOption("right taxi", new LongTaxi(drivetrain));
-    autonChooser.addOption("score", new Score(intake, armAngle, armLateral));
+    
+    //shoot
+    autonChooser.addOption("shoot mid ", new ShootMid(intake, armAngle, armLateral));
+    autonChooser.addOption("shoot high", new ShootHigh(intake, armAngle, armLateral));
 
+    //score
+    autonChooser.addOption("score high", new ScoreHigh(intake, armAngle, armLateral));
     autonChooser.addOption("score mid", new ScoreMid(intake, armAngle, armLateral));
     autonChooser.addOption("score mid charge", new ScoreMidCharge(drivetrain, intake, armAngle, armLateral));
+
+    //taxis
+    autonChooser.addOption("short taxi", new ShortTaxi(drivetrain));
+    autonChooser.setDefaultOption("long taxi", new LongTaxi(drivetrain));
+    autonChooser.addOption("score short taxi", new ScoreShortTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score long taxi", new ScoreLongTaxi(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("taxi charge", new TaxiCharge(drivetrain));
-    autonChooser.addOption("score left taxi", new ScoreShortTaxi(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score right taxi", new ScoreLongTaxi(drivetrain, intake, armAngle, armLateral));
+    //unused autons
 
     // autonChooser.addOption("score", new Score(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("score left taxi", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("score right taxi", new ScoreRightIntake(drivetrain, intake, armAngle, armLateral));
-
-
     // autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("p2", new Path2(drivetrain));
-    
-    autonChooser.addOption("score and engage", new ScoreAndEngage(drivetrain, intake, armAngle, armLateral));
+    //autonChooser.addOption("score and engage", new ScoreAndEngage(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("score and drive to game piece", new ScoreDriveToGP(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("score, leave community and engage", new ScoreDepartEngage(drivetrain, intake, armAngle, armLateral));
-
     // autonChooser.addOption("score and center intake", new ScoreCenterIntake(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("score and left intake", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
     // autonChooser.addOption("score and right intake", new ScoreRightIntake(drivetrain, intake, armAngle, armLateral));
-
     // autonChooser.addOption("score, center intake and engage", new ScoreIntakeEngage(drivetrain, intake, armAngle, armLateral));
     
 
