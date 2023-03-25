@@ -168,7 +168,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* * * DRIVETRAIN * * */
-      Trigger xDriveButton = driveJoy.leftBumper();
+      Trigger xDriveButton = driveJoy.x();
       xDriveButton
         .whileTrue(new InstantCommand(
           () -> drivetrain.setX(), drivetrain));
@@ -178,12 +178,12 @@ public class RobotContainer {
           .onTrue(new InstantCommand(
             () -> drivetrain.resetGyro(), drivetrain));
 
-      // Trigger slowDriveButton = driveJoy.leftBumper();
-      // slowDriveButton
-      //     .onTrue(new InstantCommand(
-      //       () -> drivetrain.slowSpeed(), drivetrain))
-      //     .onFalse(new InstantCommand(
-      //       () -> drivetrain.regSpeed(), drivetrain));
+      Trigger slowDriveButton = driveJoy.leftBumper();
+      slowDriveButton
+          .onTrue(new InstantCommand(
+            () -> drivetrain.slowSpeed(), drivetrain))
+          .onFalse(new InstantCommand(
+            () -> drivetrain.regSpeed(), drivetrain));
       
     /* * * INTAKE 2 * * */
       /* LEDS */

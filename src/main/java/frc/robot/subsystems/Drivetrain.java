@@ -168,10 +168,10 @@ public class Drivetrain extends SubsystemBase {
     }
 
     // Convert the commanded speeds into the correct units for the drivetrain
-    double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED;
-    double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED;
-    // double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED * speedFactor;
-    // double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED * speedFactor;
+    // double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED;
+    // double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED;
+    double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED * speedFactor;
+    double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED * speedFactor;
     double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED;
     var swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
         fieldRelative
