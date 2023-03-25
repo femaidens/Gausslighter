@@ -178,6 +178,13 @@ public class RobotContainer {
           .onTrue(new InstantCommand(
             () -> drivetrain.resetGyro(), drivetrain));
 
+      // Trigger slowDriveButton = driveJoy.leftBumper();
+      // slowDriveButton
+      //     .onTrue(new InstantCommand(
+      //       () -> drivetrain.slowSpeed(), drivetrain))
+      //     .onFalse(new InstantCommand(
+      //       () -> drivetrain.regSpeed(), drivetrain));
+      
     /* * * INTAKE 2 * * */
       /* LEDS */
       Trigger coneLEDButton = operJoy.start(); //8 right

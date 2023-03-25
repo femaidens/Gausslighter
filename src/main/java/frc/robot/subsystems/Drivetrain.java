@@ -60,6 +60,7 @@ public class Drivetrain extends SubsystemBase {
   private SlewRateLimiter magLimiter = new SlewRateLimiter(DriveConstants.MAG_SLEW_RATE);
   private SlewRateLimiter rotLimiter = new SlewRateLimiter(DriveConstants.ROT_SLEW_RATE);
   private double prevTime = WPIUtilJNI.now() * 1e-6;
+  private double speedFactor = 1;
 
   // odometry class (tracks robot pose)
   SwerveDriveOdometry odometry = new SwerveDriveOdometry(
@@ -169,6 +170,8 @@ public class Drivetrain extends SubsystemBase {
     // Convert the commanded speeds into the correct units for the drivetrain
     double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED;
     double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED;
+    // double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED * speedFactor;
+    // double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED * speedFactor;
     double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED;
     var swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
         fieldRelative
@@ -246,6 +249,14 @@ public class Drivetrain extends SubsystemBase {
       rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
       rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     }
+
+  public void slowSpeed(){
+    speedFactor = 0.5;
+  }
+
+  public void regSpeed(){
+    speedFactor = 1;
+  }
     
 
 
