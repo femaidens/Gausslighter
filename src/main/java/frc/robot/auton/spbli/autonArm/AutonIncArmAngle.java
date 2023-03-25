@@ -42,6 +42,7 @@ public class AutonIncArmAngle extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     armAngle.stopAngleMotor();
+    timer.reset();
   }
 
   // Returns true when the command should end.

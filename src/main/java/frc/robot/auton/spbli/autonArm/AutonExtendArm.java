@@ -43,6 +43,7 @@ public class AutonExtendArm extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     armLateral.stopExtensionMotors();
+    timer.reset();
   }
 
   // Returns true when the command should end.

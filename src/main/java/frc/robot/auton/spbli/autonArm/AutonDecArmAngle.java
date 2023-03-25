@@ -45,6 +45,7 @@ public class AutonDecArmAngle extends CommandBase {
   public void end(boolean interrupted) {
     System.out.println("ending arm angle motor");
     armAngle.stopAngleMotor();
+    timer.reset();
   }
 // sus
 

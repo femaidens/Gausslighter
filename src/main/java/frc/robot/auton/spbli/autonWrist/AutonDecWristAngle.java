@@ -44,6 +44,7 @@ public class AutonDecWristAngle extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     intake.stopWristMotor();
+    timer.reset();
   }
 
   // Returns true when the command should end.
