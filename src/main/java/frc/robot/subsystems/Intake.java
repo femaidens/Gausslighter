@@ -4,86 +4,153 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+// import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-//import edu.wpi.first.wpilibj.drive.RobotDriveBase.MotorType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Ports;
+// import frc.robot.Constants;
+import frc.robot.Ports.*;
+import frc.robot.Constants.*;
+
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
-  public Intake() {}
+  private final DoubleSolenoid piston1;
+  private final DoubleSolenoid piston2;
+  private final CANSparkMax wristMotor;
+  private final CANSparkMax clawMotor;
+  // private final PIDController wristAnglePID;
+  private final SparkMaxAbsoluteEncoder wristEncoder;
+  // private final Timer timer;
+  // private static int margin = 3; // margin for claw angle in terms of ticks,
+  // can change later
 
-  private static DoubleSolenoid piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Ports.wrist.piston1ForwardPort, Ports.wrist.piston1ReversePort);
-  private static DoubleSolenoid piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, Ports.wrist.piston2ForwardPort, Ports.wrist.piston2ReversePort);
-  private static CANSparkMax wrist = new CANSparkMax(Ports.wrist.wristMotorPort, MotorType.kBrushless);
-  private static CANSparkMax clawWheels = new CANSparkMax(Ports.wrist.clawWheelsPort, MotorType.kBrushless);
-  private static PIDController wristAngle = new PIDController(Constants.PIDConstants.Kp, Constants.PIDConstants.Ki, Constants.PIDConstants.Kd);
-  private static DutyCycleEncoder wristEncoder = new DutyCycleEncoder(Ports.wrist.wristEncoderPort);
-  private static int margin = 3; // margin for claw angle in terms of ticks, can change later
+  public Intake() {
 
-  public static void openClaw() { //retracting pistons
+    // piston instantiations
+    piston1 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakePorts.PISTON1_FORWARD_PORT,
+        IntakePorts.PISTON1_REVERSE_PORT);
+    piston2 = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, IntakePorts.PISTON2_FORWARD_PORT,
+        IntakePorts.PISTON2_REVERSE_PORT);
+
+    // motor instantiations
+    wristMotor = new CANSparkMax(IntakePorts.WRIST_MOTOR_PORT, MotorType.kBrushless);
+    clawMotor = new CANSparkMax(IntakePorts.CLAW_MOTOR_PORT, MotorType.kBrushless);
+   
+    // encoder instantiations
+    wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
+
+    // motor configs
+    wristMotor.setIdleMode(IdleMode.kBrake);
+    wristMotor.setInverted(true);
+
+    // current limits
+    wristMotor.setSmartCurrentLimit(IntakeConstants.WRIST_MOTOR_CURRENT_LIMIT);
+    wristMotor.setSecondaryCurrentLimit(IntakeConstants.WRIST_MOTOR_SECONDARY_LIMIT);
+    clawMotor.setSmartCurrentLimit(IntakeConstants.CLAW_MOTOR_CURRENT_LIMIT);
+    clawMotor.setSecondaryCurrentLimit(IntakeConstants.CLAW_MOTOR_SECONDARY_LIMIT);
+
+    // encoder config
+    wristEncoder.setPositionConversionFactor(360);
+
+    // timer = new Timer();
+  }
+
+  public void openClaw() { // retracting pistons
+    piston1.set(Value.kForward);
+    // piston2.set(Value.kForward);
+    //System.out.println("piston state: " + piston1.);
+  }
+
+  public void closeClaw() { // extends pistons & clamps onto the gamepiece
+    piston1.set(Value.kReverse);
+    // System.out.println("left piston out");
+  }
+
+  public void closeClawCube() { // extends pistons & clamps onto the gamepiece
     piston1.set(Value.kReverse);
     piston2.set(Value.kReverse);
-  }
-
-  public static void closeClaw() { //extends pistons & clamps onto the gamepiece
-    piston1.set(Value.kForward);
-    piston2.set(Value.kForward);
-    //System.out.println("both extended");
-  }
-
-  public static void intakeGamePiece() {
-    clawWheels.set(0.2); //subject to change, to negate
-  }
-
-  public static void releaseGamePiece() { // backup plan???
-    clawWheels.set(-0.2); //subject to change, to negate
-  }
-
-  //PID
-  public void setWristAnglePID(double goalAngle){
-    double goalTicks = (goalAngle * Constants.CPR) / 360; // convert goal angle (degrees) into ticks, based on proportion of angle out of 360 and proportion of ticks out of 4096
-  //double goalTicks = 180 / (goalAngle * Math.PI) alternate method to convert a goal angle into ticks
-
-    double setWristAnglePID = wristAngle.calculate(wristEncoder.getAbsolutePosition(), goalTicks); // comapres ticks from getAbsPosition with goal ticks so units are same
-    wrist.set(setWristAnglePID);
-  }
-
-  //MANUAL
-  public void setWristAngleManual(double goalAngle) {
-    double goalTicks = (goalAngle * Constants.CPR) / 360; // convert goal angle (degrees) into ticks, based on proportion of angle out of 360 and proportion of ticks out of 4096
-  //double goalTicks = 180 / (goalAngle * Math.PI) alternate method to convert a goal angle into ticks
-    double currentTicks = wristEncoder.getAbsolutePosition();
-
-      if (currentTicks > goalTicks + margin || currentTicks < goalTicks - margin) {
-        while(currentTicks < goalTicks - margin) {
-          wrist.set(Constants.wristSpeed);
-        }
-        while(currentTicks > goalTicks + margin) {
-          wrist.set(-Constants.wristSpeed);
-        }
-      }
-      else {
-        wrist.set(0);
-      }
-
+    // System.out.println("both pistons out");
   }
   
-  public void resetWristAngle() {
-    while (wristEncoder.getAbsolutePosition() > margin) {
-      wrist.set(-Constants.wristSpeed);
+  public void closeClawCone() { // extends pistons & clamps onto the gamepiece
+    piston1.set(Value.kReverse);
+    // System.out.println("left piston out");
+  }
+
+  public void setWristAnglePID(double goalAngle) {
+    double goalTicks = goalAngle * IntakeConstants.tickFactor;
+    // double goalTicks = 180 / (goalAngle * Math.PI) alternate method to convert a
+    // goal angle into ticks
+
+    // uses both (angle -> ticks) & (pos -> ticks) to calculate voltage
+    double wristAngle = wristAnglePID.calculate(wristEncoder.getPosition(), goalTicks); 
+
+    wristMotor.setVoltage(wristAngle);
+  }
+
+  public boolean atWristAngle(double angle){
+    double currentAngle = wristEncoder.getPosition();
+    if (Math.abs(currentAngle - angle) < 2){
+        return true;
     }
+    return false; 
+  }
+
+  // public void decreaseWristAnglePID(double angle){
+  //   double currentAngle = wristEncoder.getPosition();
+  //   double goalTicks = angle * IntakeConstants.tickFactor;
+  //   double wristAngle = wristAnglePID.calculate(wristEncoder.getPosition(), goalTicks); 
+
+  //   if (Math.abs(currentAngle - angle) < 1){ // test angle of wrist when fully down
+  //       wristMotor.stopMotor();
+  //   }
+  //   wristMotor.setVoltage(-wristAngle);
+  // }
+
+  // public void increaseWristAnglePID(double angle){
+  //   double currentAngle = wristEncoder.getPosition();
+  //   if (Math.abs(currentAngle - angle) < 1){ // test angle of wrist when fully down
+  //       wristMotor.stopMotor();
+  //   }
+  //   wristMotor.set(0.05);
+  // }
+
+  public void runIntakeMotor(){
+    clawMotor.set(0.8);
+  }
+
+  public void reverseIntakeMotor(){
+    clawMotor.set(-0.8);
+  }
+
+  public void stopIntakeMotor(){
+    clawMotor.set(0);
+  }
+  // public void runWristMotor(double speed){
+  //   wristMotor.set(speed);
+  // }
+  public void stopWristMotor() {
+    wristMotor.set(0);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    // boolean box
+    SmartDashboard.putBoolean("@ intake wrist angle", atWristAngle(IntakeConstants.INTAKE_WRIST_ANGLE));
+    SmartDashboard.putBoolean("@ default wrist angle", atWristAngle(IntakeConstants.DEFAULT_WRIST_ANGLE));
+    SmartDashboard.putBoolean("@ score wrist angle", atWristAngle(IntakeConstants.SCORE_WRIST_ANGLE));
+
+    // values
+    SmartDashboard.putNumber("curr. wrist angle", wristEncoder.getPosition());
+    SmartDashboard.putNumber("curr. wrist speed ", wristMotor.get());
   }
 }
