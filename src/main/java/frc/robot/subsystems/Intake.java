@@ -134,9 +134,9 @@ public class Intake extends SubsystemBase {
   public void stopIntakeMotor(){
     clawMotor.set(0);
   }
-  // public void runWristMotor(double speed){
-  //   wristMotor.set(speed);
-  // }
+  public void runWristMotor(double speed){
+    wristMotor.set(speed);
+  }
   public void stopWristMotor() {
     wristMotor.set(0);
   }
