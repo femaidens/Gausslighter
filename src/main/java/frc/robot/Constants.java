@@ -35,11 +35,11 @@ public final class Constants {
   }
   public static class ArmConstants {
 
-    public static final double EXTEND_MARGIN = 0.1;
-    public static final double EXTEND_FACTOR = (WHEEL_DIAMETER * Math.PI) / CPR; // test for distance per rotation
+    // public static final double EXTEND_MARGIN = 0.1;
+    // public static final double EXTEND_FACTOR = (WHEEL_DIAMETER * Math.PI) / CPR; // test for distance per rotation
     
-    public static final double ANGLE_FACTOR = 360; // 360 deg/rev
-    public static final double ANGLE_OFFSET = 0.046808;
+    // public static final double ANGLE_FACTOR = 360; // 360 deg/rev
+    // public static final double ANGLE_OFFSET = 0.046808;
     public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 30; // amps
     public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 30; // amps
 
@@ -56,7 +56,7 @@ public final class Constants {
       public static final double midNodeAngle = 30; 
       public static final double highNodeAngle = 30;
       public static final double hpAngle = 40;
-      public static final double autonScoreAngle = 40;
+      // public static final double autonScoreAngle = 40;
 
 
       // starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
@@ -71,15 +71,15 @@ public final class Constants {
   }
 
   public static class IntakeConstants { //for claw
-    public static final double tickFactor =  Constants.CPR / 360;
-    public static final double intakeMargin = 3;
+    // public static final double tickFactor =  Constants.CPR / 360;
+    // public static final double intakeMargin = 3;
 
     public static final double DEFAULT_WRIST_ANGLE = 3.5;
     public static final double INTAKE_WRIST_ANGLE = 100; 
     public static final double SCORE_WRIST_ANGLE = 125.0; 
     public static final double SUPPORT_WRIST_ANGLE = 231; 
 
-    public static final double WRIST_SPEED = 0.1;
+    // public static final double WRIST_SPEED = 0.1;
     public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
     public static final int WRIST_MOTOR_CURRENT_LIMIT = 30; // amps
     // public static final int MAX_CLAW_CURRENT = 25; //amps
@@ -156,9 +156,9 @@ public final class Constants {
       public static final double kP = 0.03; // initially 0.04
       public static final double kI = 0;
       public static final double kD = 0.01;
-      public static final double kS = 0.0; // placeholder --> run sysid
-      public static final double kA = 0.0; // placeholder 
-      public static final double kV = 0.0; //placeholder
+      // public static final double kS = 0.0; // placeholder --> run sysid
+      // public static final double kA = 0.0; // placeholder 
+      // public static final double kV = 0.0; //placeholder
       public static final double kFF = 1 / DRIVE_WHEEL_FREE_SPEED_RPS;
       public static final double kMinOutput = -1;
       public static final double kMaxOutput = 1;
@@ -216,7 +216,7 @@ public final class Constants {
     // arm extensions
     public static final double AUTON_EXTEND_MID_ARM_TIME = 0.95;
     public static final double AUTON_EXTEND_HIGH_ARM_TIME = 4.8;
-    public static final double AUTON_RETRACT_DEFAULT_ARM_TIME = 3.0;
+    // public static final double AUTON_RETRACT_DEFAULT_ARM_TIME = 3.0;
 
     // charge
     public static final double AUTON_CHARGE_TIME = 3.0;
