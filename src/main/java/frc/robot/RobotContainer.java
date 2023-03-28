@@ -219,6 +219,20 @@ public class RobotContainer {
         .onFalse(new InstantCommand(
           () -> intake.stopIntakeMotor(), intake));
 
+      Trigger doubleSSWristButton = operJoy.a();
+      doubleSSWristButton
+        .onTrue(new RunCommand(
+          () -> intake.setDoubleSubstationAngle(), intake))
+        .onFalse(new RunCommand(
+          () -> intake.stopWristMotor(), intake));
+
+      Trigger singleSSWristButton = operJoy.b();
+      singleSSWristButton
+        .onTrue(new RunCommand(
+          () -> intake.setSingleSubstationAngle(), intake))
+        .onFalse(new RunCommand(
+          () -> intake.stopWristMotor(), intake));
+
       /* LATERAL */
       Trigger extendButton = operJoy.rightTrigger();
       extendButton
