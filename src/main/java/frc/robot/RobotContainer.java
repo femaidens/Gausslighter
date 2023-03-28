@@ -180,9 +180,9 @@ public class RobotContainer {
 
       Trigger slowDriveButton = driveJoy.leftBumper();
       slowDriveButton
-          .onTrue(new InstantCommand(
+          .toggleOnTrue(new InstantCommand(
             () -> drivetrain.slowSpeed(), drivetrain))
-          .onFalse(new InstantCommand(
+          .toggleOnFalse(new InstantCommand(
             () -> drivetrain.regSpeed(), drivetrain));
       
     /* * * INTAKE 2 * * */
