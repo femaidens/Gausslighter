@@ -28,6 +28,10 @@ public class Intake extends SubsystemBase {
   private final CANSparkMax clawMotor;
   // private final PIDController wristAnglePID;
   private final SparkMaxAbsoluteEncoder wristEncoder;
+  private double measurement;
+  private double setpoint;
+  private boolean isManual = true;
+
   // private final Timer timer;
   // private static int margin = 3; // margin for claw angle in terms of ticks,
   // can change later
@@ -87,6 +91,7 @@ public class Intake extends SubsystemBase {
 
   // MANUAL
   public void setWristAngleManual(double input){
+    isManual = true;
     double wristAngleSpeed = 0.2;
     // if (wristEncoder.getPosition() <= 18){
     //   stopWristMotor();
@@ -106,6 +111,16 @@ public class Intake extends SubsystemBase {
       }
     //}
   }
+
+  // public void setWristAnglePID(double goalAngle) {
+  //   // double goalTicks = 180 / (goalAngle * Math.PI) alternate method to convert a
+  //   // goal angle into ticks
+
+  //   // uses both (angle -> ticks) & (pos -> ticks) to calculate voltage
+  //   double wristAngleVoltage = wristAnglePID.calculate(wristEncoder.getPosition(), goalAngle); 
+
+  //   wristMotor.setVoltage(wristAngleVoltage);
+  // }
 
   public boolean atWristAngle(double angle){
     double currentAngle = wristEncoder.getPosition();
@@ -130,6 +145,16 @@ public class Intake extends SubsystemBase {
         wristMotor.stopMotor();
     }
     wristMotor.set(0.05);
+  }
+
+  public void setDoubleSubstationAngle(){
+    isManual = false;
+    setpoint = IntakeConstants.INTAKE_WRIST_ANGLE; // replace with a constant
+  }
+
+  public void setSingleSubstationAngle(){
+    isManual = false;
+    setpoint = 2.3; // replace with a constant in degrees test for single
   }
 
   public void runIntakeMotor(){
@@ -161,5 +186,9 @@ public class Intake extends SubsystemBase {
     // values
     SmartDashboard.putNumber("curr. wrist angle", wristEncoder.getPosition());
     SmartDashboard.putNumber("curr. wrist speed ", wristMotor.get());
+
+    if(!isManual){
+      double wristAngleVoltage = wristAnglePID.calculate(wristEncoder.getPosition(), setpoint); 
+    }
   }
 }
