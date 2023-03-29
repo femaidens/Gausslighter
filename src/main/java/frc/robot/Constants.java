@@ -75,7 +75,8 @@ public final class Constants {
     // public static final double intakeMargin = 3;
 
     public static final double DEFAULT_WRIST_ANGLE = 3.5;
-    public static final double INTAKE_WRIST_ANGLE = 100; 
+    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 100; 
+    public static final double INTAKE_SINGLE_WRIST_ANGLE = 50; //tbd
     public static final double SCORE_WRIST_ANGLE = 125.0; 
     public static final double SUPPORT_WRIST_ANGLE = 231; 
 

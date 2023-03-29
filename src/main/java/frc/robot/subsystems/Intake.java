@@ -151,12 +151,12 @@ public class Intake extends SubsystemBase {
 
   public void setDoubleSubstationAngle(){
     isManual = false;
-    setpoint = IntakeConstants.INTAKE_WRIST_ANGLE; // replace with a constant
+    setpoint = IntakeConstants.INTAKE_DOUBLE_WRIST_ANGLE; // replace with a constant
   }
 
   public void setSingleSubstationAngle(){
     isManual = false;
-    setpoint = 2.3; // replace with a constant in degrees test for single
+    setpoint = IntakeConstants.INTAKE_SINGLE_WRIST_ANGLE; // replace with a constant in degrees test for single
   }
 
   public void runIntakeMotor(){
@@ -181,16 +181,19 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     // boolean box
-    SmartDashboard.putBoolean("@ intake wrist angle", atWristAngle(IntakeConstants.INTAKE_WRIST_ANGLE));
+    SmartDashboard.putBoolean("@ double wrist angle", atWristAngle(IntakeConstants.INTAKE_DOUBLE_WRIST_ANGLE));
+    SmartDashboard.putBoolean("@ single wrist angle", atWristAngle(IntakeConstants.INTAKE_SINGLE_WRIST_ANGLE));
+
     SmartDashboard.putBoolean("@ default wrist angle", atWristAngle(IntakeConstants.DEFAULT_WRIST_ANGLE));
     SmartDashboard.putBoolean("@ score wrist angle", atWristAngle(IntakeConstants.SCORE_WRIST_ANGLE));
 
     // values
-    SmartDashboard.putNumber("curr. wrist angle", wristEncoder.getPosition());
-    SmartDashboard.putNumber("curr. wrist speed ", wristMotor.get());
+    // SmartDashboard.putNumber("curr. wrist angle", wristEncoder.getPosition());
+    // SmartDashboard.putNumber("curr. wrist speed ", wristMotor.get());
 
     if(!isManual){
       double wristAngleVoltage = wristAnglePID.calculate(wristEncoder.getPosition(), setpoint); 
+      wristMotor.setVoltage(wristAngleVoltage);
     }
   }
 }

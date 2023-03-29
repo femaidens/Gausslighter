@@ -90,7 +90,7 @@ public class ArmAngle extends SubsystemBase {
 
     // values
     SmartDashboard.putNumber("arm angle", angEncoder.getPosition());
-    SmartDashboard.putNumber("arm angular speed", angleMotor.get());
+    //SmartDashboard.putNumber("arm angular speed", angleMotor.get());
   }
 
   @Override

@@ -108,12 +108,12 @@ public class ArmLateral extends SubsystemBase {
 
     // arm lateral values
     SmartDashboard.putNumber("arm lateral length", currentLength);
-    SmartDashboard.putNumber("get lateral length ", lateralEncoder.getPosition());
-    SmartDashboard.putNumber("get lateral rotations ", lateralEncoder.getPosition());
+    //SmartDashboard.putNumber("get lateral length ", lateralEncoder.getPosition());
+    //SmartDashboard.putNumber("get lateral rotations ", lateralEncoder.getPosition());
 
 
-    SmartDashboard.putNumber("arm lateral speed", leftLateralMotor.get());
-    SmartDashboard.putNumber("lateral pfactor", lateralEncoder.getPositionConversionFactor());
+    //SmartDashboard.putNumber("arm lateral speed", leftLateralMotor.get());
+    //SmartDashboard.putNumber("lateral pfactor", lateralEncoder.getPositionConversionFactor());
 
   }
 
