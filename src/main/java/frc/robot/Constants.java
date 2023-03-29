@@ -86,11 +86,9 @@ public final class Constants {
     public static final int CLAW_MOTOR_SECONDARY_LIMIT = 35; // amps
     public static final int WRIST_MOTOR_SECONDARY_LIMIT = 35; // amps
 
-    // public static final class PID { // to be tested
-    //   public final static double kP = 0.2;
-    //   public final static double kI = 0.0;
-    //   public final static double kD = 0.0;
-    // }
+    public final static double wristkP = 0.2;
+    public final static double wristkI = 0.0;
+    public final static double wristkD = 0.0;
   }
 
   public static final class DriveConstants {

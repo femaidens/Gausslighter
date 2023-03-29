@@ -23,8 +23,6 @@ import frc.robot.auton.spbli.autonScoreRoutines.ScoreShortTaxi;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
-import frc.robot.commands.intake2.CloseClaw2;
-import frc.robot.commands.intake2.RunIntake;
 import frc.robot.commands.leds.ConeLEDS;
 import frc.robot.commands.leds.CubeLEDS;
 import frc.robot.commands.leds.PurpGreenLEDS;

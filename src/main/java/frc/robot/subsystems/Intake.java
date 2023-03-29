@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 // import edu.wpi.first.wpilibj.Timer;
@@ -26,7 +27,7 @@ public class Intake extends SubsystemBase {
   private final DoubleSolenoid piston2;
   private final CANSparkMax wristMotor;
   private final CANSparkMax clawMotor;
-  // private final PIDController wristAnglePID;
+  private final PIDController wristAnglePID;
   private final SparkMaxAbsoluteEncoder wristEncoder;
   private double measurement;
   private double setpoint;
@@ -54,6 +55,7 @@ public class Intake extends SubsystemBase {
     // motor configs
     wristMotor.setIdleMode(IdleMode.kBrake);
     wristMotor.setInverted(true);
+    wristAnglePID = new PIDController(IntakeConstants.wristkP, IntakeConstants.wristkI, IntakeConstants.wristkD);
 
     // current limits
     wristMotor.setSmartCurrentLimit(IntakeConstants.WRIST_MOTOR_CURRENT_LIMIT);
