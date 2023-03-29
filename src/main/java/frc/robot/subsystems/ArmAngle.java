@@ -42,17 +42,21 @@ public class ArmAngle extends SubsystemBase {
 
   public void increaseArmAngle(){
     angleMotor.set(1);
-    System.out.print("increasing arm angle");
+    //System.out.print("increasing arm angle");
+    System.out.println(angleMotor.getBusVoltage());
   }
 
   public void decreaseArmangle(){
     angleMotor.set(-1);
-    System.out.print("decreasing arm angle");
+    //System.out.print("decreasing arm angle");
+    System.out.println(angleMotor.getBusVoltage());
+
   }
 
   public void setAngle(double input){
     if (input == 0) angleMotor.set(0);
     angleMotor.set(-input);
+    System.out.println(angleMotor.getBusVoltage());
   }
 
   public double getArmAngle() {
@@ -81,11 +85,12 @@ public class ArmAngle extends SubsystemBase {
   public void periodic() {
 
     // boolean boxes
-    SmartDashboard.putBoolean("@ default angle", atAngle(PositionConfig.defaultAngle));
-    SmartDashboard.putBoolean("@ low angle", atAngle(PositionConfig.lowNodeAngle));
-    SmartDashboard.putBoolean("@ mid angle", atAngle(PositionConfig.midNodeAngle));
-    SmartDashboard.putBoolean("@ high angle", atAngle(PositionConfig.highNodeAngle));
-    SmartDashboard.putBoolean("@ hp angle", atAngle(PositionConfig.hpAngle));
+    SmartDashboard.putBoolean("ARM DEFAULT ANG", atAngle(PositionConfig.defaultAngle));
+    SmartDashboard.putBoolean("ARM LOW ANG", atAngle(PositionConfig.lowNodeAngle));
+    SmartDashboard.putBoolean("ARM MID ANG", atAngle(PositionConfig.midNodeAngle));
+    SmartDashboard.putBoolean("ARM HIGH ANG", atAngle(PositionConfig.highNodeAngle));
+    SmartDashboard.putBoolean("ARM SINGLE ANG", atAngle(PositionConfig.hpSingleAngle));
+    SmartDashboard.putBoolean("ARM DOUBLE ANG", atAngle(PositionConfig.hpDoubleAngle));
 
 
     // values

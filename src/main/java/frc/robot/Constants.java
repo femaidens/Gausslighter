@@ -55,7 +55,8 @@ public final class Constants {
       public static final double lowNodeAngle = 1.986;
       public static final double midNodeAngle = 30; 
       public static final double highNodeAngle = 30;
-      public static final double hpAngle = 40;
+      public static final double hpSingleAngle = 30; //tbd
+      public static final double hpDoubleAngle = 40;
       // public static final double autonScoreAngle = 40;
 
 
@@ -213,8 +214,8 @@ public final class Constants {
     public static final double AUTON_DEC_ARM_ANGLE_TIME = 3.4;
 
     // arm extensions
-    public static final double AUTON_EXTEND_MID_ARM_TIME = 0.95;
-    public static final double AUTON_EXTEND_HIGH_ARM_TIME = 4.8;
+    public static final double AUTON_EXTEND_MID_ARM_TIME = 0.475;
+    public static final double AUTON_EXTEND_HIGH_ARM_TIME = 2.4;
     // public static final double AUTON_RETRACT_DEFAULT_ARM_TIME = 3.0;
 
     // charge
