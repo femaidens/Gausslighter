@@ -56,7 +56,7 @@ public class ArmAngle extends SubsystemBase {
   public void setAngle(double input){
     if (input == 0) angleMotor.set(0);
     angleMotor.set(-input);
-    System.out.println(angleMotor.getBusVoltage());
+    System.out.println("applied v: " + angleMotor.getBusVoltage()*angleMotor.getAppliedOutput());
   }
 
   public double getArmAngle() {
