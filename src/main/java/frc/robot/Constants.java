@@ -42,7 +42,13 @@ public final class Constants {
     // public static final double ANGLE_OFFSET = 0.046808;
     public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 30; // amps
     public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 30; // amps
+    public static class AngleConstants{
+      public static final double kP = 40;
+      public static final double kI = 0;
+      public static final double kD = 0;
 
+
+    }
     public static class LateralConstants{
       public static final double LATERAL_LENGTH = 28.5; // distance to extend
       public static final double LATERAL_ROTATIONS = 24.64; // test
@@ -75,11 +81,11 @@ public final class Constants {
     // public static final double tickFactor =  Constants.CPR / 360;
     // public static final double intakeMargin = 3;
 
-    public static final double DEFAULT_WRIST_ANGLE = 3.5;
-    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 100; 
+    public static final double DEFAULT_WRIST_ANGLE = 3.5; //tbd
+    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 75; 
     public static final double INTAKE_SINGLE_WRIST_ANGLE = 50; //tbd
-    public static final double SCORE_WRIST_ANGLE = 125.0; 
-    public static final double SUPPORT_WRIST_ANGLE = 231; 
+    public static final double SCORE_WRIST_ANGLE = 98; 
+    public static final double SUPPORT_WRIST_ANGLE = 203; 
 
     // public static final double WRIST_SPEED = 0.1;
     public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
