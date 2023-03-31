@@ -2,23 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.auton.spbli.autonArm;
+package frc.robot.auton.spbli.autonArmCmds;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmLateral;
 
-public class AutonRetractArm extends CommandBase {
-  /** Creates a new AutonRetractArm. */
+public class AutonExtendArm extends CommandBase {
   private final ArmLateral armLateral;
-  private double retractArmTime;
+  private double extendArmTime;
   private final Timer timer = new Timer();
 
-  public AutonRetractArm(ArmLateral armLateral, double retractArmTime) {
+  public AutonExtendArm(ArmLateral armLateral, double extendArmTime) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.armLateral = armLateral;
-    this.retractArmTime = retractArmTime;
+    this.extendArmTime = extendArmTime;
     addRequirements(armLateral);
+
   }
 
   // Called when the command is initially scheduled.
@@ -31,9 +31,9 @@ public class AutonRetractArm extends CommandBase {
   @Override
   public void execute() {
     // while (timer.get() != driveTime) {
-      // if (timer.get() < retractArmTime) {
-        armLateral.retractArm();
-      //}
+      //if (timer.get() < extendArmTime) {
+        armLateral.extendArm();
+      // }
       // else {
       //   armLateral.stopExtensionMotors();
       // }
@@ -49,6 +49,6 @@ public class AutonRetractArm extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (timer.get() >= retractArmTime);
+    return (timer.get() >= extendArmTime);
   }
 }

@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.auton.manual.*;
 import frc.robot.auton.spbli.*;
+import frc.robot.auton.spbli.autonRoutines.ScoreLongTaxi;
+import frc.robot.auton.spbli.autonRoutines.ScoreShortTaxi;
 import frc.robot.auton.spbli.autonScoreCmds.ScoreHigh;
 import frc.robot.auton.spbli.autonScoreCmds.ScoreMid;
 import frc.robot.auton.spbli.autonScoreCmds.ScoreMidCharge;
 import frc.robot.auton.spbli.autonScoreCmds.ShootHigh;
 import frc.robot.auton.spbli.autonScoreCmds.ShootMid;
 import frc.robot.auton.spbli.autonScoreCmds.TaxiCharge;
-import frc.robot.auton.spbli.autonScoreRoutines.ScoreLongTaxi;
-import frc.robot.auton.spbli.autonScoreRoutines.ScoreShortTaxi;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -137,6 +137,8 @@ public class RobotContainer {
       new RunCommand(
         () -> armAngle.setAngle(
           MathUtil.applyDeadband(operJoy.getRightY(), 0.1)),
+        // () -> armAngle.setAngle(
+        //   MathUtil.applyDeadband(-6, 0.1)),
         armAngle)
     );
 
@@ -219,17 +221,25 @@ public class RobotContainer {
 
       Trigger doubleSSWristButton = operJoy.a();
       doubleSSWristButton
-        .onTrue(new RunCommand(
-          () -> intake.setDoubleSubstationAngle(), intake))
-        .onFalse(new RunCommand(
-          () -> intake.stopWristMotor(), intake));
+        // .onTrue(new RunCommand(
+        //   () -> intake.setDoubleSubstationAngle(), intake))
+        // .onFalse(new RunCommand(
+        //   () -> intake.stopWristMotor(), intake));
+        .onTrue(new InstantCommand(
+          () -> armAngle.setDefaultArmAngle(), armAngle))
+        .whileFalse(new RunCommand(
+          () -> armAngle.setAngleVoltage(), armAngle));
 
       Trigger singleSSWristButton = operJoy.b();
       singleSSWristButton
-        .onTrue(new RunCommand(
-          () -> intake.setSingleSubstationAngle(), intake))
-        .onFalse(new RunCommand(
-          () -> intake.stopWristMotor(), intake));
+        // .onTrue(new InstantCommand(
+        //   () -> intake.setSingleSubstationAngle(), intake))
+        // .onFalse(new InstantCommand(
+        //   () -> intake.stopWristMotor(), intake));
+        .onTrue(new InstantCommand(
+          () -> armAngle.setMidArmAngle(), armAngle))
+        .whileFalse(new RunCommand(
+          () -> armAngle.setAngleVoltage(), armAngle));
 
       /* LATERAL */
       Trigger extendButton = operJoy.rightTrigger();

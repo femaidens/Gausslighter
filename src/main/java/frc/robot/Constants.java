@@ -43,7 +43,7 @@ public final class Constants {
     public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 30; // amps
     public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 30; // amps
     public static class AngleConstants{
-      public static final double kP = 40;
+      public static final double kP = 1;
       public static final double kI = 0;
       public static final double kD = 0;
 
