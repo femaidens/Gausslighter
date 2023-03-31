@@ -91,28 +91,51 @@ public class Intake extends SubsystemBase {
     // System.out.println("left piston out");
   }
 
-  // MANUAL
-  public void setWristAngleManual(double input){
-    isManual = true;
-    double wristAngleSpeed = 0.2;
-    // if (wristEncoder.getPosition() <= 18){
-    //   stopWristMotor();
+  // // MANUAL
+  // public void setWristAngleManual(double input){
+  //   isManual = true;
+  //   double wristAngleSpeed = 0.2;
+  //   // if (wristEncoder.getPosition() <= 18){
+  //   //   stopWristMotor();
+  //   // }
+  //   // else{
+  //     if(wristEncoder.getPosition() <= IntakeConstants.DEFAULT_WRIST_ANGLE || wristEncoder.getPosition() >= IntakeConstants.SUPPORT_WRIST_ANGLE){
+  //       stopWristMotor();
+  //     }
+  //     if(input < 0){
+  //       wristMotor.set(-wristAngleSpeed); // decrease
+  //     }
+  //     else if (input > 0 ){
+  //       wristMotor.set(wristAngleSpeed); //increase
+  //     }
+  //     else {
+  //       stopWristMotor();
+  //     }
     // }
-    // else{
-      if(wristEncoder.getPosition() <= IntakeConstants.DEFAULT_WRIST_ANGLE || wristEncoder.getPosition() >= IntakeConstants.SUPPORT_WRIST_ANGLE){
-        stopWristMotor();
-      }
-      if(input < 0){
-        wristMotor.set(-wristAngleSpeed); // decrease
-      }
-      else if (input > 0 ){
-        wristMotor.set(wristAngleSpeed); //increase
-      }
-      else {
-        stopWristMotor();
-      }
-    //}
-  }
+  // }
+    // MANUAL
+    public void setWristAngleManual(double input){
+      double wristAngleSpeed = 0.2;
+      // if (wristEncoder.getPosition() <= 18){
+      //   stopWristMotor();
+      // }
+      // else{
+        if(wristEncoder.getPosition() <= IntakeConstants.DEFAULT_WRIST_ANGLE || wristEncoder.getPosition() >= IntakeConstants.SUPPORT_WRIST_ANGLE){
+          stopWristMotor();
+        }
+        if(input < 0){
+          wristMotor.set(-wristAngleSpeed); // decrease
+          setpoint = wristEncoder.getPosition();
+        }
+        else if (input > 0 ){
+          wristMotor.set(wristAngleSpeed); //increase
+          setpoint = wristEncoder.getPosition();
+        }
+        else {
+          stopWristMotor();
+        }
+      //}
+    }
 
   // public void setWristAnglePID(double goalAngle) {
   //   // double goalTicks = 180 / (goalAngle * Math.PI) alternate method to convert a
@@ -135,6 +158,7 @@ public class Intake extends SubsystemBase {
   // originally setDefaultWristAngle
   public void decreaseWristAngle(double angle){
     double currentAngle = wristEncoder.getPosition();
+    setpoint = currentAngle;
     if (Math.abs(currentAngle - angle) < 1){ // test angle of wrist when fully down
         wristMotor.stopMotor();
     }
@@ -143,6 +167,7 @@ public class Intake extends SubsystemBase {
 
   public void increaseWristAngle(double angle){
     double currentAngle = wristEncoder.getPosition();
+    setpoint = currentAngle;
     if (Math.abs(currentAngle - angle) < 1){ // test angle of wrist when fully down
         wristMotor.stopMotor();
     }
@@ -188,12 +213,12 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putBoolean("@ score wrist angle", atWristAngle(IntakeConstants.SCORE_WRIST_ANGLE));
 
     // values
-    // SmartDashboard.putNumber("curr. wrist angle", wristEncoder.getPosition());
+    SmartDashboard.putNumber("curr. wrist angle", wristEncoder.getPosition());
     // SmartDashboard.putNumber("curr. wrist speed ", wristMotor.get());
 
-    if(!isManual){
-      double wristAngleVoltage = wristAnglePID.calculate(wristEncoder.getPosition(), setpoint); 
-      wristMotor.setVoltage(wristAngleVoltage);
-    }
+    //if(!isManual){
+      // double wristAngleVoltage = wristAnglePID.calculate(wristEncoder.getPosition(), setpoint); 
+      // wristMotor.setVoltage(wristAngleVoltage);
+    //}
   }
 }

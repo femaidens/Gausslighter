@@ -10,15 +10,20 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.Constants.ArmConstants.AngleConstants;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Ports.*;
 
 public class ArmAngle extends SubsystemBase {
   private final CANSparkMax angleMotor;
   private final SparkMaxAbsoluteEncoder angEncoder;
+  private final PIDController anglePIDController;
+  private double setpoint = 20;
 
   public ArmAngle() {
     // motor instantiation
@@ -28,7 +33,7 @@ public class ArmAngle extends SubsystemBase {
     angleMotor.setInverted(true);
     angleMotor.setIdleMode(IdleMode.kBrake);
     angleMotor.setSmartCurrentLimit(ArmConstants.ARM_ANGLE_MOTOR_CURRENT_LIMIT);
-
+    anglePIDController = new PIDController(AngleConstants.kP, AngleConstants.kI, AngleConstants.kD);
     // for cansparkmax encoder -> 1 rev = 4096 ticks
     // default direction = clockwise
     // encoder instantiation
@@ -42,17 +47,24 @@ public class ArmAngle extends SubsystemBase {
 
   public void increaseArmAngle(){
     angleMotor.set(1);
-    System.out.print("increasing arm angle");
+    //System.out.print("increasing arm angle");
+    System.out.println(angleMotor.getBusVoltage());
   }
 
   public void decreaseArmangle(){
     angleMotor.set(-1);
-    System.out.print("decreasing arm angle");
+    //System.out.print("decreasing arm angle");
+    System.out.println(angleMotor.getBusVoltage());
+
   }
 
   public void setAngle(double input){
     if (input == 0) angleMotor.set(0);
-    angleMotor.set(-input);
+    else{
+      angleMotor.set(-input);
+      //setpoint = angEncoder.getPosition();
+    }
+    //System.out.println("applied v: " + angleMotor.getBusVoltage()*angleMotor.getAppliedOutput());
   }
 
   public double getArmAngle() {
@@ -81,16 +93,27 @@ public class ArmAngle extends SubsystemBase {
   public void periodic() {
 
     // boolean boxes
-    SmartDashboard.putBoolean("@ default angle", atAngle(PositionConfig.defaultAngle));
-    SmartDashboard.putBoolean("@ low angle", atAngle(PositionConfig.lowNodeAngle));
-    SmartDashboard.putBoolean("@ mid angle", atAngle(PositionConfig.midNodeAngle));
-    SmartDashboard.putBoolean("@ high angle", atAngle(PositionConfig.highNodeAngle));
-    SmartDashboard.putBoolean("@ hp angle", atAngle(PositionConfig.hpAngle));
+    SmartDashboard.putBoolean("ARM DEFAULT ANG", atAngle(PositionConfig.defaultAngle));
+    SmartDashboard.putBoolean("ARM LOW ANG", atAngle(PositionConfig.lowNodeAngle));
+    SmartDashboard.putBoolean("ARM MID ANG", atAngle(PositionConfig.midNodeAngle));
+    SmartDashboard.putBoolean("ARM HIGH ANG", atAngle(PositionConfig.highNodeAngle));
+    SmartDashboard.putBoolean("ARM SINGLE ANG", atAngle(PositionConfig.hpSingleAngle));
+    SmartDashboard.putBoolean("ARM DOUBLE ANG", atAngle(PositionConfig.hpDoubleAngle));
+
 
 
     // values
     SmartDashboard.putNumber("arm angle", angEncoder.getPosition());
+    SmartDashboard.putNumber("desired arm angle", setpoint);
+
     //SmartDashboard.putNumber("arm angular speed", angleMotor.get());
+    double armAngleVoltage = anglePIDController.calculate(angEncoder.getPosition(), setpoint);
+    System.out.println("arm angle v: " + armAngleVoltage);
+    angleMotor.setVoltage(armAngleVoltage);
+
+    SmartDashboard.putNumber("kP", AngleConstants.kP);
+    SmartDashboard.putNumber("kI", AngleConstants.kI);
+    SmartDashboard.putNumber("kD", AngleConstants.kD);
   }
 
   @Override

@@ -175,8 +175,8 @@ public class Drivetrain extends SubsystemBase {
 
     // SmartDashboard.putNumber("xspeed drive", xSpeedDelivered);
     // SmartDashboard.putNumber("xspeed drive", xSpeedDelivered);
-    System.out.println("xspeed drive: " + xSpeedDelivered);
-    System.out.println("yspeed drive: " + ySpeedDelivered);
+    //System.out.println("xspeed drive: " + xSpeedDelivered);
+    //System.out.println("yspeed drive: " + ySpeedDelivered);
 
     double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED;
     var swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
