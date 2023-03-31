@@ -20,7 +20,8 @@
   },
   "NetworkTables Settings": {
     "mode": "Client (NT4)",
-    "serverTeam": "2265"
+    "serverTeam": "2265",
+    "visible": false
   },
   "Plots": {
     "Plot <0>": {

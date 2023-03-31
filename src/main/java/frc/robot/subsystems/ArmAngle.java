@@ -56,17 +56,17 @@ public class ArmAngle extends SubsystemBase {
     angleMotor.setVoltage(autonArmAngleVoltage);
   }
 
-  // public void increaseArmAngle(){
-  //   angleMotor.set(1);
-  //   //System.out.print("increasing arm angle");
-  //   System.out.println(angleMotor.getBusVoltage());
-  // }
+  public void increaseArmAngle(){
+    angleMotor.set(1);
+    //System.out.print("increasing arm angle");
+    System.out.println(angleMotor.getBusVoltage());
+  }
 
-  // public void decreaseArmAngle(){
-  //   angleMotor.set(-1);
-  //   //System.out.print("decreasing arm angle");
-  //   System.out.println(angleMotor.getBusVoltage());
-  // }
+  public void decreaseArmAngle(){
+    angleMotor.set(-1);
+    //System.out.print("decreasing arm angle");
+    System.out.println(angleMotor.getBusVoltage());
+  }
 
   public void setAngle(double input){
     if (input == 0) angleMotor.set(0);
