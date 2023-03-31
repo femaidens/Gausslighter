@@ -10,7 +10,6 @@ import frc.robot.subsystems.LED;
 
 public class ConeLEDS extends CommandBase{
   
-  /** Creates a new ConeLEDS. */
   private final LED led;
   private final Timer timer;
   
