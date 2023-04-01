@@ -6,23 +6,28 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.*;
 import frc.robot.Ports;
 
+
 public class LED extends SubsystemBase {
   /** Creates a new LED. */
   private AddressableLED led;
   private AddressableLEDBuffer ledBuffer;
+  // private final Timer timer;
+  private boolean purple;
   public LED() {
     led = new AddressableLED(Ports.LEDPorts.PWM);
     ledBuffer = new AddressableLEDBuffer(LEDConstants.LED_PIN_LENGTH);
     led.setLength(ledBuffer.getLength());
-
     led.setData(ledBuffer);
     led.start();
+    // timer = new Timer();
+    purple = true;
   }
   
   // switches off all LEDs
@@ -33,7 +38,7 @@ public class LED extends SubsystemBase {
     led.setData(ledBuffer);
   }
 
-  // public void rainbow(){
+    // public void rainbow(){
   //   timer.start();
   //   if (timer.get() > 5){
   //     timer.reset();
@@ -92,6 +97,54 @@ public class LED extends SubsystemBase {
     led.setData(ledBuffer);
   }
 
+  public void altPurpGreen(){
+    for(int i = 0; i < ledBuffer.getLength(); i++){
+      if(i%2 == 1){
+        //green light
+        ledBuffer.setRGB(i, 94, 235, 134);
+      }else{
+        //purple light
+        ledBuffer.setRGB(i, 208, 66, 227);
+      }
+    }
+    led.setData(ledBuffer);
+  }
+
+  public void altGreenPurp(){
+    for(int i = 0; i < ledBuffer.getLength(); i++){
+      if(i%2 == 0) { // <- note the difference
+        //green light
+        ledBuffer.setRGB(i, 94, 235, 134);
+      }
+
+      else {
+        //purple light
+        ledBuffer.setRGB(i, 208, 66, 227);
+      }
+    }
+    led.setData(ledBuffer);
+  }
+
+  public void lightShow(Timer timer){
+    if(timer.get()%0.5 == 0){ //if this doesn't work, replce with timer.get()%0.5 < 0.008
+      if(purple){
+        altPurpGreen();
+        purple = !purple;
+      } else {
+        altGreenPurp();
+        purple = !purple;
+      }
+    }
+  }
+  public void simplififedLightShow(){
+    if(purple){
+      altPurpGreen();
+      purple = !purple;
+    } else {
+      altGreenPurp();
+      purple = !purple;
+    }
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

@@ -93,27 +93,27 @@ public class ArmAngle extends SubsystemBase {
   public void periodic() {
 
     // boolean boxes
-    SmartDashboard.putBoolean("ARM DEFAULT ANG", atAngle(PositionConfig.defaultAngle));
-    SmartDashboard.putBoolean("ARM LOW ANG", atAngle(PositionConfig.lowNodeAngle));
-    SmartDashboard.putBoolean("ARM MID ANG", atAngle(PositionConfig.midNodeAngle));
-    SmartDashboard.putBoolean("ARM HIGH ANG", atAngle(PositionConfig.highNodeAngle));
-    SmartDashboard.putBoolean("ARM SINGLE ANG", atAngle(PositionConfig.hpSingleAngle));
-    SmartDashboard.putBoolean("ARM DOUBLE ANG", atAngle(PositionConfig.hpDoubleAngle));
+    // SmartDashboard.putBoolean("ARM DEFAULT ANG", atAngle(PositionConfig.defaultAngle));
+    // SmartDashboard.putBoolean("ARM LOW ANG", atAngle(PositionConfig.lowNodeAngle));
+    // SmartDashboard.putBoolean("ARM MID ANG", atAngle(PositionConfig.midNodeAngle));
+    // SmartDashboard.putBoolean("ARM HIGH ANG", atAngle(PositionConfig.highNodeAngle));
+    // SmartDashboard.putBoolean("ARM SINGLE ANG", atAngle(PositionConfig.hpSingleAngle));
+    // SmartDashboard.putBoolean("ARM DOUBLE ANG", atAngle(PositionConfig.hpDoubleAngle));
 
 
 
-    // values
-    SmartDashboard.putNumber("arm angle", angEncoder.getPosition());
-    SmartDashboard.putNumber("desired arm angle", setpoint);
+    // // values
+    // SmartDashboard.putNumber("arm angle", angEncoder.getPosition());
+    // SmartDashboard.putNumber("desired arm angle", setpoint);
 
-    //SmartDashboard.putNumber("arm angular speed", angleMotor.get());
-    double armAngleVoltage = anglePIDController.calculate(angEncoder.getPosition(), setpoint);
-    System.out.println("arm angle v: " + armAngleVoltage);
-    angleMotor.setVoltage(armAngleVoltage);
+    // //SmartDashboard.putNumber("arm angular speed", angleMotor.get());
+    // double armAngleVoltage = anglePIDController.calculate(angEncoder.getPosition(), setpoint);
+    // System.out.println("arm angle v: " + armAngleVoltage);
+    // angleMotor.setVoltage(armAngleVoltage);
 
-    SmartDashboard.putNumber("kP", AngleConstants.kP);
-    SmartDashboard.putNumber("kI", AngleConstants.kI);
-    SmartDashboard.putNumber("kD", AngleConstants.kD);
+    // SmartDashboard.putNumber("kP", AngleConstants.kP);
+    // SmartDashboard.putNumber("kI", AngleConstants.kI);
+    // SmartDashboard.putNumber("kD", AngleConstants.kD);
   }
 
   @Override

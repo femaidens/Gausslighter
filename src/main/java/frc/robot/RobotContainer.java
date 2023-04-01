@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -51,13 +52,13 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems
-    private static final Drivetrain drivetrain = new Drivetrain();
-    private final ArmAngle armAngle = new ArmAngle();
-    private final ArmLateral armLateral = new ArmLateral();
-    private final Intake intake = new Intake();
+    // private static final Drivetrain drivetrain = new Drivetrain();
+    // private final ArmAngle armAngle = new ArmAngle();
+    // private final ArmLateral armLateral = new ArmLateral();
+    // private final Intake intake = new Intake();
     private final LED led = new LED();
-    private final Limelight limelight = new Limelight();
-    private final LED2 led2 = new LED2();
+    private Timer timer = new Timer();
+    // private final Limelight limelight = new Limelight();
 
   // The driver's controller
   CommandXboxController operJoy = new CommandXboxController(Ports.JoystickPorts.OPER_JOY);
@@ -138,8 +139,9 @@ public class RobotContainer {
     //     armAngle)
     // );
 
-    led2.setDefaultCommand(
-      new AltGreenPurpleLEDS(led2)
+    led.setDefaultCommand(
+      new AltGreenPurpleLEDS(led, timer)
+      //new PurpGreenLEDS(led)
     );
 
   }

@@ -100,14 +100,14 @@ public class ArmLateral extends SubsystemBase {
   public void periodic() {
     
     // boolean boxes
-    SmartDashboard.putBoolean("@ low length", atLength(ArmConstants.PositionConfig.lowLength)); 
-    SmartDashboard.putBoolean("@ mid length", atLength(ArmConstants.PositionConfig.midLength)); 
-    SmartDashboard.putBoolean("@ high length", atLength(ArmConstants.PositionConfig.highLength)); 
-    SmartDashboard.putBoolean("@ hp length", atLength(ArmConstants.PositionConfig.doubleHPLength));
-    SmartDashboard.putBoolean("@ default length", atLength(ArmConstants.PositionConfig.defaultLength));
+    // SmartDashboard.putBoolean("@ low length", atLength(ArmConstants.PositionConfig.lowLength)); 
+    // SmartDashboard.putBoolean("@ mid length", atLength(ArmConstants.PositionConfig.midLength)); 
+    // SmartDashboard.putBoolean("@ high length", atLength(ArmConstants.PositionConfig.highLength)); 
+    // SmartDashboard.putBoolean("@ hp length", atLength(ArmConstants.PositionConfig.doubleHPLength));
+    // SmartDashboard.putBoolean("@ default length", atLength(ArmConstants.PositionConfig.defaultLength));
 
     // arm lateral values
-    SmartDashboard.putNumber("arm lateral length", currentLength);
+    // SmartDashboard.putNumber("arm lateral length", currentLength);
     //SmartDashboard.putNumber("get lateral length ", lateralEncoder.getPosition());
     //SmartDashboard.putNumber("get lateral rotations ", lateralEncoder.getPosition());
 
