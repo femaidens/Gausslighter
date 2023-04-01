@@ -2,29 +2,15 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.auton.spbli.autonScoreCmds;
+package frc.robot.auton.spbli.autonScore;
 
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.PositionConfig;
-import frc.robot.auton.spbli.autonArmCmds.AutonDecArmAngle;
-import frc.robot.auton.spbli.autonArmCmds.AutonExtendArm;
-import frc.robot.auton.spbli.autonArmCmds.AutonIncArmAngle;
-import frc.robot.auton.spbli.autonArmCmds.AutonRetractArm;
-import frc.robot.auton.spbli.autonWrist.AutonDecWristAngle;
-import frc.robot.auton.spbli.autonWrist.AutonIncWristAngle;
-import frc.robot.Constants.AutoConstants;
+import frc.robot.auton.spbli.autonArm.*;
+import frc.robot.auton.spbli.autonWrist.*;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.commands.OpenClaw;
-import frc.robot.commands.arm.ExtendArm;
-import frc.robot.commands.arm.RetractArm;
-import frc.robot.commands.arm.SetArmAngle;
-import frc.robot.commands.intake2.CloseClaw2;
-import frc.robot.commands.wrist.DecreaseWristAngle;
-import frc.robot.commands.wrist.IncreaseWristAngle;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Intake;
@@ -49,11 +35,12 @@ public class ScoreMid extends SequentialCommandGroup {
     addCommands(
 
       // pid
-      new AutonIncWristAngle(intake, AutoConstants.SUPPORT_WRIST_ANGLE_TIME),
+      new AutonSetWristAngle(intake, IntakeConstants.SUPPORT_WRIST_ANGLE),
       new ParallelCommandGroup(
-      new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME)
-      ),
-      new AutonDecWristAngle(intake, AutoConstants.SCORE_WRIST_ANGLE_TIME),
+        new AutonSetArmLength(armLateral, PositionConfig.midLength),
+        new AutonSetArmAngle(armAngle, PositionConfig.midNodeAngle)
+        ),
+      new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
       new RunCommand(() -> intake.openClaw(), intake));
 
       // sbpli

@@ -42,16 +42,17 @@ public final class Constants {
     // public static final double ANGLE_OFFSET = 0.046808;
     public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 30; // amps
     public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 30; // amps
+
     public static class AngleConstants{
-      public static final double kP = 1;
+      public static final double kP = 3;
       public static final double kI = 0;
-      public static final double kD = 0;
+      public static final double kD = 0.05;
 
 
     }
     public static class LateralConstants{
-      public static final double LATERAL_LENGTH = 28.5; // distance to extend
-      public static final double LATERAL_ROTATIONS = 24.64; // test
+      public static final double LATERAL_LENGTH = 26.375; // in inches distance to extend
+      public static final double LATERAL_ROTATIONS = 21.015; // test
       public static final double  LATERAL_PFACTOR = LATERAL_LENGTH/LATERAL_ROTATIONS; //divide this by # of revs for fully extend
     }
 
@@ -64,7 +65,6 @@ public final class Constants {
       public static final double hpSingleAngle = 30; //tbd
       public static final double hpDoubleAngle = 40;
       // public static final double autonScoreAngle = 40;
-
 
       // starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
       // find unit conversion units, current: inches
@@ -82,10 +82,12 @@ public final class Constants {
     // public static final double intakeMargin = 3;
 
     public static final double DEFAULT_WRIST_ANGLE = 3.5; //tbd
-    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 75; 
-    public static final double INTAKE_SINGLE_WRIST_ANGLE = 50; //tbd
-    public static final double SCORE_WRIST_ANGLE = 98; 
     public static final double SUPPORT_WRIST_ANGLE = 203; 
+    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 75; 
+    public static final double SHOOT_WRIST_ANGLE = INTAKE_DOUBLE_WRIST_ANGLE; 
+    public static final double INTAKE_SINGLE_WRIST_ANGLE = 98; //tbd
+    public static final double SCORE_WRIST_ANGLE = INTAKE_SINGLE_WRIST_ANGLE; 
+
 
     // public static final double WRIST_SPEED = 0.1;
     public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
@@ -94,7 +96,7 @@ public final class Constants {
     public static final int CLAW_MOTOR_SECONDARY_LIMIT = 35; // amps
     public static final int WRIST_MOTOR_SECONDARY_LIMIT = 35; // amps
 
-    public final static double wristkP = 0.2;
+    public final static double wristkP = 0.01;
     public final static double wristkI = 0.0;
     public final static double wristkD = 0.0;
   }

@@ -23,7 +23,8 @@ public class ArmAngle extends SubsystemBase {
   private final CANSparkMax angleMotor;
   private final SparkMaxAbsoluteEncoder angEncoder;
   private final PIDController anglePIDController;
-  private double setpoint = 0;
+  private boolean isManual = true;
+  private double setpoint;
   private double armAngleVoltage = 0;
 
   public ArmAngle() {
@@ -43,12 +44,18 @@ public class ArmAngle extends SubsystemBase {
     // encoder configs
     angEncoder.setInverted(true);
     angEncoder.setPositionConversionFactor(360);
+
+    setpoint = angEncoder.getPosition();
   
   }
 
   public double getArmAngle() {
     double currentAngle = angEncoder.getPosition();
     return currentAngle;
+  }
+
+  public boolean getIsManual(){
+    return isManual;
   }
 
   public void setAutonArmAngle(double autonSetpoint){
@@ -69,13 +76,31 @@ public class ArmAngle extends SubsystemBase {
   }
 
   public void setAngle(double input){
-    if (input == 0) angleMotor.set(0);
-    else{
-      // angleMotor.set(-input);
-      // angleMotor.setVoltage(-6*input);      
-      setAngleVoltage();
+    // if (input == 0) {
+    //   setAngleVoltage();
+    // }
+    // else{
+    // }
+    //angleMotor.set(-input);
+    // angleMotor.setVoltage(-6*input); 
+    isManual = true;
+
+    if (input < 0){
+      angleMotor.set(0.5); // if input is negative, we go up
       setpoint = angEncoder.getPosition();
     }
+    else if (input > 0){
+      angleMotor.set(-0.5); // if input is positive, we go down
+      setpoint = angEncoder.getPosition();
+    }
+    else {
+      setManualAngleVoltage();
+    }
+  }
+
+  public void setManualAngleVoltage(){
+    armAngleVoltage = anglePIDController.calculate(angEncoder.getPosition(), setpoint);
+    angleMotor.setVoltage(armAngleVoltage);
   }
 
   public void setAngleVoltage(){
@@ -83,12 +108,14 @@ public class ArmAngle extends SubsystemBase {
     angleMotor.setVoltage(armAngleVoltage);
   }
 
-  public void setDefaultArmAngle(){
-    setpoint = PositionConfig.defaultAngle;
+  public void setMidNodeAngle(){
+    isManual = false;
+    setpoint = 20;
   }
 
-  public void setMidArmAngle(){
-    setpoint = PositionConfig.midNodeAngle;
+  public void setHighNodeAngle(){
+    isManual = false;
+    setpoint = 40;
   }
 
   public void stopAngleMotor() {

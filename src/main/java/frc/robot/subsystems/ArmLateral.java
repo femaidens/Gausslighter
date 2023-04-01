@@ -9,11 +9,14 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmConstants.AngleConstants;
 import frc.robot.Constants.ArmConstants.LateralConstants;
+import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Ports.ArmPorts;
 
 public class ArmLateral extends SubsystemBase {
@@ -22,6 +25,7 @@ public class ArmLateral extends SubsystemBase {
   private final CANSparkMax leftLateralMotor;
   private final DigitalInput topSwitch;
   private final DigitalInput botSwitch;
+  private final PIDController ArmPIDController;
   private double currentLength = 0; // always true before match, arm = fully retracted
 
   public ArmLateral() {
@@ -34,12 +38,13 @@ public class ArmLateral extends SubsystemBase {
     lateralEncoder = leftLateralMotor.getEncoder(); // subject to change
 
     // encoder config - check/test for pfactor
-    lateralEncoder.setPositionConversionFactor(LateralConstants.LATERAL_PFACTOR); //divide by revs for fully extend
+    // lateralEncoder.setPositionConversionFactor(LateralConstants.LATERAL_PFACTOR); //divide by revs for fully extend
 
     // limit switches
     topSwitch = new DigitalInput(ArmPorts.TOP_SWITCH_PORT);
     botSwitch = new DigitalInput(ArmPorts.BOT_SWITCH_PORT);
 
+    ArmPIDController = new PIDController(AngleConstants.kP, AngleConstants.kI, AngleConstants.kD);
     // motor configs
     // rightLateralMotor.setIdleMode(IdleMode.kBrake);
     leftLateralMotor.setIdleMode(IdleMode.kBrake);
@@ -56,12 +61,13 @@ public class ArmLateral extends SubsystemBase {
       System.out.println(" bottom limit activated! \n");
       stopExtensionMotors();
       lateralEncoder.setPosition(0);
+      currentLength = lateralEncoder.getPosition();
       return;
     }
 
     else{
       System.out.println("retracting");
-      leftLateralMotor.set(-0.8);
+      leftLateralMotor.set(-0.4);
       // rightLateralMotor.set(-0.4);
       currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
       // change back to minus if increases moving backwards
@@ -70,6 +76,7 @@ public class ArmLateral extends SubsystemBase {
 
   public void extendArm(){
     lateralEncoder.setPosition(currentLength);
+    //System.out.println("rotations: " +lateralEncoder.getPosition());
 
     if (!topSwitch.get()) { //hit limit switch
       System.out.println("top limit activated! \n");
@@ -80,10 +87,14 @@ public class ArmLateral extends SubsystemBase {
     }
 
     else{
-      leftLateralMotor.set(0.8);
+      leftLateralMotor.set(0.4);
       // rightLateralMotor.set(0.4);
       currentLength = lateralEncoder.getPosition();
     }
+  }
+  public void setAutonArmLength(double autonSetpoint){
+    double autonArmLateralVoltage = ArmPIDController.calculate(currentLength, autonSetpoint);
+    leftLateralMotor.setVoltage(autonArmLateralVoltage);
   }
 
   public boolean atLength(double length){
@@ -107,9 +118,9 @@ public class ArmLateral extends SubsystemBase {
     SmartDashboard.putBoolean("@ default length", atLength(ArmConstants.PositionConfig.defaultLength));
 
     // arm lateral values
-    SmartDashboard.putNumber("arm lateral length", currentLength);
-    //SmartDashboard.putNumber("get lateral length ", lateralEncoder.getPosition());
-    //SmartDashboard.putNumber("get lateral rotations ", lateralEncoder.getPosition());
+    SmartDashboard.putNumber("get current length", currentLength);
+    SmartDashboard.putNumber("get lateral length ", lateralEncoder.getPosition());
+    SmartDashboard.putNumber("get conversion factor ", lateralEncoder.getPositionConversionFactor());
 
 
     //SmartDashboard.putNumber("arm lateral speed", leftLateralMotor.get());

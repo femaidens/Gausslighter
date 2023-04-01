@@ -13,17 +13,16 @@ import frc.robot.subsystems.Drivetrain;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ShortTaxi2 extends SequentialCommandGroup {
-  public ShortTaxi2(Drivetrain drivetrain) {
+public class LongTaxi extends SequentialCommandGroup {
+  public LongTaxi(Drivetrain drivetrain) {
     // starting @ left/right, facing gp
-
     addCommands(
       new InstantCommand(
         () -> drivetrain.resetGyro()
-      ),
+      ), 
       new AutonDrive(drivetrain, AutoConstants.TAXI_SPEED, 0, 0, 
-        true, true, AutoConstants.SHORT_TAXI_TIME)); // going same distance as the charge time
- 
+        true, true, 4.5));
+
       //node to gp = 224 => 222 in
   }
 }

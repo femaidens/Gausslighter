@@ -9,27 +9,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
-import frc.robot.auton.spbli.*;
-import frc.robot.auton.spbli.autonRoutines.ScoreLongTaxi;
-import frc.robot.auton.spbli.autonRoutines.ScoreMidCharge;
-import frc.robot.auton.spbli.autonRoutines.ScoreShortTaxi;
-import frc.robot.auton.spbli.autonRoutines.TaxiCharge;
-import frc.robot.auton.spbli.autonScoreCmds.ScoreHigh;
-import frc.robot.auton.spbli.autonScoreCmds.ScoreMid;
-import frc.robot.auton.spbli.autonScoreCmds.ShootHigh;
-import frc.robot.auton.spbli.autonScoreCmds.ShootMid;
+import frc.robot.auton.spbli.autonRoutines.*;
+import frc.robot.auton.spbli.autonScore.*;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
+import frc.robot.commands.arm.SetAngleVoltage;
 import frc.robot.commands.leds.ConeLEDS;
 import frc.robot.commands.leds.CubeLEDS;
 import frc.robot.commands.leds.PurpGreenLEDS;
-import frc.robot.commands.leds.*;
-import frc.robot.commands.arm.*;
-import frc.robot.commands.intake1.*;
 import frc.robot.commands.intake2.*;
-import frc.robot.commands.wrist.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -93,24 +83,9 @@ public class RobotContainer {
     //taxis
     autonChooser.addOption("short taxi", new ShortTaxi(drivetrain));
     autonChooser.setDefaultOption("long taxi", new LongTaxi(drivetrain));
-    autonChooser.addOption("score short taxi", new ScoreShortTaxi(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score long taxi", new ScoreLongTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score short taxi", new ScoreMidShortTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score long taxi", new ScoreMidLongTaxi(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("taxi charge", new TaxiCharge(drivetrain));
-    //unused autons
-
-    // autonChooser.addOption("score", new Score(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score left taxi", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score right taxi", new ScoreRightIntake(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("p2", new Path2(drivetrain));
-    //autonChooser.addOption("score and engage", new ScoreAndEngage(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score and drive to game piece", new ScoreDriveToGP(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score, leave community and engage", new ScoreDepartEngage(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score and center intake", new ScoreCenterIntake(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score and left intake", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score and right intake", new ScoreRightIntake(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score, center intake and engage", new ScoreIntakeEngage(drivetrain, intake, armAngle, armLateral));
-    
 
     // Configure default commands
     drivetrain.setDefaultCommand(
@@ -218,27 +193,34 @@ public class RobotContainer {
         .onFalse(new InstantCommand(
           () -> intake.stopIntakeMotor(), intake));
 
-      Trigger doubleSSWristButton = operJoy.a();
-      doubleSSWristButton
+      Trigger doubleWristButton = operJoy.b();
+      doubleWristButton
         // .onTrue(new RunCommand(
         //   () -> intake.setDoubleSubstationAngle(), intake))
         // .onFalse(new RunCommand(
         //   () -> intake.stopWristMotor(), intake));
+        // .onTrue(new InstantCommand(
+        //   () -> intake.setDoubleIntakeAngle(), intake))
+        // .whileFalse(new RunCommand(
+        //   () -> intake.setAngleVoltage(), intake));
         .onTrue(new InstantCommand(
-          () -> armAngle.setDefaultArmAngle(), armAngle))
-        .whileFalse(new RunCommand(
-          () -> armAngle.setAngleVoltage(), armAngle));
+          () -> armAngle.setHighNodeAngle(), armAngle))
+        .onFalse(new SetAngleVoltage(armAngle));
 
-      Trigger singleSSWristButton = operJoy.b();
-      singleSSWristButton
+      Trigger singleWristButton = operJoy.a();
+      singleWristButton
         // .onTrue(new InstantCommand(
         //   () -> intake.setSingleSubstationAngle(), intake))
         // .onFalse(new InstantCommand(
         //   () -> intake.stopWristMotor(), intake));
+        // .onTrue(new InstantCommand(
+        //   () -> intake.setSingleIntakeAngle(), intake))
+        // .whileFalse(new RunCommand(
+        //   () -> intake.setAngleVoltage(), intake));
         .onTrue(new InstantCommand(
-          () -> armAngle.setMidArmAngle(), armAngle))
-        .whileFalse(new RunCommand(
-          () -> armAngle.setAngleVoltage(), armAngle));
+          () -> armAngle.setMidNodeAngle(), armAngle))
+        .onFalse(new SetAngleVoltage(armAngle));
+
 
       /* LATERAL */
       Trigger extendButton = operJoy.rightTrigger();
