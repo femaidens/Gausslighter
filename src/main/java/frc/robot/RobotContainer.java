@@ -23,9 +23,6 @@ import frc.robot.auton.spbli.autonScoreRoutines.ScoreShortTaxi;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
-import frc.robot.commands.leds.ConeLEDS;
-import frc.robot.commands.leds.CubeLEDS;
-import frc.robot.commands.leds.PurpGreenLEDS;
 import frc.robot.commands.leds.*;
 import frc.robot.commands.arm.*;
 import frc.robot.commands.intake1.*;
@@ -60,6 +57,7 @@ public class RobotContainer {
     private final Intake intake = new Intake();
     private final LED led = new LED();
     private final Limelight limelight = new Limelight();
+    private final LED2 led2 = new LED2();
 
   // The driver's controller
   CommandXboxController operJoy = new CommandXboxController(Ports.JoystickPorts.OPER_JOY);
@@ -75,28 +73,28 @@ public class RobotContainer {
   public RobotContainer() {
     configureSystemDefaults();
     configureButtonBindings();
-
+    
     // auton config
     autonChooser = new SendableChooser<Command>();
-    SmartDashboard.putData("Choose Auto: ", autonChooser);
-    autonChooser.setDefaultOption("charge", new Charge(drivetrain, AutoConstants.AUTON_CHARGE_SPEED, AutoConstants.AUTON_CHARGE_TIME)
-    );
+    // SmartDashboard.putData("Choose Auto: ", autonChooser);
+    // autonChooser.setDefaultOption("charge", new Charge(drivetrain, AutoConstants.AUTON_CHARGE_SPEED, AutoConstants.AUTON_CHARGE_TIME)
+    // );
     
     //shoot
-    autonChooser.addOption("shoot mid ", new ShootMid(intake, armAngle, armLateral));
-    autonChooser.addOption("shoot high", new ShootHigh(intake, armAngle, armLateral));
+    // autonChooser.addOption("shoot mid ", new ShootMid(intake, armAngle, armLateral));
+    // autonChooser.addOption("shoot high", new ShootHigh(intake, armAngle, armLateral));
 
-    //score
-    autonChooser.addOption("score high", new ScoreHigh(intake, armAngle, armLateral));
-    autonChooser.addOption("score mid", new ScoreMid(intake, armAngle, armLateral));
-    autonChooser.addOption("score mid charge", new ScoreMidCharge(drivetrain, intake, armAngle, armLateral));
+    // //score
+    // autonChooser.addOption("score high", new ScoreHigh(intake, armAngle, armLateral));
+    // autonChooser.addOption("score mid", new ScoreMid(intake, armAngle, armLateral));
+    // autonChooser.addOption("score mid charge", new ScoreMidCharge(drivetrain, intake, armAngle, armLateral));
 
-    //taxis
-    autonChooser.addOption("short taxi", new ShortTaxi(drivetrain));
-    autonChooser.setDefaultOption("long taxi", new LongTaxi(drivetrain));
-    autonChooser.addOption("score short taxi", new ScoreShortTaxi(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score long taxi", new ScoreLongTaxi(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("taxi charge", new TaxiCharge(drivetrain));
+    // //taxis
+    // autonChooser.addOption("short taxi", new ShortTaxi(drivetrain));
+    // autonChooser.setDefaultOption("long taxi", new LongTaxi(drivetrain));
+    // autonChooser.addOption("score short taxi", new ScoreShortTaxi(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("score long taxi", new ScoreLongTaxi(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("taxi charge", new TaxiCharge(drivetrain));
     //unused autons
 
     // autonChooser.addOption("score", new Score(drivetrain, intake, armAngle, armLateral));
@@ -114,41 +112,41 @@ public class RobotContainer {
     
 
     // Configure default commands
-    drivetrain.setDefaultCommand(
-      // The left stick controls translation of the robot.
-      // Turning is controlled by the X axis of the right stick.
-      new RunCommand(
-          () -> drivetrain.drive( // all joy.get values were prev negative
-              MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
-              MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
-              MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
-              true, true),
-          drivetrain)
-    );
+    // drivetrain.setDefaultCommand(
+    //   // The left stick controls translation of the robot.
+    //   // Turning is controlled by the X axis of the right stick.
+    //   new RunCommand(
+    //       () -> drivetrain.drive( // all joy.get values were prev negative
+    //           MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
+    //           MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
+    //           MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
+    //           true, true),
+    //       drivetrain)
+    // );
 
-    intake.setDefaultCommand(
-      new RunCommand(
-        () -> intake.setWristAngleManual(
-          MathUtil.applyDeadband(operJoy.getLeftY(), 0.1)),
-        intake)
-    );
+    // intake.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> intake.setWristAngleManual(
+    //       MathUtil.applyDeadband(operJoy.getLeftY(), 0.1)),
+    //     intake)
+    // );
     
-    armAngle.setDefaultCommand(
-      new RunCommand(
-        () -> armAngle.setAngle(
-          MathUtil.applyDeadband(operJoy.getRightY(), 0.1)),
-        armAngle)
-    );
+    // armAngle.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> armAngle.setAngle(
+    //       MathUtil.applyDeadband(operJoy.getRightY(), 0.1)),
+    //     armAngle)
+    // );
 
-    led.setDefaultCommand(
-      new PurpGreenLEDS(led)
+    led2.setDefaultCommand(
+      new AltGreenPurpleLEDS(led2)
     );
 
   }
 
   public void configureSystemDefaults(){
-    drivetrain.resetGyro();
-    drivetrain.resetEncoders();
+    //drivetrain.resetGyro();
+    //drivetrain.resetEncoders();
     // armLateral.retractArm();
     // armAngle.setAngle(PositionConfig.defaultAngle);
     //intake.increaseWristAngle(IntakeConstants.SUPPORT_WRIST_ANGLE);
@@ -166,25 +164,31 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     /* * * DRIVETRAIN * * */
-      Trigger xDriveButton = driveJoy.x();
-      xDriveButton
-        .whileTrue(new InstantCommand(
-          () -> drivetrain.setX(), drivetrain));
+      // Trigger xDriveButton = driveJoy.x();
+      // xDriveButton
+      //   .whileTrue(new InstantCommand(
+      //     () -> drivetrain.setX(), drivetrain));
 
-      Trigger resetGyroButton = driveJoy.rightBumper();
-      resetGyroButton
-          .onTrue(new InstantCommand(
-            () -> drivetrain.resetGyro(), drivetrain));
+      // Trigger resetGyroButton = driveJoy.rightBumper();
+      // resetGyroButton
+      //     .onTrue(new InstantCommand(
+      //       () -> drivetrain.resetGyro(), drivetrain));
 
-      Trigger slowDriveButton = driveJoy.leftBumper();
-      slowDriveButton
-          .toggleOnTrue(new InstantCommand(
-            () -> drivetrain.slowSpeed(), drivetrain))
-          .toggleOnFalse(new InstantCommand(
-            () -> drivetrain.regSpeed(), drivetrain));
+      // Trigger slowDriveButton = driveJoy.leftBumper();
+      // slowDriveButton
+      //     .toggleOnTrue(new InstantCommand(
+      //       () -> drivetrain.slowSpeed(), drivetrain))
+      //     .toggleOnFalse(new InstantCommand(
+      //       () -> drivetrain.regSpeed(), drivetrain));
       
     /* * * INTAKE 2 * * */
       /* LEDS */
+
+      // Trigger decorationLED = operJoy.y();
+      // decorationLED
+      //   .onTrue(new AltGreenPurpleLEDS(led2));
+
+
       Trigger coneLEDButton = operJoy.start(); //8 right
       coneLEDButton
         .onTrue(new ConeLEDS(led));
@@ -194,57 +198,60 @@ public class RobotContainer {
         .onTrue(new CubeLEDS(led));
 
       /* INTAKE */
-      Trigger runIntakeButton = operJoy.x();
-      runIntakeButton
-        .onTrue(new RunIntake(intake))
-        .onFalse(new InstantCommand(
-            () -> intake.stopIntakeMotor(), intake));
+      // Trigger runIntakeButton = operJoy.x();
+      // runIntakeButton
+      //   .onTrue(new RunIntake(intake))
+      //   .onFalse(new InstantCommand(
+      //       () -> intake.stopIntakeMotor(), intake));
       
-      Trigger reverseIntakeButton = operJoy.y();
-      reverseIntakeButton
-        .onTrue(new RunCommand(
-            () -> intake.reverseIntakeMotor(), intake))
-        .onFalse(new InstantCommand(
-            () -> intake.stopIntakeMotor(), intake));
+      // // Trigger reverseIntakeButton = operJoy.y();
+      // // reverseIntakeButton
+      // //   .onTrue(new RunCommand(
+      // //       () -> intake.reverseIntakeMotor(), intake))
+      // //   .onFalse(new InstantCommand(
+      // //       () -> intake.stopIntakeMotor(), intake));
 
-      Trigger closeClawButton = operJoy.leftBumper();
-      closeClawButton
-          .onTrue(new CloseClaw2(intake));
+      // Trigger closeClawButton = operJoy.leftBumper();
+      // closeClawButton
+      //     .onTrue(new CloseClaw2(intake));
 
-      Trigger openClawButton = operJoy.rightBumper();
-      openClawButton
-        .onTrue(new OpenClaw(intake))
-        .onFalse(new InstantCommand(
-          () -> intake.stopIntakeMotor(), intake));
+      // Trigger openClawButton = operJoy.rightBumper();
+      // openClawButton
+      //   .onTrue(new OpenClaw(intake))
+      //   .onFalse(new InstantCommand(
+      //     () -> intake.stopIntakeMotor(), intake));
 
-      Trigger doubleSSWristButton = operJoy.a();
-      doubleSSWristButton
-        .onTrue(new RunCommand(
-          () -> intake.setDoubleSubstationAngle(), intake))
-        .onFalse(new RunCommand(
-          () -> intake.stopWristMotor(), intake));
+      // Trigger doubleSSWristButton = operJoy.a();
+      // doubleSSWristButton
+      //   .onTrue(new RunCommand(
+      //     () -> intake.setDoubleSubstationAngle(), intake))
+      //   .onFalse(new RunCommand(
+      //     () -> intake.stopWristMotor(), intake));
 
-      Trigger singleSSWristButton = operJoy.b();
-      singleSSWristButton
-        .onTrue(new RunCommand(
-          () -> intake.setSingleSubstationAngle(), intake))
-        .onFalse(new RunCommand(
-          () -> intake.stopWristMotor(), intake));
+      // Trigger singleSSWristButton = operJoy.b();
+      // singleSSWristButton
+      //   .onTrue(new RunCommand(
+      //     () -> intake.setSingleSubstationAngle(), intake))
+      //   .onFalse(new RunCommand(
+      //     () -> intake.stopWristMotor(), intake));
+
+
 
       /* LATERAL */
-      Trigger extendButton = operJoy.rightTrigger();
-      extendButton
-        .onTrue(new RunCommand(
-          () -> armLateral.extendArm(), armLateral))
-        .onFalse(new RunCommand(
-          () -> armLateral.stopExtensionMotors(), armLateral));
+      // Trigger extendButton = operJoy.rightTrigger();
+      // extendButton
+      //   .onTrue(new RunCommand(
+      //     () -> armLateral.extendArm(), armLateral))
+      //   .onFalse(new RunCommand(
+      //     () -> armLateral.stopExtensionMotors(), armLateral));
 
-      Trigger retractButton = operJoy.leftTrigger();
-      retractButton
-        .onTrue(new RunCommand(
-          () -> armLateral.retractArm(), armLateral))
-        .onFalse(new RunCommand(
-          () -> armLateral.stopExtensionMotors(), armLateral));
+      // Trigger retractButton = operJoy.leftTrigger();
+      // retractButton
+      //   .onTrue(new RunCommand(
+      //     () -> armLateral.retractArm(), armLateral))
+      //   .onFalse(new RunCommand(
+      //     () -> armLateral.stopExtensionMotors(), armLateral));
+
     
     /* * * INTAKE 1 * * */
     /* LEDS */

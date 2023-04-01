@@ -11,15 +11,16 @@ import frc.robot.subsystems.LED2;
 public class AltGreenPurpleLEDS extends CommandBase {
   private final LED2 leds;
   private final Timer timer;
-  private final int x;
-  private final boolean purple;
+  // private final int x;
+  private boolean purple;
   /** Creates a new AltGreenPurpleLEDS. */
-  public AltGreenPurpleLEDS() {
+  public AltGreenPurpleLEDS(LED2 leds) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.leds = leds;
     leds = new LED2();
     timer = new Timer();
     addRequirements(leds);
-    x = 0;
+    //x = 0;
     purple = true;
   }
 
@@ -32,14 +33,16 @@ public class AltGreenPurpleLEDS extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(purple){
-      leds.altPurpGreen();
-    } else {
-      //wip
+    if(timer.get()%0.5 == 0){ //if this doesn't work, replce with timer.get()%0.5 < 0.008
+      if(purple){
+        leds.altPurpGreen();
+        purple = !purple;
+      } else {
+        leds.altGreenPurp();
+        purple = !purple;
+      }
+      timer.restart();
     }
-      
-
-    
   }
 
   // Called once the command ends or is interrupted.
