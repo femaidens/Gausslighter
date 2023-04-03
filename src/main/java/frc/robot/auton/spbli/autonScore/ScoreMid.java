@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.auton.spbli.autonArm.*;
 import frc.robot.auton.spbli.autonWrist.*;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
@@ -35,13 +36,14 @@ public class ScoreMid extends SequentialCommandGroup {
     addCommands(
 
       // pid
-      new AutonSetWristAngle(intake, IntakeConstants.SUPPORT_WRIST_ANGLE),
-      new ParallelCommandGroup(
-        new AutonSetArmLength(armLateral, PositionConfig.midLength),
-        new AutonSetArmAngle(armAngle, PositionConfig.midNodeAngle)
-        ),
-      new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
-      new RunCommand(() -> intake.openClaw(), intake));
+      new AutonSetWristAngle(intake, IntakeConstants.SUPPORT_WRIST_ANGLE));
+      // new ParallelCommandGroup(
+      //   //new AutonSetArmLength(armLateral, PositionConfig.midLength),
+      //   new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME),
+      //   new AutonSetArmAngle(armAngle, PositionConfig.midNodeAngle)
+      //   ),
+      // new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+      // new RunCommand(() -> intake.openClaw(), intake));
 
       // sbpli
       // new AutonIncWristAngle(intake, AutoConstants.SUPPORT_WRIST_ANGLE_TIME),

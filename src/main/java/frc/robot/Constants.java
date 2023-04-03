@@ -81,11 +81,11 @@ public final class Constants {
     // public static final double tickFactor =  Constants.CPR / 360;
     // public static final double intakeMargin = 3;
 
-    public static final double DEFAULT_WRIST_ANGLE = 3.5; //tbd
-    public static final double SUPPORT_WRIST_ANGLE = 203; 
-    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 75; 
+    public static final double DEFAULT_WRIST_ANGLE = 16.5;
+    public static final double SUPPORT_WRIST_ANGLE = 239; 
+    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 77.25; 
     public static final double SHOOT_WRIST_ANGLE = INTAKE_DOUBLE_WRIST_ANGLE; 
-    public static final double INTAKE_SINGLE_WRIST_ANGLE = 98; //tbd
+    public static final double INTAKE_SINGLE_WRIST_ANGLE = 118; //tbd
     public static final double SCORE_WRIST_ANGLE = INTAKE_SINGLE_WRIST_ANGLE; 
 
 
@@ -96,7 +96,7 @@ public final class Constants {
     public static final int CLAW_MOTOR_SECONDARY_LIMIT = 35; // amps
     public static final int WRIST_MOTOR_SECONDARY_LIMIT = 35; // amps
 
-    public final static double wristkP = 0.01;
+    public final static double wristkP = 0.07;
     public final static double wristkI = 0.0;
     public final static double wristkD = 0.0;
   }
@@ -222,8 +222,8 @@ public final class Constants {
     public static final double AUTON_DEC_ARM_ANGLE_TIME = 3.4;
 
     // arm extensions
-    public static final double AUTON_EXTEND_MID_ARM_TIME = 0.475;
-    public static final double AUTON_EXTEND_HIGH_ARM_TIME = 2.4;
+    public static final double AUTON_EXTEND_MID_ARM_TIME = 0.2375;
+    public static final double AUTON_EXTEND_HIGH_ARM_TIME = 1.2;
     // public static final double AUTON_RETRACT_DEFAULT_ARM_TIME = 3.0;
 
     // charge

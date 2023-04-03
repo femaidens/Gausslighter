@@ -69,7 +69,7 @@ public class ArmLateral extends SubsystemBase {
       System.out.println("retracting");
       leftLateralMotor.set(-0.4);
       // rightLateralMotor.set(-0.4);
-      currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
+      // currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
       // change back to minus if increases moving backwards
     }
   }
@@ -79,17 +79,17 @@ public class ArmLateral extends SubsystemBase {
     //System.out.println("rotations: " +lateralEncoder.getPosition());
 
     if (!topSwitch.get()) { //hit limit switch
-      System.out.println("top limit activated! \n");
+      System.out.println("top limit activated! p\n");
       stopExtensionMotors();
       // lateralEncoder.getPosition();
-      lateralEncoder.setPosition(0);
+      // lateralEncoder.setPosition(0);
       return;
     }
 
     else{
       leftLateralMotor.set(0.4);
       // rightLateralMotor.set(0.4);
-      currentLength = lateralEncoder.getPosition();
+      // currentLength = lateralEncoder.getPosition();
     }
   }
   public void setAutonArmLength(double autonSetpoint){

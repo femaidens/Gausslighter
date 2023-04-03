@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.auton.spbli.autonArm.*;
 import frc.robot.auton.spbli.autonWrist.*;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
@@ -37,7 +38,8 @@ public class ScoreHigh extends SequentialCommandGroup {
       // pid
       new AutonSetWristAngle(intake, IntakeConstants.SUPPORT_WRIST_ANGLE),
       new ParallelCommandGroup(
-      new AutonSetArmLength(armLateral, PositionConfig.highLength),
+      // new AutonSetArmLength(armLateral, PositionConfig.highLength),
+      new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
       new AutonSetArmAngle(armAngle, PositionConfig.highNodeAngle)
       ),
       new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),

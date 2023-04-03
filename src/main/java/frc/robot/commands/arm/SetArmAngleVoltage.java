@@ -7,10 +7,10 @@ package frc.robot.commands.arm;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmAngle;
 
-public class SetAngleVoltage extends CommandBase {
+public class SetArmAngleVoltage extends CommandBase {
   private final ArmAngle armAngle;
   /** Creates a new SetAngleVoltage. */
-  public SetAngleVoltage(ArmAngle armAngle) {
+  public SetArmAngleVoltage(ArmAngle armAngle) {
     this.armAngle = armAngle;
     addRequirements(armAngle);
   }
@@ -27,7 +27,9 @@ public class SetAngleVoltage extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    armAngle.stopAngleMotor();
+  }
 
   // Returns true when the command should end.
   @Override

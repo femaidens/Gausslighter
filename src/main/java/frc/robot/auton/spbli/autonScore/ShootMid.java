@@ -29,7 +29,8 @@ public class ShootMid extends SequentialCommandGroup {
     // pid ver
     new AutonSetWristAngle(intake, IntakeConstants.SUPPORT_WRIST_ANGLE),
     new ParallelCommandGroup(
-      new AutonSetArmLength(armLateral, PositionConfig.midLength),
+      //new AutonSetArmLength(armLateral, PositionConfig.midLength),
+      new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME),
       new AutonSetArmAngle(armAngle, PositionConfig.midNodeAngle)
       ),
       new AutonSetWristAngle(intake, IntakeConstants.SHOOT_WRIST_ANGLE),

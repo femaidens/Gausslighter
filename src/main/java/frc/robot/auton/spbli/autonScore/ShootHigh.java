@@ -29,7 +29,8 @@ public class ShootHigh extends SequentialCommandGroup {
     // pid ver
     new AutonSetWristAngle(intake, IntakeConstants.SUPPORT_WRIST_ANGLE),
     new ParallelCommandGroup(
-      new AutonSetArmLength(armLateral, PositionConfig.highLength),
+      //new AutonSetArmLength(armLateral, PositionConfig.highLength),
+      new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
       new AutonSetArmAngle(armAngle, PositionConfig.highNodeAngle)
       ),
       new AutonSetWristAngle(intake, IntakeConstants.SHOOT_WRIST_ANGLE),

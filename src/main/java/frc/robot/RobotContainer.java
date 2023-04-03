@@ -15,10 +15,10 @@ import frc.robot.auton.spbli.autonScore.*;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
-import frc.robot.commands.arm.SetAngleVoltage;
 import frc.robot.commands.leds.ConeLEDS;
 import frc.robot.commands.leds.CubeLEDS;
 import frc.robot.commands.leds.PurpGreenLEDS;
+import frc.robot.commands.wrist.SetWristAngleVoltage;
 import frc.robot.commands.intake2.*;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -199,13 +199,12 @@ public class RobotContainer {
         //   () -> intake.setDoubleSubstationAngle(), intake))
         // .onFalse(new RunCommand(
         //   () -> intake.stopWristMotor(), intake));
-        // .onTrue(new InstantCommand(
-        //   () -> intake.setDoubleIntakeAngle(), intake))
-        // .whileFalse(new RunCommand(
-        //   () -> intake.setAngleVoltage(), intake));
         .onTrue(new InstantCommand(
-          () -> armAngle.setHighNodeAngle(), armAngle))
-        .onFalse(new SetAngleVoltage(armAngle));
+          () -> intake.setDoubleIntakeAngle(), intake));
+        // .onFalse(new SetWristAngleVoltage(intake));
+        // .onTrue(new InstantCommand(
+        //   () -> armAngle.setHighNodeAngle(), armAngle))
+        // .onFalse(new SetArmAngleVoltage(armAngle));
 
       Trigger singleWristButton = operJoy.a();
       singleWristButton
@@ -213,13 +212,12 @@ public class RobotContainer {
         //   () -> intake.setSingleSubstationAngle(), intake))
         // .onFalse(new InstantCommand(
         //   () -> intake.stopWristMotor(), intake));
-        // .onTrue(new InstantCommand(
-        //   () -> intake.setSingleIntakeAngle(), intake))
-        // .whileFalse(new RunCommand(
-        //   () -> intake.setAngleVoltage(), intake));
         .onTrue(new InstantCommand(
-          () -> armAngle.setMidNodeAngle(), armAngle))
-        .onFalse(new SetAngleVoltage(armAngle));
+          () -> intake.setSingleIntakeAngle(), intake));
+        // .onFalse(new SetWristAngleVoltage(intake));
+        // .onTrue(new InstantCommand(
+        //   () -> armAngle.setMidNodeAngle(), armAngle))
+        // .onFalse(new SetArmAngleVoltage(armAngle));
 
 
       /* LATERAL */
