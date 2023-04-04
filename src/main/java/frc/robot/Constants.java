@@ -73,6 +73,7 @@ public final class Constants {
       public static final double lowLength = defaultLength;
       public static final double midLength = 24.26;
       public static final double highLength = 46.3; 
+      public static final double singleHPLength = 13.069; //tbd
       public static final double doubleHPLength = 13.069;
     }
   }
