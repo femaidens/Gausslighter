@@ -67,7 +67,7 @@ public class ArmLateral extends SubsystemBase {
 
     else{
       System.out.println("retracting");
-      leftLateralMotor.set(-0.4);
+      leftLateralMotor.set(-0.8);
       // rightLateralMotor.set(-0.4);
       // currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
       // change back to minus if increases moving backwards
@@ -87,7 +87,7 @@ public class ArmLateral extends SubsystemBase {
     }
 
     else{
-      leftLateralMotor.set(0.4);
+      leftLateralMotor.set(0.8);
       // rightLateralMotor.set(0.4);
       // currentLength = lateralEncoder.getPosition();
     }

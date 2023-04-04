@@ -4,7 +4,9 @@
 
 package frc.robot.commands.intake2;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Constants.AutoConstants;
@@ -28,9 +30,12 @@ public class SingleIntakeRoutine extends SequentialCommandGroup {
     addCommands(
     new ParallelCommandGroup(
       //new AutonSetArmLength(armLateral, PositionConfig.highLength),
-      new AutonSetWristAngle(intake, IntakeConstants.INTAKE_SINGLE_WRIST_ANGLE),
+      new InstantCommand(
+        () -> armAngle.setSingleArmAngle(), armAngle),
       //new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME), //time to extend to single ss
-      new AutonSetArmAngle(armAngle, PositionConfig.hpSingleAngle)
-      ));
+      new InstantCommand(
+        () -> intake.setSingleIntakeAngle(), intake),
+      new PrintCommand("running single intake routine")
+     ));
   }
 }

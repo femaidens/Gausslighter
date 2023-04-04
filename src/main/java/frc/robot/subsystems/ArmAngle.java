@@ -61,6 +61,7 @@ public class ArmAngle extends SubsystemBase {
   public void setAutonArmAngle(double autonSetpoint){
     double autonArmAngleVoltage = anglePIDController.calculate(getArmAngle(), autonSetpoint);
     angleMotor.setVoltage(autonArmAngleVoltage);
+    System.out.println(autonArmAngleVoltage);
   }
 
   public void increaseArmAngle(){
@@ -110,10 +111,20 @@ public class ArmAngle extends SubsystemBase {
 
   public void setMidNodeAngle(){
     isManual = false;
-    setpoint = 20;
+    setpoint = 30;
   }
 
   public void setHighNodeAngle(){
+    isManual = false;
+    setpoint = 40;
+  }
+
+  public void setSingleArmAngle(){
+    isManual = false;
+    setpoint = 30;
+  }
+
+  public void setDoubleArmAngle(){
     isManual = false;
     setpoint = 40;
   }

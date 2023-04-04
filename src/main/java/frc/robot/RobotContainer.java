@@ -15,6 +15,7 @@ import frc.robot.auton.spbli.autonScore.*;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
+import frc.robot.commands.arm.SetArmAngleVoltage;
 import frc.robot.commands.leds.ConeLEDS;
 import frc.robot.commands.leds.CubeLEDS;
 import frc.robot.commands.leds.PurpGreenLEDS;
@@ -201,8 +202,8 @@ public class RobotContainer {
         //   () -> intake.stopWristMotor(), intake));
         // .onTrue(new InstantCommand(
         //   () -> intake.setDoubleIntakeAngle(), intake));
-        .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle));
-        // .onFalse(new SetWristAngleVoltage(intake));
+        .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle))
+        .onFalse(new SetWristAngleVoltage(intake));
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setHighNodeAngle(), armAngle))
         // .onFalse(new SetArmAngleVoltage(armAngle));
@@ -215,8 +216,8 @@ public class RobotContainer {
         //   () -> intake.stopWristMotor(), intake));
         // .onTrue(new InstantCommand(
         //   () -> intake.setSingleIntakeAngle(), intake));
-        .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle));
-        // .onFalse(new SetWristAngleVoltage(intake));
+        .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle))
+        .onFalse(new SetWristAngleVoltage(intake));
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setMidNodeAngle(), armAngle))
         // .onFalse(new SetArmAngleVoltage(armAngle));

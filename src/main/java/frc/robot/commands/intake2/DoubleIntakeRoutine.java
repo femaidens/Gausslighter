@@ -4,7 +4,9 @@
 
 package frc.robot.commands.intake2;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Constants.AutoConstants;
@@ -25,12 +27,14 @@ public class DoubleIntakeRoutine extends SequentialCommandGroup {
   public DoubleIntakeRoutine(Intake intake, ArmLateral armLateral, ArmAngle armAngle) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
     new ParallelCommandGroup(
       //new AutonSetArmLength(armLateral, PositionConfig.highLength),
-      new AutonSetWristAngle(intake, IntakeConstants.INTAKE_DOUBLE_WRIST_ANGLE),
-      //new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME), //time to extend to double ss
-      new AutonSetArmAngle(armAngle, PositionConfig.hpDoubleAngle)
-      ));
+      new InstantCommand(
+        () -> armAngle.setDoubleArmAngle(), armAngle),
+      //new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME), //time to extend to single ss
+      new InstantCommand(
+        () -> intake.setDoubleIntakeAngle(), intake),
+      new PrintCommand("running double intake routine")
+     );
   }
 }

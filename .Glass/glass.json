@@ -27,7 +27,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 434,
+          "height": 0,
           "series": [
             {
               "color": [
@@ -81,7 +81,7 @@
     "Plot <2>": {
       "plots": [
         {
-          "height": 416,
+          "height": 390,
           "series": [
             {
               "color": [
@@ -90,7 +90,7 @@
                 0.6901960968971252,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/arm angle"
+              "id": "NT:/SmartDashboard/curr. wrist angle"
             },
             {
               "color": [
@@ -99,14 +99,11 @@
                 0.32156863808631897,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/desired arm angle"
+              "id": "NT:/SmartDashboard/desired wrist angle: "
             }
           ]
         }
-      ],
-      "window": {
-        "visible": false
-      }
+      ]
     },
     "Plot <3>": {
       "plots": [
@@ -171,7 +168,7 @@
     "Plot <5>": {
       "plots": [
         {
-          "height": 407,
+          "height": 359,
           "series": [
             {
               "color": [
@@ -180,7 +177,7 @@
                 0.6901960968971252,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/curr. wrist angle"
+              "id": "NT:/SmartDashboard/arm angle"
             },
             {
               "color": [
@@ -189,7 +186,7 @@
                 0.32156863808631897,
                 1.0
               ],
-              "id": "NT:/SmartDashboard/desired wrist angle: "
+              "id": "NT:/SmartDashboard/desired arm angle"
             }
           ]
         }

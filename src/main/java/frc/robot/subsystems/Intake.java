@@ -31,6 +31,7 @@ public class Intake extends SubsystemBase {
   private final SparkMaxAbsoluteEncoder wristEncoder;
   // private double measurement;
   private double setpoint;
+  private double autonGoal;
   private boolean isManual = true;
 
   // private final Timer timer;
@@ -145,6 +146,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void setAutonWristAngle(double autonSetpoint){
+    autonGoal = autonSetpoint;
     double autonWristAngleVoltage = wristPIDController.calculate(getWristAngle(), autonSetpoint);
     wristMotor.setVoltage(-autonWristAngleVoltage);
   }
@@ -228,6 +230,7 @@ public class Intake extends SubsystemBase {
     // values
     SmartDashboard.putNumber("curr. wrist angle", wristEncoder.getPosition()); 
     SmartDashboard.putNumber("desired wrist angle: ", setpoint);
+    SmartDashboard.putNumber("auton setpoint: ", autonGoal);
     // SmartDashboard.putNumber("curr. wrist speed ", wristMotor.get());
 
     //if(!isManual){
