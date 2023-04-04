@@ -140,7 +140,7 @@ public class RobotContainer {
     // );
 
     led.setDefaultCommand(
-      new AltGreenPurpleLEDS(led, timer)
+      new AltGreenPurpleLEDS(led, timer) 
       //new PurpGreenLEDS(led)
     );
 
@@ -191,13 +191,13 @@ public class RobotContainer {
       //   .onTrue(new AltGreenPurpleLEDS(led2));
 
 
-      Trigger coneLEDButton = operJoy.start(); //8 right
-      coneLEDButton
-        .onTrue(new ConeLEDS(led));
+      // Trigger coneLEDButton = operJoy.start(); //8 right
+      // coneLEDButton
+      //   .onTrue(new ConeLEDS(led));
       
-      Trigger cubeLEDButton = operJoy.back(); //7 left
-      cubeLEDButton
-        .onTrue(new CubeLEDS(led));
+      // Trigger cubeLEDButton = operJoy.back(); //7 left
+      // cubeLEDButton
+      //   .onTrue(new CubeLEDS(led));
 
       /* INTAKE */
       // Trigger runIntakeButton = operJoy.x();

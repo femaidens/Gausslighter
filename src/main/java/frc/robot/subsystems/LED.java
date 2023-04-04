@@ -101,10 +101,10 @@ public class LED extends SubsystemBase {
     for(int i = 0; i < ledBuffer.getLength(); i++){
       if(i%2 == 1){
         //green light
-        ledBuffer.setRGB(i, 94, 235, 134);
+        ledBuffer.setRGB(i, 0, 235, 0);
       }else{
         //purple light
-        ledBuffer.setRGB(i, 208, 66, 227);
+        ledBuffer.setRGB(i, 50, 66, 50);
       }
     }
     led.setData(ledBuffer);
@@ -114,29 +114,33 @@ public class LED extends SubsystemBase {
     for(int i = 0; i < ledBuffer.getLength(); i++){
       if(i%2 == 0) { // <- note the difference
         //green light
-        ledBuffer.setRGB(i, 94, 235, 134);
+        ledBuffer.setRGB(i, 0, 235, 10);
       }
 
       else {
         //purple light
-        ledBuffer.setRGB(i, 208, 66, 227);
+        ledBuffer.setRGB(i, 50, 66, 50);
       }
     }
     led.setData(ledBuffer);
   }
 
   public void lightShow(Timer timer){
-    if(timer.get()%0.5 == 0){ //if this doesn't work, replce with timer.get()%0.5 < 0.008
-      if(purple){
-        altPurpGreen();
-        purple = !purple;
-      } else {
-        altGreenPurp();
-        purple = !purple;
-      }
+    System.out.println("running lightshow");
+    if(timer.get()%0.5 < 0.08){ //if this doesn't work, replce with timer.get()%0.5 < 0.008
+    if(purple){
+      System.out.println("fishy");
+      altPurpGreen();
+      purple = !purple;
+    } else {
+      System.out.println("not fishy");
+      altGreenPurp();
+      purple = !purple;
+    }
     }
   }
-  public void simplififedLightShow(){
+  public void simplifiedLightShow(){
+    System.out.println("running simp lights");
     if(purple){
       altPurpGreen();
       purple = !purple;
@@ -184,6 +188,7 @@ public class LED extends SubsystemBase {
       led.setData(ledBuffer);
     }
   }
+  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
