@@ -5,6 +5,7 @@
 package frc.robot.commands.leds;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.LED;
 
 public class BouncingPurple extends CommandBase {
   private final LED led;
@@ -21,9 +22,9 @@ public class BouncingPurple extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute(
+  public void execute(){
     led.bouncingPurp();
-  ) {}
+   }
 
   // Called once the command ends or is interrupted.
   @Override

@@ -5,6 +5,7 @@
 package frc.robot.commands.leds;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.LED;
 
 public class BouncingGreen extends CommandBase {
   private final LED led;

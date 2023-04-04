@@ -158,18 +158,17 @@ public class LED extends SubsystemBase {
      * This is intended to return the purple pixel that's traveled to the last pixel back to the beginning
     */
     for(int i = ledBuffer.getLength() - 1; i > -1; i--){
-      for(int i = 0; i < ledBuffer.getLength(); i ++){
         for(int j = 0; j < ledBuffer.getLength(); j++){
           ledBuffer.setRGB(j, 94, 235, 134); //green
         }
         ledBuffer.setRGB(i, 208, 66, 227); //purple
         led.setData(ledBuffer);
     }
-  }
-}
+    }
+  
 
-  public void boucingGreen(){
-    new PrintCommands("running bouncing green");
+  public void bouncingGreen(){
+    new PrintCommand("running bouncing green");
     for(int i = 0; i < ledBuffer.getLength(); i ++){
       for(int j = 0; j < ledBuffer.getLength(); j++){
         ledBuffer.setRGB(j, 208, 66, 227); //purple
@@ -183,6 +182,7 @@ public class LED extends SubsystemBase {
       }
       ledBuffer.setRGB(i, 94, 235, 134); //green
       led.setData(ledBuffer);
+    }
   }
   @Override
   public void periodic() {
