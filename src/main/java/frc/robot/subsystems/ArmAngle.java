@@ -122,7 +122,7 @@ public class ArmAngle extends SubsystemBase {
   public void setSingleArmAngle(){
     isManual = false;
     setpoint = 30;
-  }
+ }
 
   public void setDoubleArmAngle(){
     isManual = false;

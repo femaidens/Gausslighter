@@ -60,8 +60,8 @@ public final class Constants {
       public static final double defaultAngle = 63.9;
       public static final double lowNodeAngle = 1.986;
       public static final double midNodeAngle = 30; 
-      public static final double highNodeAngle = 30;
-      public static final double hpSingleAngle = 30; //tbd
+      public static final double highNodeAngle = midNodeAngle;
+      public static final double hpSingleAngle = midNodeAngle; //tbd
       public static final double hpDoubleAngle = 40;
       // public static final double autonScoreAngle = 40;
 
