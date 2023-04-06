@@ -100,11 +100,11 @@ public class LED extends SubsystemBase {
   public void altPurpGreen(){
     for(int i = 0; i < ledBuffer.getLength(); i++){
       if(i%2 == 1){
-        //green light
-        ledBuffer.setRGB(i, 0, 235, 0);
+        //better green light
+        ledBuffer.setRGB(i, 0, 255, 0);
       }else{
-        //purple light
-        ledBuffer.setRGB(i, 50, 66, 50);
+        //better purple light
+        ledBuffer.setRGB(i, 185, 0, 255);
       }
     }
     led.setData(ledBuffer);
@@ -114,12 +114,12 @@ public class LED extends SubsystemBase {
     for(int i = 0; i < ledBuffer.getLength(); i++){
       if(i%2 == 0) { // <- note the difference
         //green light
-        ledBuffer.setRGB(i, 0, 235, 10);
+        ledBuffer.setRGB(i, 0, 255, 0);
       }
 
       else {
         //purple light
-        ledBuffer.setRGB(i, 50, 66, 50);
+        ledBuffer.setRGB(i, 185, 0, 255);
       }
     }
     led.setData(ledBuffer);
@@ -127,16 +127,12 @@ public class LED extends SubsystemBase {
 
   public void lightShow(Timer timer){
     System.out.println("running lightshow");
-    if(timer.get()%0.5 < 0.08){ //if this doesn't work, replce with timer.get()%0.5 < 0.008
-    if(purple){
+    if(timer.get()%0.5 < 0.25){
       System.out.println("fishy");
       altPurpGreen();
-      purple = !purple;
     } else {
       System.out.println("not fishy");
       altGreenPurp();
-      purple = !purple;
-    }
     }
   }
   public void simplifiedLightShow(){
@@ -153,9 +149,9 @@ public class LED extends SubsystemBase {
     new PrintCommand("running bouncing purple");
     for(int i = 0; i < ledBuffer.getLength(); i ++){
       for(int j = 0; j < ledBuffer.getLength(); j++){
-        ledBuffer.setRGB(j, 94, 235, 134); //green
+        ledBuffer.setRGB(j, 0, 255, 0); //green
       }
-      ledBuffer.setRGB(i, 208, 66, 227); //purple
+      ledBuffer.setRGB(i, 185, 0, 255); //purple
       led.setData(ledBuffer);
     }
     /* i sure hope this works pls pls pls pls pls 
@@ -163,9 +159,9 @@ public class LED extends SubsystemBase {
     */
     for(int i = ledBuffer.getLength() - 1; i > -1; i--){
         for(int j = 0; j < ledBuffer.getLength(); j++){
-          ledBuffer.setRGB(j, 94, 235, 134); //green
+          ledBuffer.setRGB(j, 0, 255, 0); //green
         }
-        ledBuffer.setRGB(i, 208, 66, 227); //purple
+        ledBuffer.setRGB(i, 185, 0, 255); //purple
         led.setData(ledBuffer);
     }
     }
@@ -175,16 +171,16 @@ public class LED extends SubsystemBase {
     new PrintCommand("running bouncing green");
     for(int i = 0; i < ledBuffer.getLength(); i ++){
       for(int j = 0; j < ledBuffer.getLength(); j++){
-        ledBuffer.setRGB(j, 208, 66, 227); //purple
+        ledBuffer.setRGB(j, 185, 0, 255); //purple
       }
-      ledBuffer.setRGB(i, 94, 235, 134); //green
+      ledBuffer.setRGB(i, 0, 255, 0); //green
       led.setData(ledBuffer);
     }
     for(int i = ledBuffer.getLength() - 1; i > -1; i--){
       for(int j = 0; j < ledBuffer.getLength(); j++){
-        ledBuffer.setRGB(j, 208, 66, 227); //purple
+        ledBuffer.setRGB(j, 185, 0, 255); //purple
       }
-      ledBuffer.setRGB(i, 94, 235, 134); //green
+      ledBuffer.setRGB(i, 0, 255, 0); //green
       led.setData(ledBuffer);
     }
   }
