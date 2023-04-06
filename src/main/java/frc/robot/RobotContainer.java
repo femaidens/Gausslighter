@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
-import frc.robot.auton.spbli.autonRoutines.*;
-import frc.robot.auton.spbli.autonScore.*;
+import frc.robot.auton.autonRoutines.*;
+import frc.robot.auton.autonScore.*;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -19,6 +19,7 @@ import frc.robot.commands.arm.SetArmAngleVoltage;
 import frc.robot.commands.leds.ConeLEDS;
 import frc.robot.commands.leds.CubeLEDS;
 import frc.robot.commands.leds.PurpGreenLEDS;
+import frc.robot.commands.wrist.SetWristAngleManual;
 import frc.robot.commands.wrist.SetWristAngleVoltage;
 import frc.robot.commands.intake2.*;
 import frc.robot.subsystems.*;
@@ -69,7 +70,7 @@ public class RobotContainer {
     // auton config
     autonChooser = new SendableChooser<Command>();
     SmartDashboard.putData("Choose Auto: ", autonChooser);
-    autonChooser.setDefaultOption("charge", new Charge(drivetrain, AutoConstants.AUTON_CHARGE_SPEED, AutoConstants.AUTON_CHARGE_TIME)
+    autonChooser.setDefaultOption("charge", new Charge(drivetrain, AutoConstants.CHARGE_SPEED, AutoConstants.CHARGE_TIME)
     );
     
     //shoot
@@ -83,8 +84,9 @@ public class RobotContainer {
 
     //taxis
     autonChooser.addOption("short taxi", new ShortTaxi(drivetrain));
-    autonChooser.setDefaultOption("long taxi", new LongTaxi(drivetrain));
+    autonChooser.addOption("long taxi", new LongTaxi(drivetrain));
     autonChooser.addOption("score short taxi", new ScoreMidShortTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score high short taxi", new ScoreHighShortTaxi(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("score long taxi", new ScoreMidLongTaxi(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("taxi charge", new TaxiCharge(drivetrain));
 
@@ -102,6 +104,7 @@ public class RobotContainer {
     );
 
     intake.setDefaultCommand(
+      // new SetWristAngleManual(intake, MathUtil.applyDeadband(operJoy.getLeftY(), 0.1))
       new RunCommand(
         () -> intake.setWristAngleManual(
           MathUtil.applyDeadband(operJoy.getLeftY(), 0.1)),
@@ -197,13 +200,16 @@ public class RobotContainer {
       Trigger doubleIntakeButton = operJoy.b();
       doubleIntakeButton
         // .onTrue(new RunCommand(
-        //   () -> intake.setDoubleSubstationAngle(), intake))
+        //   () -> intake.setDoubleIntakeAngle(), intake))
         // .onFalse(new RunCommand(
         //   () -> intake.stopWristMotor(), intake));
+
         // .onTrue(new InstantCommand(
         //   () -> intake.setDoubleIntakeAngle(), intake));
+
         .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle))
         .onFalse(new SetWristAngleVoltage(intake));
+
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setHighNodeAngle(), armAngle))
         // .onFalse(new SetArmAngleVoltage(armAngle));
@@ -211,13 +217,16 @@ public class RobotContainer {
       Trigger singleIntakeButton = operJoy.a();
       singleIntakeButton
         // .onTrue(new InstantCommand(
-        //   () -> intake.setSingleSubstationAngle(), intake))
+        //   () -> intake.setSingleIntakeAngle(), intake))
+
         // .onFalse(new InstantCommand(
         //   () -> intake.stopWristMotor(), intake));
         // .onTrue(new InstantCommand(
         //   () -> intake.setSingleIntakeAngle(), intake));
+
         .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle))
         .onFalse(new SetWristAngleVoltage(intake));
+
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setMidNodeAngle(), armAngle))
         // .onFalse(new SetArmAngleVoltage(armAngle));

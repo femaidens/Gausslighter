@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // import frc.robot.Constants;
 import frc.robot.Ports.*;
+import frc.robot.commands.wrist.SetWristAngleVoltage;
 import frc.robot.Constants.*;
 
 import com.revrobotics.CANSparkMax;
@@ -53,9 +54,10 @@ public class Intake extends SubsystemBase {
     // encoder instantiations
     wristEncoder = wristMotor.getAbsoluteEncoder(Type.kDutyCycle);
     setpoint = wristEncoder.getPosition();
+
     // motor configs
     wristMotor.setIdleMode(IdleMode.kBrake);
-    wristMotor.setInverted(true);
+    wristMotor.setInverted(false);
     wristPIDController = new PIDController(IntakeConstants.wristkP, IntakeConstants.wristkI, IntakeConstants.wristkD);
 
     // current limits
@@ -70,13 +72,62 @@ public class Intake extends SubsystemBase {
     // timer = new Timer();
   }
 
-  public void openClaw() { // retracting pistons
+  // MANUAL
+  public void setWristAngleManual(double input){
+    isManual = true;
+    double wristAngleSpeed = 0.2;
+    double currentWristAngle = getWristAngle();
+
+    if(currentWristAngle < IntakeConstants.DEFAULT_WRIST_ANGLE || currentWristAngle > 300){
+      setpoint = IntakeConstants.DEFAULT_WRIST_ANGLE;
+      if(currentWristAngle > 300){
+        double measurement = Math.abs(360 - wristEncoder.getPosition()) + IntakeConstants.DEFAULT_WRIST_ANGLE;
+        wristMotor.setVoltage(-calculateVoltage(measurement));
+      }
+      else{
+        setAngleVoltage();
+      }
+      System.out.println("at default wrist limit");
+    }
+
+    // else if (currentWristAngle > IntakeConstants.SUPPORT_WRIST_ANGLE && currentWristAngle < 250){
+    //   setpoint = IntakeConstants.SUPPORT_WRIST_ANGLE;
+    //   System.out.println("at support wrist limit");
+    // }
+
+    else{
+      if(input < 0){ // neg input pushing up
+        wristMotor.set(wristAngleSpeed);
+        setpoint = wristEncoder.getPosition();
+      }
+      else if (input > 0 ){ // pos input pushing down
+        wristMotor.set(-wristAngleSpeed); //increase
+        setpoint = wristEncoder.getPosition();
+      }
+      else {
+        // stopWristMotor();
+        setAngleVoltage();
+      }
+    }
+  }
+
+  public void setWristAngle(double goalAngle){
+    double currentAngle = wristEncoder.getPosition();
+    if (goalAngle > currentAngle){
+      increaseWristAngle(goalAngle);
+    }
+    else if (goalAngle < currentAngle){
+      decreaseWristAngle(goalAngle);
+    }
+  }
+
+  public void closeClaw() { // retracting pistons
     piston1.set(Value.kForward);
     // piston2.set(Value.kForward);
     //System.out.println("piston state: " + piston1.);
   }
 
-  public void closeClaw() { // extends pistons & clamps onto the gamepiece
+  public void openClaw() { // extends pistons & clamps onto the gamepiece
     piston1.set(Value.kReverse);
     // System.out.println("left piston out");
   }
@@ -92,73 +143,44 @@ public class Intake extends SubsystemBase {
     // System.out.println("left piston out");
   }
 
-  // // MANUAL
-  // public void setWristAngleManual(double input){
-  //   isManual = true;
-  //   double wristAngleSpeed = 0.2;
-  //   // if (wristEncoder.getPosition() <= 18){
-  //   //   stopWristMotor();
-  //   // }
-  //   // else{
-  //     if(wristEncoder.getPosition() <= IntakeConstants.DEFAULT_WRIST_ANGLE || wristEncoder.getPosition() >= IntakeConstants.SUPPORT_WRIST_ANGLE){
-  //       stopWristMotor();
-  //     }
-  //     if(input < 0){
-  //       wristMotor.set(-wristAngleSpeed); // decrease
-  //     }
-  //     else if (input > 0 ){
-  //       wristMotor.set(wristAngleSpeed); //increase
-  //     }
-  //     else {
-  //       stopWristMotor();
-  //     }
-    // }
-  // }
-  // MANUAL
-  public void setWristAngleManual(double input){
-    isManual = true;
-    double wristAngleSpeed = 0.3;
-    // if (wristEncoder.getPosition() <= 18){
-    //   stopWristMotor();
-    // }
-    // else{
-      if(wristEncoder.getPosition() <= IntakeConstants.DEFAULT_WRIST_ANGLE){ //  || wristEncoder.getPosition() >= IntakeConstants.SUPPORT_WRIST_ANGLE
-        stopWristMotor();
-      }
-      if(input < 0){
-        wristMotor.set(-wristAngleSpeed); // decrease
-        setpoint = wristEncoder.getPosition();
-      }
-      else if (input > 0 ){
-        wristMotor.set(wristAngleSpeed); //increase
-        setpoint = wristEncoder.getPosition();
-      }
-      else {
-        // stopWristMotor();
-        setAngleVoltage();
-      }
-    //}
+  public void atWristLimit(){
+    if(wristEncoder.getPosition() <= IntakeConstants.DEFAULT_WRIST_ANGLE || wristEncoder.getPosition() >= IntakeConstants.SUPPORT_WRIST_ANGLE){
+      System.out.println("at wrist limit");
+      stopWristMotor();
+    }
   }
 
   public void setAngleVoltage(){
     double wristAngleVoltage = wristPIDController.calculate(getWristAngle(), setpoint);
-    wristMotor.setVoltage(-wristAngleVoltage);
+    wristMotor.setVoltage(wristAngleVoltage);
+    System.out.println("Running Wrist PID");
+
+  }
+
+  public double calculateVoltage(double measurement){
+    return wristPIDController.calculate(measurement, setpoint);
   }
 
   public void setAutonWristAngle(double autonSetpoint){
     autonGoal = autonSetpoint;
     double autonWristAngleVoltage = wristPIDController.calculate(getWristAngle(), autonSetpoint);
-    wristMotor.setVoltage(-autonWristAngleVoltage);
+    wristMotor.setVoltage(autonWristAngleVoltage);
   }
 
   public void setSingleIntakeAngle(){
     isManual = false;
+    //System.out.println("running single pid");
     setpoint = IntakeConstants.INTAKE_SINGLE_WRIST_ANGLE;
   }
 
   public void setDoubleIntakeAngle(){ //also works for shooting..?
     isManual = false;
+    //System.out.println("running double pid");
     setpoint = IntakeConstants.INTAKE_DOUBLE_WRIST_ANGLE;
+  }
+
+  public void updateTeleopSetpoint(){
+    setpoint = autonGoal;
   }
 
   public boolean getIsManual(){
@@ -184,7 +206,8 @@ public class Intake extends SubsystemBase {
     if (Math.abs(currentAngle - angle) < 1){ // test angle of wrist when fully down
         wristMotor.stopMotor();
     }
-    wristMotor.set(-0.05);
+    System.out.println("decreasing wrist ang");
+    wristMotor.set(-0.2);
   }
 
   public void increaseWristAngle(double angle){
@@ -193,7 +216,8 @@ public class Intake extends SubsystemBase {
     if (Math.abs(currentAngle - angle) < 1){ // test angle of wrist when fully down
         wristMotor.stopMotor();
     }
-    wristMotor.set(0.05);
+    System.out.println("increasing wrist ang");
+    wristMotor.set(0.2);
   }
 
   public void runIntakeMotor(){
@@ -214,7 +238,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void stopWristMotor() {
-    wristMotor.set(0);
+    wristMotor.setVoltage(0);
   }
 
   @Override

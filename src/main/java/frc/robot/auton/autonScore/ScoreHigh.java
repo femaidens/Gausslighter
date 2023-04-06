@@ -2,14 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.auton.spbli.autonScore;
+package frc.robot.auton.autonScore;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.PositionConfig;
-import frc.robot.auton.spbli.autonArm.*;
-import frc.robot.auton.spbli.autonWrist.*;
+import frc.robot.auton.autonArm.*;
+import frc.robot.auton.autonWrist.*;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.ArmAngle;
@@ -36,21 +39,29 @@ public class ScoreHigh extends SequentialCommandGroup {
     addCommands(
 
       // pid
-      new AutonSetWristAngle(intake, IntakeConstants.SUPPORT_WRIST_ANGLE),
       new ParallelCommandGroup(
-      // new AutonSetArmLength(armLateral, PositionConfig.highLength),
-      new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
-      new AutonSetArmAngle(armAngle, PositionConfig.highNodeAngle)
+        // new AutonSetArmLength(armLateral, PositionConfig.highLength),
+        new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+        new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
+        new AutonDecArmAngle(armAngle)
+        // new AutonSetArmAngle(armAngle, PositionConfig.highNodeAngle)
       ),
-      new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
-      new RunCommand(() -> intake.openClaw(), intake));
+      // new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+      new InstantCommand(() -> intake.openClaw(), intake),
+      new WaitCommand(0.5),
+      new ParallelCommandGroup(
+        new InstantCommand(
+          () -> intake.closeClaw(), intake),
+        new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME - 0.01))
+      );
 
       // sbpli version
-        // new AutonIncWristAngle(intake, AutoConstants.SUPPORT_WRIST_ANGLE_TIME),
+        //new AutonIncWristAngle(intake, AutoConstants.SUPPORT_WRIST_ANGLE_TIME));
         // new ParallelCommandGroup(
-        // new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
+        // // new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
         // new AutonDecArmAngle(armAngle)
         // ),
+        // new PrintCommand("parallel ended"));
         // new AutonDecWristAngle(intake, AutoConstants.SCORE_WRIST_ANGLE_TIME),
         // new RunCommand(() -> intake.openClaw(), intake));
 
@@ -70,6 +81,5 @@ public class ScoreHigh extends SequentialCommandGroup {
         // new AutonRetractArm(armLateral, AutoConstants.AUTON_RETRACT_DEFAULT_ARM_TIME),
         // new AutonIncArmAngle(armAngle, PositionConfig.defaultAngle)
     // new CloseClaw2(intake)
-
   }
 }

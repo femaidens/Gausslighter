@@ -45,7 +45,7 @@ public class ArmAngle extends SubsystemBase {
     angEncoder.setInverted(true);
     angEncoder.setPositionConversionFactor(360);
 
-    setpoint = angEncoder.getPosition();
+    // setpoint = angEncoder.getPosition();
   
   }
 
@@ -86,12 +86,12 @@ public class ArmAngle extends SubsystemBase {
     // angleMotor.setVoltage(-6*input); 
     isManual = true;
 
-    if (input < 0){
-      angleMotor.set(0.5); // if input is negative, we go up
+    if (input < 0){ // neg input pushing up
+      angleMotor.set(0.7);
       setpoint = angEncoder.getPosition();
     }
-    else if (input > 0){
-      angleMotor.set(-0.5); // if input is positive, we go down
+    else if (input > 0){ // pos input pushing down
+      angleMotor.set(-0.7); // if input is positive, we go down
       setpoint = angEncoder.getPosition();
     }
     else {
@@ -136,7 +136,7 @@ public class ArmAngle extends SubsystemBase {
   public boolean atAngle(double angle){ //whether at angle w/ an offset of 2 degrees
     double currentAngle = angEncoder.getPosition();
 
-    if (Math.abs(currentAngle - angle) < 1){ // change 1 back to 2 if margin is too small
+    if (Math.abs(currentAngle - angle) < 2){ // change 1 back to 2 if margin is too small
       // new PrintCommand("at 36 degs");
       return true;
     }

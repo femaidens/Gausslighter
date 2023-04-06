@@ -67,7 +67,7 @@ public class ArmLateral extends SubsystemBase {
 
     else{
       System.out.println("retracting");
-      leftLateralMotor.set(-0.8);
+      leftLateralMotor.set(-0.9);
       // rightLateralMotor.set(-0.4);
       // currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
       // change back to minus if increases moving backwards
@@ -87,11 +87,16 @@ public class ArmLateral extends SubsystemBase {
     }
 
     else{
-      leftLateralMotor.set(0.8);
+      leftLateralMotor.set(0.9);
       // rightLateralMotor.set(0.4);
       // currentLength = lateralEncoder.getPosition();
     }
   }
+
+  public boolean hitTopSwitch(){
+    return !topSwitch.get();
+  }
+  
   public void setAutonArmLength(double autonSetpoint){
     double autonArmLateralVoltage = ArmPIDController.calculate(currentLength, autonSetpoint);
     leftLateralMotor.setVoltage(autonArmLateralVoltage);

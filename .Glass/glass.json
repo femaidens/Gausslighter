@@ -49,7 +49,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "name": "arm pid"
+      }
     },
     "Plot <1>": {
       "plots": [
@@ -103,7 +106,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "name": "wrist pid"
+      }
     },
     "Plot <3>": {
       "plots": [
@@ -190,7 +196,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

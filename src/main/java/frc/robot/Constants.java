@@ -81,11 +81,11 @@ public final class Constants {
     // public static final double tickFactor =  Constants.CPR / 360;
     // public static final double intakeMargin = 3;
 
-    public static final double DEFAULT_WRIST_ANGLE = 16.5;
-    public static final double SUPPORT_WRIST_ANGLE = 239; 
-    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 77.25; 
+    public static final double DEFAULT_WRIST_ANGLE = 27.091;
+    public static final double SUPPORT_WRIST_ANGLE = 240; 
+    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 118; 
     public static final double SHOOT_WRIST_ANGLE = INTAKE_DOUBLE_WRIST_ANGLE; 
-    public static final double INTAKE_SINGLE_WRIST_ANGLE = 118; //tbd
+    public static final double INTAKE_SINGLE_WRIST_ANGLE = 156.2; //tbd
     public static final double SCORE_WRIST_ANGLE = INTAKE_SINGLE_WRIST_ANGLE; 
 
 
@@ -186,7 +186,7 @@ public final class Constants {
       // max input
       public static final double ENCODER_PPID_MAX = ENCODER_PFACTOR; // radians
 
-      public static final double kP = 0.15; // initally 1
+      public static final double kP = 0.2; // initally 1
       public static final double kI = 0;
       public static final double kD = 0.05;
       public static final double kFF = 0;
@@ -219,27 +219,27 @@ public final class Constants {
 
     // arm angles
     public static final double AUTON_INC_ARM_ANGLE_TIME = 2.5; // CHANGE AFTER TESTING
-    public static final double AUTON_DEC_ARM_ANGLE_TIME = 3.4;
+    public static final double AUTON_DEC_ARM_ANGLE_TIME = 1.4;
 
     // arm extensions
     public static final double AUTON_EXTEND_MID_ARM_TIME = 0.2375;
-    public static final double AUTON_EXTEND_HIGH_ARM_TIME = 1.2;
+    public static final double AUTON_EXTEND_HIGH_ARM_TIME = 1.71; //1.88
     // public static final double AUTON_RETRACT_DEFAULT_ARM_TIME = 3.0;
 
     // charge
-    public static final double AUTON_CHARGE_TIME = 3.0;
-    public static final double AUTON_CHARGE_SPEED = 3.0;
+    // public static final double AUTON_CHARGE_TIME = 3.0;
+    // public static final double AUTON_CHARGE_SPEED = 3.0;
     public static final double AUTON_TAXICHARGE_TIME = 2.0;
    
     // taxi time
-    public static final double CHARGE_TIME = 3.475; // test run was 5.44 sec time needed to engage, starting from center
+    public static final double CHARGE_TIME = 2.4; // test run was 3.475 sec time needed to engage, starting from center
     public static final double LONG_TAXI_TIME = 4; // robot is close to charge station but not on it
     public static final double SHORT_TAXI_TIME = 3;
     //public static final double NODE_TO_GP_TIME = CHARGE_TIME + 2.0; // drive thru charge station
 
     // auton drive speeds
-    public static final double TAXI_SPEED = 0.185;
-    public static final double CHARGE_SPEED = 0.185;
+    public static final double TAXI_SPEED = 0.185; //0.185 og
+    public static final double CHARGE_SPEED = 0.3;
     public static final double GP_SCORE_TIME = 2.0; // how long gp takes to fall out of intake and onto node
   }
 
