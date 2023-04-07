@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.commands.wrist.SetWristAngleVoltage;
+import frc.robot.commands.wrist.SingleWristAngle;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Intake;
@@ -33,6 +34,14 @@ public class SingleIntakeRoutine extends SequentialCommandGroup {
           () -> intake.setSingleIntakeAngle(), intake)
         // new PrintCommand("running single intake routine")
       )
+      // new ParallelCommandGroup(
+      //   //new AutonSetArmLength(armLateral, PositionConfig.highLength),
+      //   new InstantCommand(
+      //     () -> armAngle.setSingleArmAngle(), armAngle),
+      //   //new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME), //time to extend to single ss
+      //   new SingleWristAngle(intake)
+      //   // new PrintCommand("running single intake routine")
+      // )
 
 
       // new ParallelCommandGroup(

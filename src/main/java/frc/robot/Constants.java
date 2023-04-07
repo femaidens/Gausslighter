@@ -62,7 +62,7 @@ public final class Constants {
       public static final double midNodeAngle = 30; 
       public static final double highNodeAngle = midNodeAngle;
       public static final double hpSingleAngle = midNodeAngle; //tbd
-      public static final double hpDoubleAngle = 40;
+      public static final double hpDoubleAngle = 42.8;
       // public static final double autonScoreAngle = 40;
 
       // starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
@@ -81,12 +81,13 @@ public final class Constants {
     // public static final double tickFactor =  Constants.CPR / 360;
     // public static final double intakeMargin = 3;
 
-    public static final double DEFAULT_WRIST_ANGLE = 27.091;
-    public static final double SUPPORT_WRIST_ANGLE = 240; 
-    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 118; 
+    public static final double DEFAULT_WRIST_ANGLE = 27.7; //27
+    public static final double SUPPORT_WRIST_ANGLE = 230; 
+    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 121; 
     public static final double SHOOT_WRIST_ANGLE = INTAKE_DOUBLE_WRIST_ANGLE; 
-    public static final double INTAKE_SINGLE_WRIST_ANGLE = 156.2; //tbd
+    public static final double INTAKE_SINGLE_WRIST_ANGLE = 159; //tbd
     public static final double SCORE_WRIST_ANGLE = INTAKE_SINGLE_WRIST_ANGLE; 
+    public static final double DEFAULT_TO_SINGLE_TIME = 2;
 
 
     // public static final double WRIST_SPEED = 0.1;
@@ -229,17 +230,26 @@ public final class Constants {
     // charge
     // public static final double AUTON_CHARGE_TIME = 3.0;
     // public static final double AUTON_CHARGE_SPEED = 3.0;
-    public static final double AUTON_TAXICHARGE_TIME = 2.0;
+    //public static final double AUTON_TAXICHARGE_TIME = 2.0;
    
     // taxi time
-    public static final double CHARGE_TIME = 2.4; // test run was 3.475 sec time needed to engage, starting from center
-    public static final double LONG_TAXI_TIME = 4; // robot is close to charge station but not on it
+    public static final double SLOWCHARGE_TIME = 4.65; // 4.7
+    public static final double FASTCHARGE_TIME = 2.4;
+    public static final double BACKCHARGE_TIME = 3.4; // 3.35
+
+    public static final double LONG_TAXI_TIME = 4.1; // robot is close to charge station but not on it
     public static final double SHORT_TAXI_TIME = 3;
+    public static final double OVERCHARGE_TIME = 4.75;
+    public static final double TAXICHARGE_TIME = 2.95;
     //public static final double NODE_TO_GP_TIME = CHARGE_TIME + 2.0; // drive thru charge station
 
     // auton drive speeds
     public static final double TAXI_SPEED = 0.185; //0.185 og
-    public static final double CHARGE_SPEED = 0.3;
+    public static final double FASTCHARGE_SPEED = 0.3;
+    public static final double SLOWCHARGE_SPEED = 0.21;
+
+    public static final double OVERCHARGE_SPEED = 0.2; //over charge to taxi
+    public static final double TAXICHARGE_SPEED = 0.185; //from taxi to charge
     public static final double GP_SCORE_TIME = 2.0; // how long gp takes to fall out of intake and onto node
   }
 

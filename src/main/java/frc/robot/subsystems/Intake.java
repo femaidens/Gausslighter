@@ -90,10 +90,10 @@ public class Intake extends SubsystemBase {
       System.out.println("at default wrist limit");
     }
 
-    // else if (currentWristAngle > IntakeConstants.SUPPORT_WRIST_ANGLE && currentWristAngle < 250){
-    //   setpoint = IntakeConstants.SUPPORT_WRIST_ANGLE;
-    //   System.out.println("at support wrist limit");
-    // }
+    else if (currentWristAngle > IntakeConstants.SUPPORT_WRIST_ANGLE && currentWristAngle < 240){
+      setpoint = IntakeConstants.SUPPORT_WRIST_ANGLE;
+      System.out.println("at support wrist limit");
+    }
 
     else{
       if(input < 0){ // neg input pushing up

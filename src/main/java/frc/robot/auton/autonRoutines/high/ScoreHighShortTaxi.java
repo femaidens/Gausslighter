@@ -2,11 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.auton.autonRoutines;
+package frc.robot.auton.autonRoutines.high;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.auton.autonScore.ScoreMid;
+import frc.robot.auton.autonScore.ScoreHigh;
+import frc.robot.auton.autonTaxi.ShortTaxi;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Drivetrain;
@@ -15,16 +15,14 @@ import frc.robot.subsystems.Intake;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class ScoreMidCharge extends SequentialCommandGroup {
-  /** Creates a new ScoreMidCharge. */
-
-  public ScoreMidCharge(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
-
+public class ScoreHighShortTaxi extends SequentialCommandGroup {
+  //starting @ left/right, facing nodes 
+  public ScoreHighShortTaxi(Drivetrain drivetrain, Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+    // usable for all start positions in community (assuming you're aligned with a gamepiece outside of community)
     addCommands(
-      new ScoreMid(intake, armAngle, armLateral),
-      new Charge(drivetrain, -AutoConstants.CHARGE_SPEED, AutoConstants.CHARGE_TIME)
+      // score high
+      new ScoreHigh(intake, armAngle, armLateral),
+      new ShortTaxi(drivetrain)
     );
   }
 }

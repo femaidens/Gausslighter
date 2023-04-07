@@ -10,7 +10,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.auton.autonRoutines.*;
+import frc.robot.auton.autonRoutines.high.ScoreHighCharge;
+import frc.robot.auton.autonRoutines.high.ScoreHighLongTaxi;
+import frc.robot.auton.autonRoutines.high.ScoreHighShortTaxi;
+import frc.robot.auton.autonRoutines.high.ScoreHighTaxiCharge;
+import frc.robot.auton.autonRoutines.mid.ScoreMidLongTaxi;
+import frc.robot.auton.autonRoutines.mid.ScoreMidShortTaxi;
 import frc.robot.auton.autonScore.*;
+import frc.robot.auton.autonTaxi.LongTaxi;
+import frc.robot.auton.autonTaxi.ShortTaxi;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -70,8 +78,8 @@ public class RobotContainer {
     // auton config
     autonChooser = new SendableChooser<Command>();
     SmartDashboard.putData("Choose Auto: ", autonChooser);
-    autonChooser.setDefaultOption("charge", new Charge(drivetrain, AutoConstants.CHARGE_SPEED, AutoConstants.CHARGE_TIME)
-    );
+    autonChooser.setDefaultOption("slow charge", new Charge(drivetrain, AutoConstants.SLOWCHARGE_SPEED, AutoConstants.SLOWCHARGE_TIME));
+    autonChooser.addOption("fast charge", new Charge(drivetrain, AutoConstants.FASTCHARGE_SPEED, AutoConstants.FASTCHARGE_TIME));
     
     //shoot
     autonChooser.addOption("shoot mid ", new ShootMid(intake, armAngle, armLateral));
@@ -79,15 +87,17 @@ public class RobotContainer {
 
     //score
     autonChooser.addOption("score high", new ScoreHigh(intake, armAngle, armLateral));
+    autonChooser.addOption("score high taxi charge", new ScoreHighTaxiCharge(intake, armAngle, armLateral, drivetrain));
     autonChooser.addOption("score mid", new ScoreMid(intake, armAngle, armLateral));
-    autonChooser.addOption("score mid charge", new ScoreMidCharge(drivetrain, intake, armAngle, armLateral));
-
+    autonChooser.addOption("score high charge", new ScoreHighCharge(drivetrain, intake, armAngle, armLateral));
     //taxis
     autonChooser.addOption("short taxi", new ShortTaxi(drivetrain));
     autonChooser.addOption("long taxi", new LongTaxi(drivetrain));
-    autonChooser.addOption("score short taxi", new ScoreMidShortTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score mid short taxi", new ScoreMidShortTaxi(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("score high short taxi", new ScoreHighShortTaxi(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score long taxi", new ScoreMidLongTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score high long taxi", new ScoreHighLongTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score mid long taxi", new ScoreMidLongTaxi(drivetrain, intake, armAngle, armLateral));
+    // autonChooser.addOption("score high long taxi", new ScoreHighLongTaxi(drivetrain, intake, armAngle, armLateral));
     autonChooser.addOption("taxi charge", new TaxiCharge(drivetrain));
 
     // Configure default commands

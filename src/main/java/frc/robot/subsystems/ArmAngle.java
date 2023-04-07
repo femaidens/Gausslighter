@@ -45,7 +45,7 @@ public class ArmAngle extends SubsystemBase {
     angEncoder.setInverted(true);
     angEncoder.setPositionConversionFactor(360);
 
-    // setpoint = angEncoder.getPosition();
+    setpoint = angEncoder.getPosition();
   
   }
 
@@ -116,7 +116,7 @@ public class ArmAngle extends SubsystemBase {
 
   public void setHighNodeAngle(){
     isManual = false;
-    setpoint = 40;
+    setpoint = 42.8;
   }
 
   public void setSingleArmAngle(){
@@ -126,7 +126,7 @@ public class ArmAngle extends SubsystemBase {
 
   public void setDoubleArmAngle(){
     isManual = false;
-    setpoint = 40;
+    setpoint = 42.8;
   }
 
   public void stopAngleMotor() {

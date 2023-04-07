@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.auton.autonScore;
+package frc.robot.auton.autonRoutines.high;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -12,11 +12,14 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.auton.autonArm.*;
+import frc.robot.auton.autonRoutines.TaxiCharge;
+import frc.robot.auton.autonScore.ScoreHigh;
 import frc.robot.auton.autonWrist.*;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
+import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.Intake;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -31,50 +34,16 @@ import frc.robot.subsystems.Intake;
 // lower wrist - support to score wrist
 // 2: open claw
 
-public class ScoreHigh extends SequentialCommandGroup {
-  /** Creates a new ScoreHigh. */
-  public ScoreHigh(Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
+public class ScoreHighTaxiCharge extends SequentialCommandGroup {
+  /** Creates a new ScoreMid. */
+  public ScoreHighTaxiCharge(Intake intake, ArmAngle armAngle, ArmLateral armLateral, Drivetrain drivetrain) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+        new ScoreHigh(intake, armAngle, armLateral),
+        new TaxiCharge(drivetrain));
+      // pid
 
-      // race command
-      new ParallelCommandGroup(
-        // new AutonSetArmLength(armLateral, PositionConfig.highLength),
-        new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
-        new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
-        new AutonDecArmAngle(armAngle)
-      //   new AutonSetArmAngle(armAngle, PositionConfig.highNodeAngle)
-      ),
-      //   new WaitCommand(1),
-      //   new AutonSetArmAngle(armAngle, PositionConfig.defaultAngle)
-      new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
-      new InstantCommand(() -> intake.openClaw(), intake),
-      new WaitCommand(0.5),
-      new ParallelCommandGroup(
-        new InstantCommand(
-          () -> intake.closeClaw(), intake),
-        new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME - 0.01))
-      );
-
-      // // pid
-      // new ParallelCommandGroup(
-      //   // new AutonSetArmLength(armLateral, PositionConfig.highLength),
-      //   new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
-      //   new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
-      //   new AutonDecArmAngle(armAngle)
-      // //   new AutonSetArmAngle(armAngle, PositionConfig.highNodeAngle)
-      // ),
-      // //   new WaitCommand(1),
-      // //   new AutonSetArmAngle(armAngle, PositionConfig.defaultAngle)
-      // new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
-      // new InstantCommand(() -> intake.openClaw(), intake),
-      // new WaitCommand(0.5),
-      // new ParallelCommandGroup(
-      //   new InstantCommand(
-      //     () -> intake.closeClaw(), intake),
-      //   new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME - 0.01))
-      // );
 
       // sbpli version
         //new AutonIncWristAngle(intake, AutoConstants.SUPPORT_WRIST_ANGLE_TIME));

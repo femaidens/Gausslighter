@@ -5,6 +5,7 @@
 package frc.robot.auton.autonRoutines;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.Drivetrain;
 
@@ -17,8 +18,9 @@ public class TaxiCharge extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new LongTaxi(drivetrain)
-      //new Charge(drivetrain, -AutoConstants.CHARGE_SPEED, AutoConstants.TAXICHARGE_TIME)
+      new Charge(drivetrain, AutoConstants.OVERCHARGE_SPEED, AutoConstants.OVERCHARGE_TIME),
+      //new WaitCommand(0.5),
+      new Charge(drivetrain, -AutoConstants.TAXICHARGE_SPEED, AutoConstants.TAXICHARGE_TIME)
     );
   }
 }
