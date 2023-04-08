@@ -4,6 +4,7 @@
 
 package frc.robot.auton.autonScore;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -33,16 +34,37 @@ public class ScoreMid extends SequentialCommandGroup {
   public ScoreMid(Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
-
-      // pid
+    SequentialCommandGroup score = new SequentialCommandGroup(
       new ParallelCommandGroup(
-        new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
-        new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME),
-        new AutonSetArmAngle(armAngle, PositionConfig.midNodeAngle)
-        ),
-      // new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
-      new RunCommand(() -> intake.openClaw(), intake));
+            new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+            new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME), //test for this time
+            new AutonDecArmAngle(armAngle)
+          ),
+          new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+          new InstantCommand(() -> intake.openClaw(), intake)
+    );
+
+    addCommands(
+      // score.withTimeout(5),
+      // new WaitCommand(0.5),
+      // new ParallelCommandGroup(
+      //   new InstantCommand(
+      //     () -> intake.closeClaw(), intake),
+      //   new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME - 0.01)
+      // )
+      score
+    );
+    // addCommands(
+
+    //   // pid
+    //   new ParallelCommandGroup(
+    //     new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+    //     new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME),
+    //     new AutonSetArmAngle(armAngle, PositionConfig.midNodeAngle)
+    //     ),
+    //   // new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+    //   new RunCommand(() -> intake.openClaw(), intake));
+    
 
       // sbpli
       // new AutonIncWristAngle(intake, AutoConstants.SUPPORT_WRIST_ANGLE_TIME),

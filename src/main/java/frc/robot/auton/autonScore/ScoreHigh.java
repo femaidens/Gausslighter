@@ -6,6 +6,8 @@ package frc.robot.auton.autonScore;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -36,26 +38,47 @@ public class ScoreHigh extends SequentialCommandGroup {
   public ScoreHigh(Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(
+    SequentialCommandGroup score = new SequentialCommandGroup(
+      new ParallelCommandGroup(
+            new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+            new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
+            new AutonDecArmAngle(armAngle)
+          ),
+          new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+          new InstantCommand(() -> intake.openClaw(), intake)
+    );
 
-      // race command
-      new ParallelCommandGroup(
-        // new AutonSetArmLength(armLateral, PositionConfig.highLength),
-        new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
-        new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
-        new AutonDecArmAngle(armAngle)
-      //   new AutonSetArmAngle(armAngle, PositionConfig.highNodeAngle)
-      ),
-      //   new WaitCommand(1),
-      //   new AutonSetArmAngle(armAngle, PositionConfig.defaultAngle)
-      new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
-      new InstantCommand(() -> intake.openClaw(), intake),
-      new WaitCommand(0.5),
-      new ParallelCommandGroup(
-        new InstantCommand(
-          () -> intake.closeClaw(), intake),
-        new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME - 0.01))
-      );
+    addCommands(
+      // score.withTimeout(5),
+      // new WaitCommand(0.5),
+      // new ParallelCommandGroup(
+      //   new InstantCommand(
+      //     () -> intake.closeClaw(), intake),
+      //   new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME - 0.01)
+      // )
+      score
+    );
+
+
+
+      // // race command
+      // new ParallelCommandGroup(
+      //   // new AutonSetArmLength(armLateral, PositionConfig.highLength),
+      //   new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+      //   new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
+      //   new AutonDecArmAngle(armAngle)
+      // //   new AutonSetArmAngle(armAngle, PositionConfig.highNodeAngle)
+      // ),
+      // //   new WaitCommand(1),
+      // //   new AutonSetArmAngle(armAngle, PositionConfig.defaultAngle)
+      // new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+      // new InstantCommand(() -> intake.openClaw(), intake),
+      // new WaitCommand(0.5),
+      // new ParallelCommandGroup(
+      //   new InstantCommand(
+      //     () -> intake.closeClaw(), intake),
+      //   new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME - 0.01))
+      // );
 
       // // pid
       // new ParallelCommandGroup(
