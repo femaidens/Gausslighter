@@ -88,6 +88,7 @@ public class Drivetrain extends SubsystemBase {
         });
     //System.out.println("spark 8 angle: " + frontLeft.getPosition().angle);
     SmartDashboard.putNumber("gyro angle", gyro.getAngle());
+    gyro.calibrate();
     // SmartDashboard.putNumber("Wrist Angle", frontLeft.get());
     // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
     // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
@@ -206,6 +207,10 @@ public class Drivetrain extends SubsystemBase {
   // zeros heading of the robot
   public void resetGyro() {
     gyro.reset();
+  }
+
+  public void calibrateGyro(){
+    gyro.calibrate();
   }
 
   // resets the odometry to the specified pose

@@ -137,6 +137,7 @@ public class RobotContainer {
   }
 
   public void configureSystemDefaults(){
+    drivetrain.calibrateGyro();
     drivetrain.resetGyro();
     drivetrain.resetEncoders();
     // armLateral.retractArm();
