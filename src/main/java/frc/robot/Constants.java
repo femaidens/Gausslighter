@@ -227,30 +227,23 @@ public final class Constants {
     public static final double AUTON_EXTEND_HIGH_ARM_TIME = 1.71; //1.88
     // public static final double AUTON_RETRACT_DEFAULT_ARM_TIME = 3.0;
 
-    // charge
-    // public static final double AUTON_CHARGE_TIME = 3.0;
-    // public static final double AUTON_CHARGE_SPEED = 3.0;
-    //public static final double AUTON_TAXICHARGE_TIME = 2.0;
    
     // taxi time
-    public static final double SLOWCHARGE_TIME = 4.65; // 4.7
-    public static final double FASTCHARGE_TIME = 2.4;
-    public static final double BACKCHARGE_TIME = 3.4; // 3.35
+    public static final double SLOWCHARGE_TIME = 4.65;
+    public static final double FASTCHARGE_TIME = 2.4; 
+    public static final double BACKCHARGE_TIME = 3.4; // 3.35 SCORING CHARGE
 
-    public static final double LONG_TAXI_TIME = 4.1; // robot is close to charge station but not on it
+    public static final double LONG_TAXI_TIME = 4.1; 
     public static final double SHORT_TAXI_TIME = 3;
-    public static final double OVERCHARGE_TIME = 4.75;
-    public static final double TAXICHARGE_TIME = 2.95;
-    //public static final double NODE_TO_GP_TIME = CHARGE_TIME + 2.0; // drive thru charge station
+    public static final double OVERCHARGE_TIME = 4.75; //DRIVING OVER CHARGE (backwards)
+    public static final double TAXICHARGE_TIME = 2.95; //DRIVING TAXI TO CHARGE (forwards)
 
     // auton drive speeds
-    public static final double TAXI_SPEED = 0.185; //0.185 og
-    public static final double FASTCHARGE_SPEED = 0.3;
-    public static final double SLOWCHARGE_SPEED = 0.21;
-
-    public static final double OVERCHARGE_SPEED = 0.2; //over charge to taxi
-    public static final double TAXICHARGE_SPEED = 0.185; //from taxi to charge
-    public static final double GP_SCORE_TIME = 2.0; // how long gp takes to fall out of intake and onto node
+    public static final double TAXI_SPEED = 0.185; 
+    public static final double FASTCHARGE_SPEED = 0.3; 
+    public static final double SLOWCHARGE_SPEED = 0.21; 
+    public static final double OVERCHARGE_SPEED = 0.2; //over charge to taxi (backwards)
+    public static final double TAXICHARGE_SPEED = 0.185; //from taxi to charge (forwards)
   }
 
   public static final class NeoMotorConstants {
