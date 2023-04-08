@@ -44,19 +44,18 @@ public class ScoreHigh extends SequentialCommandGroup {
             new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME),
             new AutonDecArmAngle(armAngle)
           ),
-          new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
           new InstantCommand(() -> intake.openClaw(), intake)
     );
 
     addCommands(
-      // score.withTimeout(5),
-      // new WaitCommand(0.5),
-      // new ParallelCommandGroup(
-      //   new InstantCommand(
-      //     () -> intake.closeClaw(), intake),
-      //   new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME - 0.01)
-      // )
-      score
+      score.withTimeout(2.5),
+      new WaitCommand(0.5),
+      new ParallelCommandGroup(
+        new InstantCommand(
+          () -> intake.closeClaw(), intake),
+        new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME - 0.01)
+      )
+      //score
     );
 
 
@@ -81,6 +80,7 @@ public class ScoreHigh extends SequentialCommandGroup {
       // );
 
       // // pid
+      // addCommands(
       // new ParallelCommandGroup(
       //   // new AutonSetArmLength(armLateral, PositionConfig.highLength),
       //   new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
@@ -90,7 +90,7 @@ public class ScoreHigh extends SequentialCommandGroup {
       // ),
       // //   new WaitCommand(1),
       // //   new AutonSetArmAngle(armAngle, PositionConfig.defaultAngle)
-      // new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
+      // // new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
       // new InstantCommand(() -> intake.openClaw(), intake),
       // new WaitCommand(0.5),
       // new ParallelCommandGroup(

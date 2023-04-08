@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.AutoConstants;
+import frc.robot.commands.AutonBalance;
 // import frc.robot.Constants.*;
 import frc.robot.commands.AutonDrive;
 // import frc.robot.subsystems.ArmAngle;
@@ -30,11 +31,12 @@ public class Charge extends SequentialCommandGroup {
       new PrintCommand("Running charge"),
 
       new AutonDrive(drivetrain, -chargeSpeed, 0, 0, true, true, 
-      chargeTime),
-      new RunCommand(() -> drivetrain.setX(), drivetrain),
+      AutoConstants.INITIALRAMP_TIME),
+      new AutonBalance(drivetrain, -AutoConstants.AUTONBALANCE_SPEED, 0, 0, true, true),
+      new RunCommand(() -> drivetrain.setX(), drivetrain)
       // new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0,
       // true, true, AutoConstants.NODE_TO_CHARGE_TIME));
-      new PrintCommand("autonomous has ended")
+      // new PrintCommand("autonomous has ended")
       // new AutonDrive(drivetrain, AutoConstants.SCORE_AND_ENGAGE_SPEED,0, 0, true, true, 
       // 1)
 

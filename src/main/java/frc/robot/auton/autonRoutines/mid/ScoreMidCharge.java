@@ -24,9 +24,9 @@ public class ScoreMidCharge extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
 
-    addCommands(
-      new ScoreMid(intake, armAngle, armLateral),
-      new Charge(drivetrain, AutoConstants.SLOWCHARGE_SPEED, AutoConstants.BACKCHARGE_TIME)
-    );
+  //   addCommands(
+  //     new ScoreMid(intake, armAngle, armLateral),
+  //     new Charge(drivetrain, AutoConstants.SLOWCHARGE_SPEED, AutoConstants.BACKCHARGE_TIME)
+  //   );
   }
 }

@@ -70,7 +70,7 @@ public final class Constants {
       // desired extension distance -> change after raised crossbar
       public static final double defaultLength = 0;
       public static final double lowLength = defaultLength;
-      public static final double midLength = 24.26;
+      public static final double midLength = 4.099;
       public static final double highLength = 46.3; 
       public static final double singleHPLength = 13.069; //tbd
       public static final double doubleHPLength = 13.069;
@@ -81,11 +81,11 @@ public final class Constants {
     // public static final double tickFactor =  Constants.CPR / 360;
     // public static final double intakeMargin = 3;
 
-    public static final double DEFAULT_WRIST_ANGLE = 27.7; //27
+    public static final double DEFAULT_WRIST_ANGLE = 16; //27
     public static final double SUPPORT_WRIST_ANGLE = 230; 
-    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 121; 
+    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 113; 
     public static final double SHOOT_WRIST_ANGLE = INTAKE_DOUBLE_WRIST_ANGLE; 
-    public static final double INTAKE_SINGLE_WRIST_ANGLE = 159; //tbd
+    public static final double INTAKE_SINGLE_WRIST_ANGLE = 150; //tbd
     public static final double SCORE_WRIST_ANGLE = INTAKE_SINGLE_WRIST_ANGLE; 
     public static final double DEFAULT_TO_SINGLE_TIME = 2;
 
@@ -223,27 +223,31 @@ public final class Constants {
     public static final double AUTON_DEC_ARM_ANGLE_TIME = 1.4;
 
     // arm extensions
-    public static final double AUTON_EXTEND_MID_ARM_TIME = 0.2375;
-    public static final double AUTON_EXTEND_HIGH_ARM_TIME = 1.71; //1.88
+    public static final double AUTON_EXTEND_MID_ARM_TIME = 0.65;
+    public static final double AUTON_EXTEND_HIGH_ARM_TIME = 1.6; //1.71
     // public static final double AUTON_RETRACT_DEFAULT_ARM_TIME = 3.0;
 
    
     // taxi time
     public static final double SLOWCHARGE_TIME = 4.65;
     public static final double FASTCHARGE_TIME = 2.4; 
-    public static final double BACKCHARGE_TIME = 3.4; // 3.35 SCORING CHARGE
+    public static final double BACKCHARGE_TIME = 3.5; // 3.35 SCORING CHARGE
+    public static final double INITIALRAMP_TIME = 1.8; // 3.35 SCORING CHARGE
+
 
     public static final double LONG_TAXI_TIME = 4.1; 
     public static final double SHORT_TAXI_TIME = 3;
-    public static final double OVERCHARGE_TIME = 4.75; //DRIVING OVER CHARGE (backwards)
-    public static final double TAXICHARGE_TIME = 2.95; //DRIVING TAXI TO CHARGE (forwards)
+    public static final double OVERCHARGE_TIME = 3.5; //DRIVING OVER CHARGE (backwards)
+    public static final double TAXICHARGE_TIME = 1; //DRIVING TAXI TO CHARGE (forwards)
 
     // auton drive speeds
     public static final double TAXI_SPEED = 0.185; 
     public static final double FASTCHARGE_SPEED = 0.3; 
     public static final double SLOWCHARGE_SPEED = 0.21; 
-    public static final double OVERCHARGE_SPEED = 0.2; //over charge to taxi (backwards)
-    public static final double TAXICHARGE_SPEED = 0.185; //from taxi to charge (forwards)
+    public static final double BACKCHARGE_SPEED = 0.25; 
+    public static final double OVERCHARGE_SPEED = 0.25; //over charge to taxi (backwards)
+    public static final double TAXICHARGE_SPEED = 0.1; //from taxi to charge (forwards)
+    public static final double AUTONBALANCE_SPEED = 0.1;
   }
 
   public static final class NeoMotorConstants {

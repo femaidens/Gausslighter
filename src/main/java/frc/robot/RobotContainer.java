@@ -83,6 +83,8 @@ public class RobotContainer {
     //charge
     autonChooser.setDefaultOption("slow charge", new Charge(drivetrain, AutoConstants.SLOWCHARGE_SPEED, AutoConstants.SLOWCHARGE_TIME));
     autonChooser.addOption("fast charge", new Charge(drivetrain, AutoConstants.FASTCHARGE_SPEED, AutoConstants.FASTCHARGE_TIME));
+    autonChooser.addOption("back charge", new Charge(drivetrain, AutoConstants.BACKCHARGE_SPEED, AutoConstants.FASTCHARGE_TIME));
+
     
     //shoot
     autonChooser.addOption("shoot mid", new ShootMid(intake, armAngle, armLateral));
@@ -171,6 +173,10 @@ public class RobotContainer {
       xDriveButton
         .whileTrue(new InstantCommand(
           () -> drivetrain.setX(), drivetrain));
+
+      Trigger autoBalanceButton = driveJoy.x();
+      autoBalanceButton
+        .onTrue(new AutonBalance(drivetrain, AutoConstants.AUTONBALANCE_SPEED, 0, 0, true, true));
 
       Trigger resetGyroButton = driveJoy.rightBumper();
       resetGyroButton

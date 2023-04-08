@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.auton.autonArm.*;
 import frc.robot.auton.autonWrist.*;
@@ -40,19 +41,18 @@ public class ScoreMid extends SequentialCommandGroup {
             new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME), //test for this time
             new AutonDecArmAngle(armAngle)
           ),
-          new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
           new InstantCommand(() -> intake.openClaw(), intake)
     );
 
     addCommands(
-      // score.withTimeout(5),
-      // new WaitCommand(0.5),
-      // new ParallelCommandGroup(
-      //   new InstantCommand(
-      //     () -> intake.closeClaw(), intake),
-      //   new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME - 0.01)
-      // )
-      score
+      score.withTimeout(5),
+      new WaitCommand(0.5),
+      new ParallelCommandGroup(
+        new InstantCommand(
+          () -> intake.closeClaw(), intake),
+        new AutonRetractArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME - 0.01)
+      )
+      // score
     );
     // addCommands(
 

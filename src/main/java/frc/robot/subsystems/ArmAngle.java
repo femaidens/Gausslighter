@@ -151,24 +151,22 @@ public class ArmAngle extends SubsystemBase {
 
     // boolean boxes
     SmartDashboard.putBoolean("ARM DEFAULT ANG", atAngle(PositionConfig.defaultAngle));
-    SmartDashboard.putBoolean("ARM LOW ANG", atAngle(PositionConfig.lowNodeAngle));
-    SmartDashboard.putBoolean("ARM MID ANG", atAngle(PositionConfig.midNodeAngle));
-    SmartDashboard.putBoolean("ARM HIGH ANG", atAngle(PositionConfig.highNodeAngle));
+    SmartDashboard.putBoolean("ARM SCORE ANG", atAngle(PositionConfig.lowNodeAngle));
+    // SmartDashboard.putBoolean("ARM MID ANG", atAngle(PositionConfig.midNodeAngle));
+    // SmartDashboard.putBoolean("ARM HIGH ANG", atAngle(PositionConfig.highNodeAngle));
     SmartDashboard.putBoolean("ARM SINGLE ANG", atAngle(PositionConfig.hpSingleAngle));
     SmartDashboard.putBoolean("ARM DOUBLE ANG", atAngle(PositionConfig.hpDoubleAngle));
 
     // values
     SmartDashboard.putNumber("arm angle", angEncoder.getPosition());
-    SmartDashboard.putNumber("desired arm angle", setpoint);
-
     //SmartDashboard.putNumber("arm angular speed", angleMotor.get());
     // armAngleVoltage = anglePIDController.calculate(angEncoder.getPosition(), setpoint);
-    SmartDashboard.putNumber("arm angle v: ", armAngleVoltage);
+    // SmartDashboard.putNumber("arm angle v: ", armAngleVoltage);
 
-    SmartDashboard.putNumber("kP", AngleConstants.kP);
-    SmartDashboard.putNumber("kI", AngleConstants.kI);
-    SmartDashboard.putNumber("kD", AngleConstants.kD);
-    SmartDashboard.putNumber("applied v: ", angleMotor.getAppliedOutput());
+    // SmartDashboard.putNumber("kP", AngleConstants.kP);
+    // SmartDashboard.putNumber("kI", AngleConstants.kI);
+    // SmartDashboard.putNumber("kD", AngleConstants.kD);
+    // SmartDashboard.putNumber("applied v: ", angleMotor.getAppliedOutput());
     // SmartDashboard.putNumber("bus v: ", angleMotor.getBusVoltage());
     // SmartDashboard.putNumber("applied output: ", angleMotor.getAppliedOutput());
 
