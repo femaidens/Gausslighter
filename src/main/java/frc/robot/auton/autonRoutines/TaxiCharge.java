@@ -20,13 +20,13 @@ public class TaxiCharge extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AutonDrive(drivetrain, -AutoConstants.OVERCHARGE_SPEED, 0,0, true, true, AutoConstants.OVERCHARGE_TIME),
+      //new AutonDrive(drivetrain, -AutoConstants.OVERCHARGE_SPEED, 0,0, true, true, AutoConstants.OVERCHARGE_TIME),
       //new Charge(drivetrain, AutoConstants.OVERCHARGE_SPEED, AutoConstants.OVERCHARGE_TIME),
       //new WaitCommand(0.5),
-      new AutonDrive(drivetrain, AutoConstants.TAXICHARGE_SPEED, 0,0, true, true, AutoConstants.TAXICHARGE_TIME),
+      new AutonDrive(drivetrain, AutoConstants.BACKCHARGE_SPEED, 0,0, true, true, AutoConstants.TAXICHARGE_TIME),
 
-      //new Charge(drivetrain, -AutoConstants.TAXICHARGE_SPEED, AutoConstants.TAXICHARGE_TIME),
-      new AutonBalance(drivetrain, AutoConstants.AUTONBALANCE_SPEED, 0, 0, isFinished(), isFinished())
+      new Charge(drivetrain, -AutoConstants.TAXICHARGE_SPEED, AutoConstants.TAXICHARGE_TIME)
+      //new AutonBalance(drivetrain, AutoConstants.AUTONBALANCE_SPEED, 0, 0, isFinished(), isFinished())
     );
     
   }

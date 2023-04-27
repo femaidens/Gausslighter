@@ -32,8 +32,8 @@ public class Charge extends SequentialCommandGroup {
 
       new AutonDrive(drivetrain, -chargeSpeed, 0, 0, true, true, 
       AutoConstants.INITIALRAMP_TIME),
-      new AutonBalance(drivetrain, -AutoConstants.AUTONBALANCE_SPEED, 0, 0, true, true),
-      new RunCommand(() -> drivetrain.setX(), drivetrain)
+      new AutonBalance(drivetrain, -AutoConstants.AUTONBALANCE_SPEED, 0, 0, true, true)
+      // new RunCommand(() -> drivetrain.setX(), drivetrain)
       // new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0,
       // true, true, AutoConstants.NODE_TO_CHARGE_TIME));
       // new PrintCommand("autonomous has ended")

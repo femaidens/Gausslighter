@@ -234,7 +234,6 @@ public final class Constants {
     public static final double BACKCHARGE_TIME = 3.5; // 3.35 SCORING CHARGE
     public static final double INITIALRAMP_TIME = 1.8; // 3.35 SCORING CHARGE
 
-
     public static final double LONG_TAXI_TIME = 4.1; 
     public static final double SHORT_TAXI_TIME = 3;
     public static final double OVERCHARGE_TIME = 3.5; //DRIVING OVER CHARGE (backwards)
