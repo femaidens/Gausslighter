@@ -236,16 +236,19 @@ public final class Constants {
 
     public static final double LONG_TAXI_TIME = 4.1; 
     public static final double SHORT_TAXI_TIME = 3;
-    public static final double OVERCHARGE_TIME = 3.5; //DRIVING OVER CHARGE (backwards)
-    public static final double TAXICHARGE_TIME = 1; //DRIVING TAXI TO CHARGE (forwards)
+    public static final double FIRST_OVERCHARGE_TIME = 2.65; //DRIVING OVER CHARGE (backwards)
+    public static final double SECOND_OVERCHARGE_TIME = 3.5; //DRIVING OVER CHARGE (backwards)
+
+    public static final double TAXICHARGE_TIME = 2.5; //DRIVING TAXI TO CHARGE (forwards)
 
     // auton drive speeds
     public static final double TAXI_SPEED = 0.185; 
     public static final double FASTCHARGE_SPEED = 0.3; 
     public static final double SLOWCHARGE_SPEED = 0.21; 
     public static final double BACKCHARGE_SPEED = 0.25; 
-    public static final double OVERCHARGE_SPEED = 0.25; //over charge to taxi (backwards)
-    public static final double TAXICHARGE_SPEED = 0.1; //from taxi to charge (forwards)
+    public static final double FIRST_OVERCHARGE_SPEED = 0.25; //over charge to taxi (backwards)
+    public static final double SECOND_OVERCHARGE_SPEED = 0.1; //over charge to taxi (backwards)
+    public static final double TAXICHARGE_SPEED = 0.2; //from taxi to charge (forwards)
     public static final double AUTONBALANCE_SPEED = 0.1;
   }
 
