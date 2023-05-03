@@ -9,13 +9,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.kauailabs.navx.frc.AHRS;
 
 public class Gyro extends SubsystemBase {
-  private final AHRS gyro = new AHRS();
+  public final AHRS gyro;
   /** Creates a new Gyro. */
-  public Gyro() {}
-
+  public Gyro() {
+    gyro = new AHRS();
+  }
+  public double getHeading(){
+    return gyro.getAngle();
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    Shuffleboard.getTab("Example tab").add(gyro);
   }
 }
