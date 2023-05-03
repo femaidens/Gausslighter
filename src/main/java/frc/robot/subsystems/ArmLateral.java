@@ -27,6 +27,7 @@ public class ArmLateral extends SubsystemBase {
   private final DigitalInput botSwitch;
   private final PIDController ArmPIDController;
   private double currentLength = 0; // always true before match, arm = fully retracted
+  public static boolean isOverriden = false;
 
   public ArmLateral() {
 
@@ -74,27 +75,34 @@ public class ArmLateral extends SubsystemBase {
     }
   }
 
-  public void extendArm(){
+  public void extendArm() {
     lateralEncoder.setPosition(currentLength);
     //System.out.println("rotations: " +lateralEncoder.getPosition());
+      if (isOverriden) {
+        leftLateralMotor.set(0.9);
 
-    if (!topSwitch.get()) { //hit limit switch
-      System.out.println("top limit activated! p\n");
-      stopExtensionMotors();
-      // lateralEncoder.getPosition();
-      // lateralEncoder.setPosition(0);
-      return;
-    }
-
-    else{
-      leftLateralMotor.set(0.9);
-      // rightLateralMotor.set(0.4);
-      // currentLength = lateralEncoder.getPosition();
-    }
+      } else {
+        if (!topSwitch.get()) { //hit limit switch
+          System.out.println("top limit activated! p\n");
+          stopExtensionMotors();
+          // lateralEncoder.getPosition();
+          // lateralEncoder.setPosition(0);
+          return; 
+        }
+        else {
+          leftLateralMotor.set(0.9);
+        // rightLateralMotor.set(0.4);
+        // currentLength = lateralEncoder.getPosition();
+        }
+       } 
   }
 
   public boolean hitTopSwitch(){
     return !topSwitch.get();
+  }
+
+  public boolean isOverriden() {
+    return isOverriden;
   }
   
   public void setAutonArmLength(double autonSetpoint){
