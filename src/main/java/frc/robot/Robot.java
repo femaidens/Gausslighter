@@ -18,7 +18,6 @@ import frc.robot.subsystems.Gyro;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private final Gyro m_gyro = new Gyro();
   private RobotContainer m_robotContainer;
 
   /**
@@ -30,7 +29,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    Shuffleboard.getTab("Example tab").add(m_gyro.gyro);
   }
 
   /**

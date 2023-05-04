@@ -12,10 +12,14 @@ public class Gyro extends SubsystemBase {
   public final AHRS gyro;
   /** Creates a new Gyro. */
   public Gyro() {
+    configGyro();
     gyro = new AHRS();
   }
   public double getHeading(){
     return gyro.getAngle();
+  }
+  public void configGyro(){
+    gyro.reset();
   }
   @Override
   public void periodic() {
