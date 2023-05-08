@@ -2,15 +2,15 @@
   "waypoints": [
     {
       "anchorPoint": {
-        "x": 2.0420876931979435,
-        "y": 1.0547705305936945
+        "x": 2.0111182402459598,
+        "y": 2.744902835777235
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.9918605250744346,
-        "y": 1.0547705305936945
+        "x": 3.0111182402459615,
+        "y": 2.744902835777235
       },
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
       "isLocked": false,
@@ -24,43 +24,18 @@
     },
     {
       "anchorPoint": {
-        "x": 2.0320422595732417,
-        "y": 1.6173148135769972
+        "x": 3.8822111767446295,
+        "y": 2.7733966368406673
       },
       "prevControl": {
-        "x": 2.1425420294449617,
-        "y": 1.6173148135769972
-      },
-      "nextControl": {
-        "x": 2.1425420294449617,
-        "y": 1.6173148135769972
-      },
-      "holonomicAngle": 0,
-      "isReversal": true,
-      "velOverride": null,
-      "isLocked": true,
-      "isStopPoint": true,
-      "stopEvent": {
-        "names": [],
-        "executionBehavior": "parallel",
-        "waitBehavior": "none",
-        "waitTime": 0
-      }
-    },
-    {
-      "anchorPoint": {
-        "x": 3.9004929137677826,
-        "y": 2.079404760313281
-      },
-      "prevControl": {
-        "x": 2.900492913767782,
-        "y": 2.079404760313281
+        "x": 3.8609731513728995,
+        "y": 2.7733966368406673
       },
       "nextControl": null,
-      "holonomicAngle": 0,
+      "holonomicAngle": 180.0,
       "isReversal": false,
       "velOverride": null,
-      "isLocked": true,
+      "isLocked": false,
       "isStopPoint": false,
       "stopEvent": {
         "names": [],
@@ -70,18 +45,5 @@
       }
     }
   ],
-  "markers": [
-    {
-      "position": 0.9818181818181524,
-      "names": [
-        "score"
-      ]
-    },
-    {
-      "position": 0.0,
-      "names": [
-        "event"
-      ]
-    }
-  ]
+  "markers": []
 }

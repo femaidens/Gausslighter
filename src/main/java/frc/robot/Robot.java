@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+// import edu.wpi.first.wpilibj.AddressableLED;
+// import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+
 // import java.io.IOException;
 // import java.nio.file.Path;
 
@@ -25,8 +28,7 @@ public class Robot extends TimedRobot {
   //private Command autonCommand;
 
   private RobotContainer robotContainer;
-  private Command autonChooser;
-
+  private Command autonChoice;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -47,6 +49,8 @@ public class Robot extends TimedRobot {
   //  }
   }
 
+
+
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -61,6 +65,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -73,9 +78,9 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    robotContainer.getAutonomousCommand().schedule();
-    autonChooser = robotContainer.getAutonomousCommand();
-
+    // robotContainer.getAutonomousCommand().schedule();
+    autonChoice = robotContainer.getAutonomousCommand();
+    
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
      * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -84,8 +89,8 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
-    if (autonChooser != null) {
-      autonChooser.schedule();
+    if (autonChoice != null) {
+      autonChoice.schedule();
     }
   }
 
@@ -99,14 +104,18 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (autonChooser != null) {
-      autonChooser.cancel();
+    if (autonChoice != null) {
+      autonChoice.cancel();
     }
+    System.out.println("all command killed");
+    // CommandScheduler.getInstance().cancelAll();
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    //armAngle.setAngle(RobotContainer.operJoy.getRightY());
+  }
 
   @Override
   public void testInit() {

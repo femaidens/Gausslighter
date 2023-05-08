@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems.modules;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+// import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -28,7 +28,7 @@ public class RevSwerveModule {
 
   private final SparkMaxPIDController drivePIDController;
   private final SparkMaxPIDController turningPIDController;
-  private final SimpleMotorFeedforward driveFFController;
+  // private final SimpleMotorFeedforward driveFFController;
 
   private double chassisAngularOffset;
 
@@ -51,7 +51,7 @@ public class RevSwerveModule {
 
     drivePIDController.setFeedbackDevice(driveEncoder);
     turningPIDController.setFeedbackDevice(turningEncoder);
-    driveFFController = new SimpleMotorFeedforward(Drive.kS, Drive.kV, Drive.kA);
+    // driveFFController = new SimpleMotorFeedforward(Drive.kS, Drive.kV, Drive.kA);
 
     // convert encoder values to units
     driveEncoder.setPositionConversionFactor(Drive.DRIVE_ENCODER_PFACTOR); // m
@@ -145,10 +145,12 @@ public class RevSwerveModule {
         new Rotation2d(turningEncoder.getPosition()));
 
     // setpoints for drive & turning sparkmaxes
-    double driveFF = driveFFController.calculate(optimizedDesiredState.speedMetersPerSecond);
+    // double driveFF = driveFFController.calculate(optimizedDesiredState.speedMetersPerSecond);
 
-    drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity, 0,
-        driveFF);
+    // drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity, 0,
+    //     driveFF);
+
+    drivePIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 
     optimizedDesiredState = m_desiredState;

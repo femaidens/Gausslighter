@@ -4,6 +4,10 @@
 
 package frc.robot.subsystems;
 
+// import com.pathplanner.lib.PathPlanner;
+// import com.pathplanner.lib.PathPlannerTrajectory;
+// import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -14,12 +18,14 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.Ports.*;
 import frc.robot.subsystems.modules.RevSwerveModule;
 import frc.utils.SwerveUtils;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class Drivetrain extends SubsystemBase {
 
@@ -43,6 +49,7 @@ public class Drivetrain extends SubsystemBase {
       DrivetrainPorts.REAR_RIGHT_TURNING,
       DriveConstants.RR_CHASSIS_ANGULAR_OFFSET);
 
+  
   // imu sensor/gyro
   private final ADIS16470_IMU gyro = new ADIS16470_IMU();
 
@@ -54,6 +61,7 @@ public class Drivetrain extends SubsystemBase {
   private SlewRateLimiter magLimiter = new SlewRateLimiter(DriveConstants.MAG_SLEW_RATE);
   private SlewRateLimiter rotLimiter = new SlewRateLimiter(DriveConstants.ROT_SLEW_RATE);
   private double prevTime = WPIUtilJNI.now() * 1e-6;
+  private double speedFactor = 1.0;
 
   // odometry class (tracks robot pose)
   SwerveDriveOdometry odometry = new SwerveDriveOdometry(
@@ -66,8 +74,7 @@ public class Drivetrain extends SubsystemBase {
           rearRight.getPosition()
       });
 
-  public Drivetrain() {
-  }
+  public Drivetrain() {}
 
   @Override
   public void periodic() {
@@ -80,8 +87,27 @@ public class Drivetrain extends SubsystemBase {
             rearLeft.getPosition(),
             rearRight.getPosition()
         });
+    //System.out.println("spark 8 angle: " + frontLeft.getPosition().angle);
+    SmartDashboard.putNumber("gyro angle", gyro.getAngle());
+    SmartDashboard.putNumber("gyro x", gyroX());
+    //gyro.calibrate();
+    // SmartDashboard.putNumber("Wrist Angle", frontLeft.get());
+    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
+    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
+    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
+  }
 
-    SmartDashboard.putNumber("Gyro Angle: ", gyro.getAngle());
+  public void getJoystickValue(CommandXboxController joystick){
+    System.out.println("current value: " + joystick.getRightY());
+  }
+
+  public double getPitch(){
+    gyro.setYawAxis(null);
+    return gyro.getAngle();
+  }
+
+  public double gyroX(){
+    return gyro.getXComplementaryAngle();
   }
 
   /**
@@ -154,10 +180,17 @@ public class Drivetrain extends SubsystemBase {
     }
 
     // Convert the commanded speeds into the correct units for the drivetrain
-    double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED;
-    double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED;
-    double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED;
+    // double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED;
+    // double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED;
+      double xSpeedDelivered = xSpeedCommanded * DriveConstants.MAX_SPEED * speedFactor;
+      double ySpeedDelivered = ySpeedCommanded * DriveConstants.MAX_SPEED * speedFactor;
 
+    // SmartDashboard.putNumber("xspeed drive", xSpeedDelivered);
+    // SmartDashboard.putNumber("xspeed drive", xSpeedDelivered);
+    //System.out.println("xspeed drive: " + xSpeedDelivered);
+    //System.out.println("yspeed drive: " + ySpeedDelivered);
+
+    double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED;
     var swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(gyro.getAngle()))
@@ -185,6 +218,10 @@ public class Drivetrain extends SubsystemBase {
   // zeros heading of the robot
   public void resetGyro() {
     gyro.reset();
+  }
+
+  public void calibrateGyro(){
+    gyro.calibrate();
   }
 
   // resets the odometry to the specified pose
@@ -224,6 +261,7 @@ public class Drivetrain extends SubsystemBase {
     rearLeft.resetEncoders();
     frontRight.resetEncoders();
     rearRight.resetEncoders();
+    //Arrays.stream(swerveModules).forEach(RevSwerveModule::resetEncoders);
   }
 
     // x formation with wheels -> prevent movement
@@ -233,5 +271,15 @@ public class Drivetrain extends SubsystemBase {
       rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
       rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
     }
+
+  public void slowSpeed(){
+    speedFactor = 0.5;
+  }
+
+  public void regSpeed(){
+    speedFactor = 1;
+  }
+    
+
 
 }

@@ -4,25 +4,18 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
-
 /** Add your docs here. */
 public final class Ports {
+
+    public static final class LEDPorts{
+        public static final int PWM = 9; //pwm led port NOT MXP OR DIO
+    }
 
     public static final class JoystickPorts {
         // public static final int ROTATION_JOY = 0;
         // public static final int LATERAL_JOY = 1;
-        public static final int OPER_JOY = 0; // left side of laptop
-        public static final int DRIVE_JOY = 1;
-    }
-
-    public static final class XboxControllerMap {
-        public static class Button {
-            public static final int A = XboxController.Button.kA.value;
-            public static final int B = XboxController.Button.kB.value;
-            public static final int X = XboxController.Button.kX.value;
-            public static final int Y = XboxController.Button.kY.value;
-        }
+        public static final int OPER_JOY = 1; // left side of laptop
+        public static final int DRIVE_JOY = 0;
     }
 
     public static final class ButtonPorts {
@@ -54,25 +47,25 @@ public final class Ports {
 
     public static final class IntakePorts {
         public static final int WRIST_MOTOR_PORT = 10;
-        // public static final int CLAW_WHEELS_PORT = 9;
+        public static final int CLAW_MOTOR_PORT = 12;
         
         public static final int WRIST_ENCODER_PORT = 3;
 
-        public static final int PISTON1_FORWARD_PORT = 0; // big piston
+        public static final int PISTON1_FORWARD_PORT = 0; // WE ARE USING THIS ONE!!!!!!
         public static final int PISTON1_REVERSE_PORT = 1; 
         public static final int PISTON2_FORWARD_PORT = 2; //small piston
         public static final int PISTON2_REVERSE_PORT = 3;
     }
 
     public static final class ArmPorts {
-        public static final int ANG_MOTOR_PORT = 12;
+        public static final int ANG_MOTOR_PORT = 11;
         public static final int LEFT_EXTEND_MOTOR_PORT = 13;
-        public static final int RIGHT_EXTEND_MOTOR_PORT = 9;
+        // public static final int RIGHT_EXTEND_MOTOR_PORT = 9;
 
         public static final int ANG_ENCODER_PORT = 2; // change port number
         // public static final int EXTEND_RETRACT_ENCODER_PORT = 8;
 
-        public static final int TOP_SWITCH_PORT = 20; // change port num
-        public static final int BOT_SWITCH_PORT = 21; // change port num
+        public static final int TOP_SWITCH_PORT = 9; // change port num
+        public static final int BOT_SWITCH_PORT = 8; // change port num
     }
 }

@@ -5,135 +5,145 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmConstants.AngleConstants;
+import frc.robot.Constants.ArmConstants.LateralConstants;
+import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Ports.ArmPorts;
 
 public class ArmLateral extends SubsystemBase {
-  private final RelativeEncoder extendRetractEncoder; // extending and retraction arm
-  private final CANSparkMax rightExtendMotor;
-  private final CANSparkMax leftExtendMotor;
-  private final PIDController extendPIDController;
-  private final SimpleMotorFeedforward armExtensionFF; // -> use this somewhere!
+  private final RelativeEncoder lateralEncoder; // extending and retraction arm
+  // private final CANSparkMax rightLateralMotor;
+  private final CANSparkMax leftLateralMotor;
   private final DigitalInput topSwitch;
   private final DigitalInput botSwitch;
+  private final PIDController ArmPIDController;
+  private double currentLength = 0; // always true before match, arm = fully retracted
+  public static boolean isOverriden = false;
 
   public ArmLateral() {
 
     // motor instantiations
-    rightExtendMotor = new CANSparkMax(ArmPorts.RIGHT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
-    leftExtendMotor = new CANSparkMax(ArmPorts.LEFT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
+    // rightLateralMotor = new CANSparkMax(ArmPorts.RIGHT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
+    leftLateralMotor = new CANSparkMax(ArmPorts.LEFT_EXTEND_MOTOR_PORT, MotorType.kBrushless);
 
     // encoder instantiations
-    extendRetractEncoder = leftExtendMotor.getEncoder(); // subject to change
+    lateralEncoder = leftLateralMotor.getEncoder(); // subject to change
 
-    // feedback controllers
-
-    extendPIDController = new PIDController(
-        ArmConstants.ExtendPID.kP,
-        ArmConstants.ExtendPID.kI,
-        ArmConstants.ExtendPID.kD);
-
-    // feedforward controllers
-    armExtensionFF = new SimpleMotorFeedforward(
-        ArmConstants.FeedForward.kS,
-        ArmConstants.FeedForward.kV, 
-        ArmConstants.FeedForward.kA);
+    // encoder config - check/test for pfactor
+    // lateralEncoder.setPositionConversionFactor(LateralConstants.LATERAL_PFACTOR); //divide by revs for fully extend
 
     // limit switches
     topSwitch = new DigitalInput(ArmPorts.TOP_SWITCH_PORT);
     botSwitch = new DigitalInput(ArmPorts.BOT_SWITCH_PORT);
 
-    // motor config
-    leftExtendMotor.setInverted(true);
+    ArmPIDController = new PIDController(AngleConstants.kP, AngleConstants.kI, AngleConstants.kD);
+    // motor configs
+    // rightLateralMotor.setIdleMode(IdleMode.kBrake);
+    leftLateralMotor.setIdleMode(IdleMode.kBrake);
+
+    leftLateralMotor.setInverted(false); // correct orientation
+    // rightLateralMotor.setInverted(true); // makes retract negative
+
+    // rightLateralMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
+    leftLateralMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
   }
 
-  public void extendPosition(double position) {
-    double extendArmPID = extendPIDController.calculate(extendRetractEncoder.getPosition(), position);
-    // double extendArmFF = velocityFF.calculate(vVelocity); just testing pid for
-    // now
-    leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
-
-    if (extendArmPID < 0) { // left is extending 
-      if (topSwitch.get()) { // hit top limit switch (extending)
-        leftExtendMotor.set(0);
-        rightExtendMotor.set(0);
-      } 
-      
-      else {
-        leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
-        rightExtendMotor.setVoltage(extendArmPID);
+  public void retractArm(){
+    if (isOverriden) {
+      leftLateralMotor.set(-0.9);
+    } else {
+      if (!botSwitch.get()) { //hit limit switch (true = not hit; false = hit)
+        System.out.println(" bottom limit activated! \n");
+        stopExtensionMotors();
+        lateralEncoder.setPosition(0);
+        currentLength = lateralEncoder.getPosition();
+        return;
       }
-    } 
-    
-    else {
-      if (botSwitch.get()) { // hit bot limit switch (retracting)
-        leftExtendMotor.set(0);
-        rightExtendMotor.set(0);
-      } 
-
-      else {
-        leftExtendMotor.setVoltage(extendArmPID); // velocity PID/FF returns voltage
-        rightExtendMotor.setVoltage(extendArmPID);
+  
+      else{
+        System.out.println("retracting");
+        leftLateralMotor.set(-0.9);
+        // rightLateralMotor.set(-0.4);
+        // currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
+        // change back to minus if increases moving backwards
       }
     }
-
-    System.out.println("extend arm pid: " + extendArmPID);
-    // rightExtendMotor.setVoltage(extendArmPID); //negate one side
   }
 
-  public void getTicks() {
-    // check to see if ticks are inverted (since motor is inverted); if so invert
-    // encoder values in constructor
-    leftExtendMotor.set(-0.15); // negative = extend
-    System.out.println("current ticks:" + extendRetractEncoder.getPosition());
+  public void extendArm() {
+    lateralEncoder.setPosition(currentLength);
+    //System.out.println("rotations: " +lateralEncoder.getPosition());
+      if (isOverriden) {
+        leftLateralMotor.set(0.9);
+
+      } else {
+        if (!topSwitch.get()) { //hit limit switch
+          System.out.println("top limit activated! p\n");
+          stopExtensionMotors();
+          // lateralEncoder.getPosition();
+          // lateralEncoder.setPosition(0);
+          return; 
+        }
+        else {
+          leftLateralMotor.set(0.9);
+        // rightLateralMotor.set(0.4);
+        // currentLength = lateralEncoder.getPosition();
+        }
+       } 
   }
 
-  // find distance/revolution, return double after confirmation -> works
-  public void getPositionFactor(double ticks) {
-    double currentTicks = extendRetractEncoder.getPosition();
-
-    while (currentTicks < ticks) {
-      leftExtendMotor.set(-0.05);
-      System.out.println("current ticks: " + currentTicks);
-    }
+  public boolean hitTopSwitch(){
+    return !topSwitch.get();
   }
 
-  public void extendDistance(double distance) {
-    double currRotations = extendRetractEncoder.getPosition();
-    // set the parameter equal to method after test
-    // if method works, use getPostionFactor in constructor
-    /*
-     * while (currTicks < Constants.CPR) {
-     * System.out.println("current ticks: " + currTicks);
-     * leftExtendMotor.set(-0.05);
-     * }
-     */
-    // if(currRotations != distance) {
-    while (currRotations < distance) { // used to add margin
-      System.out.println("current rotations: " + currRotations);
-      leftExtendMotor.set(-0.3);
-    }
-    // while(currRotations > distance + extendMargin) {
-    // System.out.println("current rotations: " + currRotations);
-    // leftExtendMotor.set(0.15);
-    // }
-    // }
+  public boolean isOverriden() {
+    return isOverriden;
+  }
+  
+  public void setAutonArmLength(double autonSetpoint){
+    double autonArmLateralVoltage = ArmPIDController.calculate(currentLength, autonSetpoint);
+    leftLateralMotor.setVoltage(autonArmLateralVoltage);
   }
 
-  public void stopExtensionMotor() {
-    leftExtendMotor.set(0);
-    // rightExtendMotor.set(0);
+  public boolean atLength(double length){
+    if (Math.abs(currentLength - length) < 1) return true;
+    return false;
+  }
+
+  public void stopExtensionMotors() {
+    leftLateralMotor.set(0);
+    // rightLateralMotor.set(0);
   }
 
   @Override
   public void periodic() {
+    
+    // boolean boxes
+    // SmartDashboard.putBoolean("@ low length", atLength(ArmConstants.PositionConfig.lowLength)); 
+    SmartDashboard.putBoolean("@ mid length", atLength(ArmConstants.PositionConfig.midLength)); 
+    // SmartDashboard.putBoolean("@ high length", atLength(ArmConstants.PositionConfig.highLength)); 
+    SmartDashboard.putBoolean("@ hp length", atLength(ArmConstants.PositionConfig.doubleHPLength));
+    SmartDashboard.putBoolean("@ default length", atLength(ArmConstants.PositionConfig.defaultLength));
+
+    
+    // arm lateral values
+    //SmartDashboard.putNumber("get current length", currentLength);
+    SmartDashboard.putNumber("get lateral length ", lateralEncoder.getPosition());
+    // SmartDashboard.putNumber("get conversion factor ", lateralEncoder.getPositionConversionFactor());
+
+
+    //SmartDashboard.putNumber("arm lateral speed", leftLateralMotor.get());
+    //SmartDashboard.putNumber("lateral pfactor", lateralEncoder.getPositionConversionFactor());
+
   }
 
   @Override
