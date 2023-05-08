@@ -58,20 +58,24 @@ public class ArmLateral extends SubsystemBase {
   }
 
   public void retractArm(){
-    if (!botSwitch.get()) { //hit limit switch (true = not hit; false = hit)
-      System.out.println(" bottom limit activated! \n");
-      stopExtensionMotors();
-      lateralEncoder.setPosition(0);
-      currentLength = lateralEncoder.getPosition();
-      return;
-    }
-
-    else{
-      System.out.println("retracting");
+    if (isOverriden) {
       leftLateralMotor.set(-0.9);
-      // rightLateralMotor.set(-0.4);
-      // currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
-      // change back to minus if increases moving backwards
+    } else {
+      if (!botSwitch.get()) { //hit limit switch (true = not hit; false = hit)
+        System.out.println(" bottom limit activated! \n");
+        stopExtensionMotors();
+        lateralEncoder.setPosition(0);
+        currentLength = lateralEncoder.getPosition();
+        return;
+      }
+  
+      else{
+        System.out.println("retracting");
+        leftLateralMotor.set(-0.9);
+        // rightLateralMotor.set(-0.4);
+        // currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
+        // change back to minus if increases moving backwards
+      }
     }
   }
 
