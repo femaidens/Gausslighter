@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.commands.AutonBalance;
-import frc.robot.commands.AutonDrive;
+import frc.robot.auton.autonDrivetrain.AutonBalance;
+import frc.robot.auton.autonDrivetrain.AutonDrive;
 import frc.robot.subsystems.Drivetrain;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
