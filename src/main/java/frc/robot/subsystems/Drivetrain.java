@@ -263,7 +263,4 @@ public class Drivetrain extends SubsystemBase {
   public void regSpeed(){
     speedFactor = 1;
   }
-    
-
-
 }
