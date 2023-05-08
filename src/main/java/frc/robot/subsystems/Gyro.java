@@ -18,13 +18,24 @@ public class Gyro extends SubsystemBase {
   }
   public void printValues(){
     System.out.println(gyro.getAngle());
+    // System.out.println("x: " + gyro.getRawGyroX()); 
+    // System.out.println("y: " + gyro.getRawGyroY());
+    // System.out.println("z: " + gyro.getRawGyroZ());
+
+    // System.out.println("pitch: " + gyro.getPitch());
+
+  }
+  
+  public void calibrate(){
+    gyro.calibrate();
+  }
+
+  public void resetGyro(){
+    gyro.reset();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    Shuffleboard.getTab("Example tab").add(gyro);
-    SmartDashboard.getNumber("angle", gyro.getAngle());
-    System.out.println(gyro.getAngle());
   }
 }

@@ -7,7 +7,12 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.PrintGyro;
 import frc.robot.subsystems.Gyro;
+
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -28,6 +33,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    configureDefaultSettings();
     configureBindings();
 
     m_gyro.setDefaultCommand(
@@ -35,6 +41,9 @@ public class RobotContainer {
     );
   }
 
+  private void configureDefaultSettings(){
+    m_gyro.calibrate();
+  }
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -52,6 +61,7 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController.a().onTrue(new InstantCommand(() -> m_gyro.resetGyro(), m_gyro));
   }
 
   

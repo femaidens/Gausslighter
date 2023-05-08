@@ -7,4 +7,5 @@ package frc.robot;
 /** Add your docs here. */
 public final class Ports {
     public static final int kMXP = 1;
+    public static final int resetPort = 0;
 }
