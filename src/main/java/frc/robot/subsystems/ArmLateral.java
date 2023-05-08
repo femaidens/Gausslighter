@@ -57,7 +57,7 @@ public class ArmLateral extends SubsystemBase {
     leftLateralMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
   }
 
-  public void retractArm(){
+  public void retractArm(boolean isOverriden){
     if (isOverriden) {
       leftLateralMotor.set(-0.9);
     } else {
@@ -79,7 +79,7 @@ public class ArmLateral extends SubsystemBase {
     }
   }
 
-  public void extendArm() {
+  public void extendArm(boolean isOverriden) {
     lateralEncoder.setPosition(currentLength);
     //System.out.println("rotations: " +lateralEncoder.getPosition());
       if (isOverriden) {

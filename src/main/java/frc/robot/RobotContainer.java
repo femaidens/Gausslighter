@@ -263,16 +263,26 @@ public class RobotContainer {
       Trigger extendButton = operJoy.rightTrigger();
       extendButton
         .onTrue(new RunCommand(
-          () -> armLateral.extendArm(), armLateral))
+          () -> armLateral.extendArm(false), armLateral))
         .onFalse(new RunCommand(
           () -> armLateral.stopExtensionMotors(), armLateral));
 
       Trigger retractButton = operJoy.leftTrigger();
       retractButton
         .onTrue(new RunCommand(
-          () -> armLateral.retractArm(), armLateral))
+          () -> armLateral.retractArm(false), armLateral))
         .onFalse(new RunCommand(
           () -> armLateral.stopExtensionMotors(), armLateral));
+      // make these call commands not methods
+      Trigger aExtendFailsafeButton = driveJoy.a();
+      aExtendFailsafeButton
+        .onTrue(new RunCommand(
+          () -> armLateral.extendArm(true), armLateral));
+        
+      Trigger bRetractFailsafeButton = driveJoy.b();
+      bRetractFailsafeButton
+        .onTrue(new RunCommand(
+          () -> armLateral.retractArm(true), armLateral));
     
     /* * * INTAKE 1 * * */
     /* LEDS */
