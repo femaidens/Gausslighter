@@ -9,16 +9,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
-import frc.robot.auton.manual.*;
-import frc.robot.auton.spbli.*;
-import frc.robot.auton.spbli.autonScoreCmds.ScoreHigh;
-import frc.robot.auton.spbli.autonScoreCmds.ScoreMid;
-import frc.robot.auton.spbli.autonScoreCmds.ScoreMidCharge;
-import frc.robot.auton.spbli.autonScoreCmds.ShootHigh;
-import frc.robot.auton.spbli.autonScoreCmds.ShootMid;
-import frc.robot.auton.spbli.autonScoreCmds.TaxiCharge;
-import frc.robot.auton.spbli.autonScoreRoutines.ScoreLongTaxi;
-import frc.robot.auton.spbli.autonScoreRoutines.ScoreShortTaxi;
+import frc.robot.auton.autonRoutines.*;
+import frc.robot.auton.autonRoutines.high.ScoreHighLongTaxi;
+import frc.robot.auton.autonRoutines.high.ScoreHighShortTaxi;
+import frc.robot.auton.autonRoutines.high.ScoreHighTaxiCharge;
+import frc.robot.auton.autonRoutines.high.ScoreHighCharge;
+import frc.robot.auton.autonRoutines.mid.ScoreMidCharge;
+import frc.robot.auton.autonRoutines.mid.ScoreMidLongTaxi;
+import frc.robot.auton.autonRoutines.mid.ScoreMidShortTaxi;
+import frc.robot.auton.autonScore.*;
+import frc.robot.auton.autonTaxi.LongTaxi;
+import frc.robot.auton.autonTaxi.ShortTaxi;
 // import frc.robot.autons.Path1;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
@@ -79,39 +80,38 @@ public class RobotContainer {
     // auton config
     autonChooser = new SendableChooser<Command>();
     SmartDashboard.putData("Choose Auto: ", autonChooser);
-    autonChooser.setDefaultOption("charge", new Charge(drivetrain, AutoConstants.AUTON_CHARGE_SPEED, AutoConstants.AUTON_CHARGE_TIME)
-    );
+
+    //charge
+    autonChooser.setDefaultOption("slow charge", new Charge(drivetrain, AutoConstants.SLOWCHARGE_SPEED, AutoConstants.SLOWCHARGE_TIME));
+    autonChooser.addOption("fast charge", new Charge(drivetrain, AutoConstants.FASTCHARGE_SPEED, AutoConstants.FASTCHARGE_TIME));
+    autonChooser.addOption("back charge", new Charge(drivetrain, AutoConstants.BACKCHARGE_SPEED, AutoConstants.FASTCHARGE_TIME));
+
     
     //shoot
-    autonChooser.addOption("shoot mid ", new ShootMid(intake, armAngle, armLateral));
+    autonChooser.addOption("shoot mid", new ShootMid(intake, armAngle, armLateral));
     autonChooser.addOption("shoot high", new ShootHigh(intake, armAngle, armLateral));
-
-    //score
-    autonChooser.addOption("score high", new ScoreHigh(intake, armAngle, armLateral));
-    autonChooser.addOption("score mid", new ScoreMid(intake, armAngle, armLateral));
-    autonChooser.addOption("score mid charge", new ScoreMidCharge(drivetrain, intake, armAngle, armLateral));
 
     //taxis
     autonChooser.addOption("short taxi", new ShortTaxi(drivetrain));
-    autonChooser.setDefaultOption("long taxi", new LongTaxi(drivetrain));
-    autonChooser.addOption("score short taxi", new ScoreShortTaxi(drivetrain, intake, armAngle, armLateral));
-    autonChooser.addOption("score long taxi", new ScoreLongTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("long taxi", new LongTaxi(drivetrain));
     autonChooser.addOption("taxi charge", new TaxiCharge(drivetrain));
-    //unused autons
 
-    // autonChooser.addOption("score", new Score(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score left taxi", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score right taxi", new ScoreRightIntake(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("p1", new Path1(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("p2", new Path2(drivetrain));
-    //autonChooser.addOption("score and engage", new ScoreAndEngage(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score and drive to game piece", new ScoreDriveToGP(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score, leave community and engage", new ScoreDepartEngage(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score and center intake", new ScoreCenterIntake(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score and left intake", new ScoreLeftIntake(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score and right intake", new ScoreRightIntake(drivetrain, intake, armAngle, armLateral));
-    // autonChooser.addOption("score, center intake and engage", new ScoreIntakeEngage(drivetrain, intake, armAngle, armLateral));
-    
+    //score
+    autonChooser.addOption("score mid", new ScoreMid(intake, armAngle, armLateral));
+    autonChooser.addOption("score high", new ScoreHigh(intake, armAngle, armLateral));
+
+    //score w charge
+    autonChooser.addOption("score mid charge", new ScoreMidCharge(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score high charge", new ScoreHighCharge(drivetrain, intake, armAngle, armLateral));
+
+    //score w taxis
+    autonChooser.addOption("score mid short taxi", new ScoreMidShortTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score mid long taxi", new ScoreMidLongTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score high short taxi", new ScoreHighShortTaxi(drivetrain, intake, armAngle, armLateral));
+    autonChooser.addOption("score high long taxi", new ScoreHighLongTaxi(drivetrain, intake, armAngle, armLateral));
+
+    //score taxi charge
+    autonChooser.addOption("score high taxi charge", new ScoreHighTaxiCharge(intake, armAngle, armLateral, drivetrain));
 
     // Configure default commands
     drivetrain.setDefaultCommand(
@@ -127,6 +127,7 @@ public class RobotContainer {
     );
 
     intake.setDefaultCommand(
+      // new SetWristAngleManual(intake, MathUtil.applyDeadband(operJoy.getLeftY(), 0.1))
       new RunCommand(
         () -> intake.setWristAngleManual(
           MathUtil.applyDeadband(operJoy.getLeftY(), 0.1)),
@@ -137,6 +138,8 @@ public class RobotContainer {
       new RunCommand(
         () -> armAngle.setAngle(
           MathUtil.applyDeadband(operJoy.getRightY(), 0.1)),
+        // () -> armAngle.setAngle(
+        //   MathUtil.applyDeadband(-6, 0.1)),
         armAngle)
     );
 
@@ -147,6 +150,7 @@ public class RobotContainer {
   }
 
   public void configureSystemDefaults(){
+    drivetrain.calibrateGyro();
     drivetrain.resetGyro();
     drivetrain.resetEncoders();
     // armLateral.retractArm();
@@ -170,6 +174,10 @@ public class RobotContainer {
       xDriveButton
         .whileTrue(new InstantCommand(
           () -> drivetrain.setX(), drivetrain));
+
+      Trigger autoBalanceButton = driveJoy.x();
+      autoBalanceButton
+        .onTrue(new AutonBalance(drivetrain, AutoConstants.AUTONBALANCE_SPEED, 0, 0, true, true));
 
       Trigger resetGyroButton = driveJoy.rightBumper();
       resetGyroButton
@@ -217,34 +225,65 @@ public class RobotContainer {
         .onFalse(new InstantCommand(
           () -> intake.stopIntakeMotor(), intake));
 
-      Trigger doubleSSWristButton = operJoy.a();
-      doubleSSWristButton
-        .onTrue(new RunCommand(
-          () -> intake.setDoubleSubstationAngle(), intake))
-        .onFalse(new RunCommand(
-          () -> intake.stopWristMotor(), intake));
+      Trigger doubleIntakeButton = operJoy.b();
+      doubleIntakeButton
+        // .onTrue(new RunCommand(
+        //   () -> intake.setDoubleIntakeAngle(), intake))
+        // .onFalse(new RunCommand(
+        //   () -> intake.stopWristMotor(), intake));
 
-      Trigger singleSSWristButton = operJoy.b();
-      singleSSWristButton
-        .onTrue(new RunCommand(
-          () -> intake.setSingleSubstationAngle(), intake))
-        .onFalse(new RunCommand(
-          () -> intake.stopWristMotor(), intake));
+        // .onTrue(new InstantCommand(
+        //   () -> intake.setDoubleIntakeAngle(), intake));
+
+        .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle))
+        .onFalse(new SetWristAngleVoltage(intake));
+
+        // .onTrue(new InstantCommand(
+        //   () -> armAngle.setHighNodeAngle(), armAngle))
+        // .onFalse(new SetArmAngleVoltage(armAngle));
+
+      Trigger singleIntakeButton = operJoy.a();
+      singleIntakeButton
+        // .onTrue(new InstantCommand(
+        //   () -> intake.setSingleIntakeAngle(), intake))
+
+        // .onFalse(new InstantCommand(
+        //   () -> intake.stopWristMotor(), intake));
+        // .onTrue(new InstantCommand(
+        //   () -> intake.setSingleIntakeAngle(), intake));
+
+        .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle))
+        .onFalse(new SetWristAngleVoltage(intake));
+
+        // .onTrue(new InstantCommand(
+        //   () -> armAngle.setMidNodeAngle(), armAngle))
+        // .onFalse(new SetArmAngleVoltage(armAngle));
+
 
       /* LATERAL */
       Trigger extendButton = operJoy.rightTrigger();
       extendButton
         .onTrue(new RunCommand(
-          () -> armLateral.extendArm(), armLateral))
+          () -> armLateral.extendArm(false), armLateral))
         .onFalse(new RunCommand(
           () -> armLateral.stopExtensionMotors(), armLateral));
 
       Trigger retractButton = operJoy.leftTrigger();
       retractButton
         .onTrue(new RunCommand(
-          () -> armLateral.retractArm(), armLateral))
+          () -> armLateral.retractArm(false), armLateral))
         .onFalse(new RunCommand(
           () -> armLateral.stopExtensionMotors(), armLateral));
+      // make these call commands not methods
+      Trigger aExtendFailsafeButton = driveJoy.a();
+      aExtendFailsafeButton
+        .onTrue(new RunCommand(
+          () -> armLateral.extendArm(true), armLateral));
+        
+      Trigger bRetractFailsafeButton = driveJoy.b();
+      bRetractFailsafeButton
+        .onTrue(new RunCommand(
+          () -> armLateral.retractArm(true), armLateral));
     
     /* * * INTAKE 1 * * */
     /* LEDS */

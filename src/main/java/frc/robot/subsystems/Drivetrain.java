@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
+import edu.wpi.first.wpilibj.ADIS16448_IMU.IMUAxis;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.Ports.*;
@@ -88,6 +89,8 @@ public class Drivetrain extends SubsystemBase {
         });
     //System.out.println("spark 8 angle: " + frontLeft.getPosition().angle);
     SmartDashboard.putNumber("gyro angle", gyro.getAngle());
+    SmartDashboard.putNumber("gyro x", gyroX());
+    //gyro.calibrate();
     // SmartDashboard.putNumber("Wrist Angle", frontLeft.get());
     // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
     // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
@@ -96,6 +99,15 @@ public class Drivetrain extends SubsystemBase {
 
   public void getJoystickValue(CommandXboxController joystick){
     System.out.println("current value: " + joystick.getRightY());
+  }
+
+  public double getPitch(){
+    gyro.setYawAxis(null);
+    return gyro.getAngle();
+  }
+
+  public double gyroX(){
+    return gyro.getXComplementaryAngle();
   }
 
   /**
@@ -175,8 +187,8 @@ public class Drivetrain extends SubsystemBase {
 
     // SmartDashboard.putNumber("xspeed drive", xSpeedDelivered);
     // SmartDashboard.putNumber("xspeed drive", xSpeedDelivered);
-    System.out.println("xspeed drive: " + xSpeedDelivered);
-    System.out.println("yspeed drive: " + ySpeedDelivered);
+    //System.out.println("xspeed drive: " + xSpeedDelivered);
+    //System.out.println("yspeed drive: " + ySpeedDelivered);
 
     double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED;
     var swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
@@ -206,6 +218,10 @@ public class Drivetrain extends SubsystemBase {
   // zeros heading of the robot
   public void resetGyro() {
     gyro.reset();
+  }
+
+  public void calibrateGyro(){
+    gyro.calibrate();
   }
 
   // resets the odometry to the specified pose

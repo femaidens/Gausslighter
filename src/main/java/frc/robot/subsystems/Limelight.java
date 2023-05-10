@@ -7,7 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Limelight extends SubsystemBase {
@@ -24,10 +24,10 @@ public class Limelight extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("TV", tv.getDouble(0.0));
-    SmartDashboard.putNumber("TX", tx.getDouble(0.0));
-    SmartDashboard.putNumber("TA", ta.getDouble(0.0));
-    SmartDashboard.putNumber("TS", ts.getDouble(0.0));
-    SmartDashboard.putNumber("TY", ty.getDouble(0.0));
+    // SmartDashboard.putNumber("TV", tv.getDouble(0.0));
+    // SmartDashboard.putNumber("TX", tx.getDouble(0.0));
+    // SmartDashboard.putNumber("TA", ta.getDouble(0.0));
+    // SmartDashboard.putNumber("TS", ts.getDouble(0.0));
+    // SmartDashboard.putNumber("TY", ty.getDouble(0.0));
   }
 }

@@ -43,9 +43,15 @@ public final class Constants {
     public static final int ARM_ANGLE_MOTOR_CURRENT_LIMIT = 30; // amps
     public static final int ARM_LATERAL_MOTOR_CURRENT_LIMIT = 30; // amps
 
+    public static class AngleConstants{
+      public static final double kP = 2.0;
+      public static final double kI = 0;
+      public static final double kD = 0;
+
+    }
     public static class LateralConstants{
-      public static final double LATERAL_LENGTH = 28.5; // distance to extend
-      public static final double LATERAL_ROTATIONS = 24.64; // test
+      public static final double LATERAL_LENGTH = 26.375; // in inches distance to extend
+      public static final double LATERAL_ROTATIONS = 21.015; // test
       public static final double  LATERAL_PFACTOR = LATERAL_LENGTH/LATERAL_ROTATIONS; //divide this by # of revs for fully extend
     }
 
@@ -54,18 +60,19 @@ public final class Constants {
       public static final double defaultAngle = 63.9;
       public static final double lowNodeAngle = 1.986;
       public static final double midNodeAngle = 30; 
-      public static final double highNodeAngle = 30;
-      public static final double hpAngle = 40;
+      public static final double highNodeAngle = midNodeAngle;
+      public static final double hpSingleAngle = midNodeAngle; //tbd
+      public static final double hpDoubleAngle = 42.8;
       // public static final double autonScoreAngle = 40;
-
 
       // starting: 47 || high: 73 || mid: 53.5 || low: 44 || double hp station: 60.069
       // find unit conversion units, current: inches
       // desired extension distance -> change after raised crossbar
       public static final double defaultLength = 0;
       public static final double lowLength = defaultLength;
-      public static final double midLength = 24.26;
+      public static final double midLength = 4.099;
       public static final double highLength = 46.3; 
+      public static final double singleHPLength = 13.069; //tbd
       public static final double doubleHPLength = 13.069;
     }
   }
@@ -74,11 +81,14 @@ public final class Constants {
     // public static final double tickFactor =  Constants.CPR / 360;
     // public static final double intakeMargin = 3;
 
-    public static final double DEFAULT_WRIST_ANGLE = 3.5;
-    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 100; 
-    public static final double INTAKE_SINGLE_WRIST_ANGLE = 50; //tbd
-    public static final double SCORE_WRIST_ANGLE = 125.0; 
-    public static final double SUPPORT_WRIST_ANGLE = 231; 
+    public static final double DEFAULT_WRIST_ANGLE = 16; //27
+    public static final double SUPPORT_WRIST_ANGLE = 230; 
+    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 113; 
+    public static final double SHOOT_WRIST_ANGLE = INTAKE_DOUBLE_WRIST_ANGLE; 
+    public static final double INTAKE_SINGLE_WRIST_ANGLE = 150; //tbd
+    public static final double SCORE_WRIST_ANGLE = INTAKE_SINGLE_WRIST_ANGLE; 
+    public static final double DEFAULT_TO_SINGLE_TIME = 2;
+
 
     // public static final double WRIST_SPEED = 0.1;
     public static final int CLAW_MOTOR_CURRENT_LIMIT = 20; // amps
@@ -87,7 +97,7 @@ public final class Constants {
     public static final int CLAW_MOTOR_SECONDARY_LIMIT = 35; // amps
     public static final int WRIST_MOTOR_SECONDARY_LIMIT = 35; // amps
 
-    public final static double wristkP = 0.2;
+    public final static double wristkP = 0.07;
     public final static double wristkI = 0.0;
     public final static double wristkD = 0.0;
   }
@@ -177,7 +187,7 @@ public final class Constants {
       // max input
       public static final double ENCODER_PPID_MAX = ENCODER_PFACTOR; // radians
 
-      public static final double kP = 0.15; // initally 1
+      public static final double kP = 0.2; // initally 1
       public static final double kI = 0;
       public static final double kD = 0.05;
       public static final double kFF = 0;
@@ -210,28 +220,36 @@ public final class Constants {
 
     // arm angles
     public static final double AUTON_INC_ARM_ANGLE_TIME = 2.5; // CHANGE AFTER TESTING
-    public static final double AUTON_DEC_ARM_ANGLE_TIME = 3.4;
+    public static final double AUTON_DEC_ARM_ANGLE_TIME = 1.4;
 
     // arm extensions
-    public static final double AUTON_EXTEND_MID_ARM_TIME = 0.95;
-    public static final double AUTON_EXTEND_HIGH_ARM_TIME = 4.8;
+    public static final double AUTON_EXTEND_MID_ARM_TIME = 0.65;
+    public static final double AUTON_EXTEND_HIGH_ARM_TIME = 1.6; //1.71
     // public static final double AUTON_RETRACT_DEFAULT_ARM_TIME = 3.0;
 
-    // charge
-    public static final double AUTON_CHARGE_TIME = 3.0;
-    public static final double AUTON_CHARGE_SPEED = 3.0;
-    public static final double AUTON_TAXICHARGE_TIME = 2.0;
    
     // taxi time
-    public static final double CHARGE_TIME = 3.475; // test run was 5.44 sec time needed to engage, starting from center
-    public static final double LONG_TAXI_TIME = 4; // robot is close to charge station but not on it
+    public static final double SLOWCHARGE_TIME = 4.65;
+    public static final double FASTCHARGE_TIME = 2.4; 
+    public static final double BACKCHARGE_TIME = 3.5; // 3.35 SCORING CHARGE
+    public static final double INITIALRAMP_TIME = 1.8; // 3.35 SCORING CHARGE
+
+    public static final double LONG_TAXI_TIME = 4.1; 
     public static final double SHORT_TAXI_TIME = 3;
-    //public static final double NODE_TO_GP_TIME = CHARGE_TIME + 2.0; // drive thru charge station
+    public static final double FIRST_OVERCHARGE_TIME = 2.65; //DRIVING OVER CHARGE (backwards)
+    public static final double SECOND_OVERCHARGE_TIME = 3.5; //DRIVING OVER CHARGE (backwards)
+
+    public static final double TAXICHARGE_TIME = 2.5; //DRIVING TAXI TO CHARGE (forwards)
 
     // auton drive speeds
-    public static final double TAXI_SPEED = 0.185;
-    public static final double CHARGE_SPEED = 0.185;
-    public static final double GP_SCORE_TIME = 2.0; // how long gp takes to fall out of intake and onto node
+    public static final double TAXI_SPEED = 0.185; 
+    public static final double FASTCHARGE_SPEED = 0.3; 
+    public static final double SLOWCHARGE_SPEED = 0.21; 
+    public static final double BACKCHARGE_SPEED = 0.25; 
+    public static final double FIRST_OVERCHARGE_SPEED = 0.25; //over charge to taxi (backwards)
+    public static final double SECOND_OVERCHARGE_SPEED = 0.1; //over charge to taxi (backwards)
+    public static final double TAXICHARGE_SPEED = 0.2; //from taxi to charge (forwards)
+    public static final double AUTONBALANCE_SPEED = 0.1;
   }
 
   public static final class NeoMotorConstants {

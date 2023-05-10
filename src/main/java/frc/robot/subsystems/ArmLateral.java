@@ -9,11 +9,14 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.Constants.ArmConstants.AngleConstants;
 import frc.robot.Constants.ArmConstants.LateralConstants;
+import frc.robot.Constants.ArmConstants.PositionConfig;
 import frc.robot.Ports.ArmPorts;
 
 public class ArmLateral extends SubsystemBase {
@@ -22,7 +25,9 @@ public class ArmLateral extends SubsystemBase {
   private final CANSparkMax leftLateralMotor;
   private final DigitalInput topSwitch;
   private final DigitalInput botSwitch;
+  private final PIDController ArmPIDController;
   private double currentLength = 0; // always true before match, arm = fully retracted
+  public static boolean isOverriden = false;
 
   public ArmLateral() {
 
@@ -34,12 +39,13 @@ public class ArmLateral extends SubsystemBase {
     lateralEncoder = leftLateralMotor.getEncoder(); // subject to change
 
     // encoder config - check/test for pfactor
-    lateralEncoder.setPositionConversionFactor(LateralConstants.LATERAL_PFACTOR); //divide by revs for fully extend
+    // lateralEncoder.setPositionConversionFactor(LateralConstants.LATERAL_PFACTOR); //divide by revs for fully extend
 
     // limit switches
     topSwitch = new DigitalInput(ArmPorts.TOP_SWITCH_PORT);
     botSwitch = new DigitalInput(ArmPorts.BOT_SWITCH_PORT);
 
+    ArmPIDController = new PIDController(AngleConstants.kP, AngleConstants.kI, AngleConstants.kD);
     // motor configs
     // rightLateralMotor.setIdleMode(IdleMode.kBrake);
     leftLateralMotor.setIdleMode(IdleMode.kBrake);
@@ -51,39 +57,61 @@ public class ArmLateral extends SubsystemBase {
     leftLateralMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
   }
 
-  public void retractArm(){
-    if (!botSwitch.get()) { //hit limit switch (true = not hit; false = hit)
-      System.out.println(" bottom limit activated! \n");
-      stopExtensionMotors();
-      lateralEncoder.setPosition(0);
-      return;
-    }
-
-    else{
-      System.out.println("retracting");
-      leftLateralMotor.set(-0.4);
-      // rightLateralMotor.set(-0.4);
-      currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
-      // change back to minus if increases moving backwards
+  public void retractArm(boolean isOverriden){
+    if (isOverriden) {
+      leftLateralMotor.set(-0.9);
+    } else {
+      if (!botSwitch.get()) { //hit limit switch (true = not hit; false = hit)
+        System.out.println(" bottom limit activated! \n");
+        stopExtensionMotors();
+        lateralEncoder.setPosition(0);
+        currentLength = lateralEncoder.getPosition();
+        return;
+      }
+  
+      else{
+        System.out.println("retracting");
+        leftLateralMotor.set(-0.9);
+        // rightLateralMotor.set(-0.4);
+        // currentLength = LateralConstants.LATERAL_LENGTH + lateralEncoder.getPosition(); 
+        // change back to minus if increases moving backwards
+      }
     }
   }
 
-  public void extendArm(){
+  public void extendArm(boolean isOverriden) {
     lateralEncoder.setPosition(currentLength);
+    //System.out.println("rotations: " +lateralEncoder.getPosition());
+      if (isOverriden) {
+        leftLateralMotor.set(0.9);
 
-    if (!topSwitch.get()) { //hit limit switch
-      System.out.println("top limit activated! \n");
-      stopExtensionMotors();
-      // lateralEncoder.getPosition();
-      lateralEncoder.setPosition(0);
-      return;
-    }
+      } else {
+        if (!topSwitch.get()) { //hit limit switch
+          System.out.println("top limit activated! p\n");
+          stopExtensionMotors();
+          // lateralEncoder.getPosition();
+          // lateralEncoder.setPosition(0);
+          return; 
+        }
+        else {
+          leftLateralMotor.set(0.9);
+        // rightLateralMotor.set(0.4);
+        // currentLength = lateralEncoder.getPosition();
+        }
+       } 
+  }
 
-    else{
-      leftLateralMotor.set(0.4);
-      // rightLateralMotor.set(0.4);
-      currentLength = lateralEncoder.getPosition();
-    }
+  public boolean hitTopSwitch(){
+    return !topSwitch.get();
+  }
+
+  public boolean isOverriden() {
+    return isOverriden;
+  }
+  
+  public void setAutonArmLength(double autonSetpoint){
+    double autonArmLateralVoltage = ArmPIDController.calculate(currentLength, autonSetpoint);
+    leftLateralMotor.setVoltage(autonArmLateralVoltage);
   }
 
   public boolean atLength(double length){
@@ -100,16 +128,17 @@ public class ArmLateral extends SubsystemBase {
   public void periodic() {
     
     // boolean boxes
-    SmartDashboard.putBoolean("@ low length", atLength(ArmConstants.PositionConfig.lowLength)); 
+    // SmartDashboard.putBoolean("@ low length", atLength(ArmConstants.PositionConfig.lowLength)); 
     SmartDashboard.putBoolean("@ mid length", atLength(ArmConstants.PositionConfig.midLength)); 
-    SmartDashboard.putBoolean("@ high length", atLength(ArmConstants.PositionConfig.highLength)); 
+    // SmartDashboard.putBoolean("@ high length", atLength(ArmConstants.PositionConfig.highLength)); 
     SmartDashboard.putBoolean("@ hp length", atLength(ArmConstants.PositionConfig.doubleHPLength));
     SmartDashboard.putBoolean("@ default length", atLength(ArmConstants.PositionConfig.defaultLength));
 
+    
     // arm lateral values
-    SmartDashboard.putNumber("arm lateral length", currentLength);
-    //SmartDashboard.putNumber("get lateral length ", lateralEncoder.getPosition());
-    //SmartDashboard.putNumber("get lateral rotations ", lateralEncoder.getPosition());
+    //SmartDashboard.putNumber("get current length", currentLength);
+    SmartDashboard.putNumber("get lateral length ", lateralEncoder.getPosition());
+    // SmartDashboard.putNumber("get conversion factor ", lateralEncoder.getPositionConversionFactor());
 
 
     //SmartDashboard.putNumber("arm lateral speed", leftLateralMotor.get());
