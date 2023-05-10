@@ -20,6 +20,7 @@ public class LED extends SubsystemBase {
   private AddressableLEDBuffer ledBuffer;
   // private final Timer timer;
   private boolean purple;
+  private int time;
   public LED() {
     led = new AddressableLED(Ports.LEDPorts.PWM);
     ledBuffer = new AddressableLEDBuffer(LEDConstants.LED_PIN_LENGTH);
@@ -28,6 +29,7 @@ public class LED extends SubsystemBase {
     led.start();
     // timer = new Timer();
     purple = true;
+    time = 0;
   }
   
   // switches off all LEDs
@@ -184,7 +186,20 @@ public class LED extends SubsystemBase {
       led.setData(ledBuffer);
     }
   }
-  
+
+  public void fillingPurple(Timer timer){
+    new PrintCommand("running filling purple");
+    while(time < ledBuffer.getLength()){
+      for(int j = time; j > -1; j--){
+        ledBuffer.setRGB(j, 185, 0, 255); //purple
+      }
+      led.setData(ledBuffer);
+      if(timer.get()%0.5 > 0.25){
+        time++;
+        timer.restart();
+      }
+    }
+  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
