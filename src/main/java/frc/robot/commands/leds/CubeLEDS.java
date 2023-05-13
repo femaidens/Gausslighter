@@ -1,4 +1,4 @@
-package frc.robot.commands.LEDS;
+package frc.robot.commands.leds;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
