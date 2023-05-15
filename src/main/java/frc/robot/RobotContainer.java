@@ -140,7 +140,7 @@ public class RobotContainer {
     // );
 
     led.setDefaultCommand(
-      new AltGreenPurpleLEDS(led, timer) 
+      new FlashingPurpleGreen(led, timer) 
       //new PurpGreenLEDS(led)
     );
 

@@ -238,6 +238,7 @@ public class LED extends SubsystemBase {
       System.out.println("not purple");
       showProgramCleanUp();
     }
+    led.setData(ledBuffer);
   }
 
   public void flashingPurpleGreen (Timer timer){
@@ -256,6 +257,7 @@ public class LED extends SubsystemBase {
       System.out.println("not purple");
       showProgramCleanUp();
     }
+    led.setData(ledBuffer);
   }
 
   @Override
