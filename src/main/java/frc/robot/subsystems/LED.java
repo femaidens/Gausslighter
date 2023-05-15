@@ -190,8 +190,8 @@ public class LED extends SubsystemBase {
   public void fillingPurple(Timer timer){
     new PrintCommand("running filling purple");
     while(time < ledBuffer.getLength()){
-      for(int j = time; j > -1; j--){
-        ledBuffer.setRGB(j, 185, 0, 255); //purple
+      for(int i = time; i > -1; i--){
+        ledBuffer.setRGB(i, 185, 0, 255); //purple
       }
       led.setData(ledBuffer);
       if(timer.get()%0.5 > 0.25){
@@ -200,6 +200,64 @@ public class LED extends SubsystemBase {
       }
     }
   }
+
+  public void groupedPurple(Timer timer){
+    new PrintCommand("running grouped purple");
+    while(time < ledBuffer.getLength()-6){
+      for(int i = 0; i < 6; i++){
+        ledBuffer.setRGB(time+i, 185, 0, 255); //purple
+      }
+      led.setData(ledBuffer);
+      if(timer.get()%0.5 > 0.25){
+        time++;
+        timer.restart();
+      }
+    }
+  }
+
+  public void altPurple(){
+    new  PrintCommand("running alt purple");
+    for(int i = 0; i < ledBuffer.getLength(); i++){
+      ledBuffer.setRGB(time+i, 185, 0, 255); //purple
+    }
+  }
+
+  public void altGreen(){
+    new  PrintCommand("running alt purple");
+    for(int i = 0; i < ledBuffer.getLength(); i++){
+      ledBuffer.setRGB(i, 0, 255, 0); //green
+    }
+  }
+
+  public void flashingPurple(Timer timer){
+    new PrintCommand("running flashing purple");
+    if(timer.get()%0.5 < 0.25){
+      System.out.println("purple");
+      altPurple();
+    } else {
+      System.out.println("not purple");
+      showProgramCleanUp();
+    }
+  }
+
+  public void flashingPurpleGreen (Timer timer){
+    new PrintCommand("running flashing purple green");
+    if(timer.get()%0.5 < 0.25){
+      if(purple){
+        new PrintCommand("purple");
+        altPurple();
+        purple = !purple;
+      } else{
+        new PrintCommand("green");
+        altGreen();
+        purple = !purple;
+      }
+    } else {
+      System.out.println("not purple");
+      showProgramCleanUp();
+    }
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
