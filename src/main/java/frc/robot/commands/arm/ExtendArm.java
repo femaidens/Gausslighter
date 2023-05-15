@@ -8,12 +8,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmLateral;
 
 public class ExtendArm extends CommandBase {
-  /** Creates a new ExtendArm. */
+  
   public final ArmLateral armLateral;
   private double position;
 
   public ExtendArm(ArmLateral armLateral, double position) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.armLateral = armLateral;
     this.position = position;
     addRequirements(armLateral);

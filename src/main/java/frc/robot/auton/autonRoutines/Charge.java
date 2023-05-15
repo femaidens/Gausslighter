@@ -16,9 +16,6 @@ import frc.robot.auton.autonDrivetrain.AutonDrive;
 import frc.robot.subsystems.Drivetrain;
 // import frc.robot.subsystems.Intake;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class Charge extends SequentialCommandGroup {
   public Charge(Drivetrain drivetrain, double chargeSpeed, double chargeTime) {
     // SET UP ROBOT TO FACE CHARGE UP
@@ -29,15 +26,8 @@ public class Charge extends SequentialCommandGroup {
       ),
       new PrintCommand("Running charge"),
 
-      new AutonDrive(drivetrain, -chargeSpeed, 0, 0, true, true, 
-      AutoConstants.INITIALRAMP_TIME),
+      new AutonDrive(drivetrain, -chargeSpeed, 0, 0, true, true, chargeTime),
       new AutonBalance(drivetrain, -AutoConstants.AUTONBALANCE_SPEED, 0, 0, true, true)
-      // new RunCommand(() -> drivetrain.setX(), drivetrain)
-      // new AutonDrive(drivetrain, -AutoConstants.SCORE_AND_ENGAGE_SPEED, 0, 0,
-      // true, true, AutoConstants.NODE_TO_CHARGE_TIME));
-      // new PrintCommand("autonomous has ended")
-      // new AutonDrive(drivetrain, AutoConstants.SCORE_AND_ENGAGE_SPEED,0, 0, true, true, 
-      // 1)
 
       //0.2 speed, 1 second = 37 inches
     );

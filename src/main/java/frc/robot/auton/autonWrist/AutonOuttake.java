@@ -9,12 +9,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 public class AutonOuttake extends CommandBase {
-  /** Creates a new AutonOuttake. */
   private final Intake intake;
   private Timer timer;
   private double outtakeTime;
   public AutonOuttake(Intake intake, double outtakeTime) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
     this.outtakeTime = outtakeTime;
     addRequirements(intake);

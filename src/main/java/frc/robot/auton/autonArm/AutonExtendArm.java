@@ -14,11 +14,9 @@ public class AutonExtendArm extends CommandBase {
   private final Timer timer = new Timer();
 
   public AutonExtendArm(ArmLateral armLateral, double extendArmTime) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.armLateral = armLateral;
     this.extendArmTime = extendArmTime;
     addRequirements(armLateral);
-
   }
 
   // Called when the command is initially scheduled.

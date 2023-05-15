@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.auton.autonRoutines.high;
+package frc.robot.auton.autonRoutines.mid;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -30,9 +30,9 @@ import frc.robot.subsystems.Intake;
 // lower wrist - support to score wrist
 // 2: open claw
 
-public class ScoreHighTaxiCharge extends SequentialCommandGroup {
+public class ScoreMidTaxiCharge extends SequentialCommandGroup {
   /** Creates a new ScoreMid. */
-  public ScoreHighTaxiCharge(Intake intake, ArmAngle armAngle, ArmLateral armLateral, Drivetrain drivetrain) {
+  public ScoreMidTaxiCharge(Intake intake, ArmAngle armAngle, ArmLateral armLateral, Drivetrain drivetrain) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(

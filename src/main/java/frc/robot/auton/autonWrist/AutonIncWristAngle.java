@@ -9,14 +9,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 public class AutonIncWristAngle extends CommandBase {
-  /** Creates a new AutonIncWristAngle. */
   private final Intake intake;
   private final Timer timer = new Timer();
   private final double wristTime;
 
 
   public AutonIncWristAngle(Intake intake, double wristTime) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
     this.wristTime = wristTime;
     addRequirements(intake);

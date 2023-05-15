@@ -8,12 +8,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 public class CloseClaw2 extends CommandBase {
-  /** Creates a new PickUp. */
 
   private final Intake intake;
 
   public CloseClaw2(Intake intake) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
     addRequirements(intake);
   }

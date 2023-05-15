@@ -8,11 +8,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 public class CloseClawCube extends CommandBase {
-  /** Creates a new CloseClawCube. */
   private final Intake intake;
   
   public CloseClawCube(Intake intake) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
     addRequirements(intake);
   }

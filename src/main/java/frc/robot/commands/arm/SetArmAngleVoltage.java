@@ -9,7 +9,7 @@ import frc.robot.subsystems.ArmAngle;
 
 public class SetArmAngleVoltage extends CommandBase {
   private final ArmAngle armAngle;
-  /** Creates a new SetAngleVoltage. */
+  
   public SetArmAngleVoltage(ArmAngle armAngle) {
     this.armAngle = armAngle;
     addRequirements(armAngle);

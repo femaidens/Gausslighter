@@ -10,9 +10,6 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.auton.autonDrivetrain.AutonDrive;
 import frc.robot.subsystems.Drivetrain;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class LongTaxi extends SequentialCommandGroup {
   public LongTaxi(Drivetrain drivetrain) {
     // starting @ left/right, facing gp

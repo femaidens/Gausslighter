@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmAngle;
 
 public class AutonSetArmAngle extends CommandBase {
+  
   private final ArmAngle armAngle;
   private double autonSetpoint;
   
-  /** Creates a new AutonSetArmAngle. */
   public AutonSetArmAngle(ArmAngle armAngle, double setpoint) {
     this.armAngle = armAngle;
     autonSetpoint = setpoint;

@@ -18,10 +18,6 @@ import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Intake;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-
 // parallel cmd 1
 //1: 3 cmds, change wr ang from def to support ang
 // 2: ext arm from def to mid node
@@ -31,10 +27,7 @@ import frc.robot.subsystems.Intake;
 // 2: open claw
 
 public class ScoreMid extends SequentialCommandGroup {
-  /** Creates a new ScoreMid. */
   public ScoreMid(Intake intake, ArmAngle armAngle, ArmLateral armLateral) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
     SequentialCommandGroup score = new SequentialCommandGroup(
       new ParallelCommandGroup(
             new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
@@ -64,20 +57,7 @@ public class ScoreMid extends SequentialCommandGroup {
     //     ),
     //   // new AutonSetWristAngle(intake, IntakeConstants.SCORE_WRIST_ANGLE),
     //   new RunCommand(() -> intake.openClaw(), intake));
-    
-
-      // sbpli
-      // new AutonIncWristAngle(intake, AutoConstants.SUPPORT_WRIST_ANGLE_TIME),
-      // new ParallelCommandGroup(
-      // new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_MID_ARM_TIME),
-      // new AutonDecArmAngle(armAngle)
-      // ),
-      // new AutonDecWristAngle(intake, AutoConstants.SCORE_WRIST_ANGLE_TIME),
-      // new RunCommand(() -> intake.openClaw(), intake));
-
-      // // resetting robot config
-      // new AutonRetractArm(armLateral, AutoConstants.AUTON_RETRACT_DEFAULT_ARM_TIME),
-      // new AutonIncArmAngle(armAngle, PositionConfig.defaultAngle)
+   
     // new CloseClaw2(intake)
 
   }

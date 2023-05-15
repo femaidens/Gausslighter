@@ -4,7 +4,6 @@
 
 package frc.robot.auton.autonDrivetrain;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -19,14 +18,13 @@ public class AutonBalance extends CommandBase {
   private double pitch;
 
   public AutonBalance(
-    Drivetrain drivetrain, 
-    double xSpeed,
-    double ySpeed, 
-    double rot, 
-    boolean fieldRelative, 
-    boolean rateLimit)
-  {
-    // Use addRequirements() here to declare subsystem dependencies.
+      Drivetrain drivetrain,
+      double xSpeed,
+      double ySpeed,
+      double rot,
+      boolean fieldRelative,
+      boolean rateLimit) {
+
     this.drivetrain = drivetrain;
     this.xSpeed = xSpeed;
     this.ySpeed = ySpeed;
@@ -44,13 +42,8 @@ public class AutonBalance extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      // if (timer.get() < driveTime) {
-        pitch = drivetrain.gyroX(); //gives us the pitch
-        drivetrain.drive(xSpeed*Math.signum(pitch), 0, 0, fieldRelative, rateLimit); 
-      //}
-      // else {
-      //   drivetrain.drive(0, 0, 0, true, true);
-      // }
+    pitch = drivetrain.gyroX(); // gives us the pitch
+    drivetrain.drive(xSpeed * Math.signum(pitch), 0, 0, fieldRelative, rateLimit);
   }
 
   // Called once the command ends or is interrupted.

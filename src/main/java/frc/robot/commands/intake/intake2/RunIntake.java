@@ -7,13 +7,12 @@ package frc.robot.commands.intake.intake2;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 public class RunIntake extends CommandBase {
-  /** Creates a new RunIntake. */
+
   private final Intake intake;
 
   public RunIntake(Intake intake) {
     this.intake = intake;
     addRequirements(intake);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

@@ -9,13 +9,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmLateral;
 
 public class AutonRetractArm extends CommandBase {
-  /** Creates a new AutonRetractArm. */
+
   private final ArmLateral armLateral;
   private double retractArmTime;
   private final Timer timer = new Timer();
 
   public AutonRetractArm(ArmLateral armLateral, double retractArmTime) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.armLateral = armLateral;
     this.retractArmTime = retractArmTime;
     addRequirements(armLateral);

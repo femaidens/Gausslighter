@@ -8,24 +8,19 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.AutoConstants;
-import frc.robot.auton.autonDrivetrain.AutonBalance;
 import frc.robot.auton.autonDrivetrain.AutonDrive;
 import frc.robot.subsystems.Drivetrain;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TaxiCharge extends SequentialCommandGroup {
-  /** Creates a new TaxiCharge. */
   public TaxiCharge(Drivetrain drivetrain) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+
     addCommands(
       new AutonDrive(drivetrain, -AutoConstants.FIRST_OVERCHARGE_SPEED, 0,0, true, true, AutoConstants.FIRST_OVERCHARGE_TIME),
+      // slows down to drive off charge
       new AutonDrive(drivetrain, -AutoConstants.SECOND_OVERCHARGE_SPEED, 0,0, true, true, AutoConstants.SECOND_OVERCHARGE_TIME),
 
       new WaitCommand(0.5),
-      new PrintCommand("finished overcharge")
+      new PrintCommand("finished taxicharge")
 
       // UNNEGATE FOR MATCH
     //   new Charge(drivetrain, -AutoConstants.TAXICHARGE_SPEED, AutoConstants.TAXICHARGE_TIME),

@@ -10,15 +10,13 @@ import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.ArmAngle;
 
 public class AutonIncArmAngle extends CommandBase {
-  /** Creates a new AutonIncArmAngle. */
+
   private final ArmAngle armAngle;
   private Timer timer = new Timer();
 
   public AutonIncArmAngle(ArmAngle armAngle) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.armAngle = armAngle;
     addRequirements(armAngle);
-
   }
 
   // Called when the command is initially scheduled.

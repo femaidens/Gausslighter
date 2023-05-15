@@ -11,7 +11,6 @@ public class AutonSetWristAngle extends CommandBase {
   private final Intake intake;
   private double autonSetpoint;
   
-  /** Creates a new AutonSetArmAngle. */
   public AutonSetWristAngle(Intake intake, double setpoint) {
     this.intake = intake;
     autonSetpoint = setpoint;

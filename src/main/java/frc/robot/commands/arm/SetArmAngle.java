@@ -8,12 +8,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmAngle;
 
 public class SetArmAngle extends CommandBase {
-  /** Creates a new setArmAngle. */
+  
   private final ArmAngle armAngle;
   private double goalAngle;
 
   public SetArmAngle(ArmAngle armAngle, double goalAngle) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.armAngle = armAngle;
     addRequirements(armAngle);
   }

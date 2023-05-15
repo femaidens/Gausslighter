@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class AutonDrive extends CommandBase {
-  /** Creates a new AutonDrive. */
+
   private final Drivetrain drivetrain;
   private final double xSpeed;
   private final double ySpeed;
@@ -20,15 +20,14 @@ public class AutonDrive extends CommandBase {
   private final Timer timer = new Timer();
 
   public AutonDrive(
-    Drivetrain drivetrain, 
-    double xSpeed, 
-    double ySpeed, 
-    double rot, 
-    boolean fieldRelative, 
-    boolean rateLimit,
-    double driveTime)
-  {
-    // Use addRequirements() here to declare subsystem dependencies.
+      Drivetrain drivetrain,
+      double xSpeed,
+      double ySpeed,
+      double rot,
+      boolean fieldRelative,
+      boolean rateLimit,
+      double driveTime) {
+
     this.drivetrain = drivetrain;
     this.xSpeed = xSpeed;
     this.ySpeed = ySpeed;
@@ -47,12 +46,7 @@ public class AutonDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      // if (timer.get() < driveTime) {
-        drivetrain.drive(xSpeed, ySpeed, rot, fieldRelative, rateLimit); 
-      //}
-      // else {
-      //   drivetrain.drive(0, 0, 0, true, true);
-      // }
+    drivetrain.drive(xSpeed, ySpeed, rot, fieldRelative, rateLimit);
   }
 
   // Called once the command ends or is interrupted.

@@ -229,27 +229,36 @@ public final class Constants {
 
    
     // taxi time
-    public static final double SLOWCHARGE_TIME = 4.65;
-    public static final double FASTCHARGE_TIME = 2.4; 
+    /* normal */
     public static final double BACKCHARGE_TIME = 3.5; // 3.35 SCORING CHARGE
-    public static final double INITIALRAMP_TIME = 1.8; // 3.35 SCORING CHARGE
-
+    public static final double INITIAL_RAMP_TIME = 1.8; // -> tilt charge station
+    
     public static final double LONG_TAXI_TIME = 4.1; 
     public static final double SHORT_TAXI_TIME = 3;
+
+    /* taxi charge */
     public static final double FIRST_OVERCHARGE_TIME = 2.65; //DRIVING OVER CHARGE (backwards)
     public static final double SECOND_OVERCHARGE_TIME = 3.5; //DRIVING OVER CHARGE (backwards)
-
     public static final double TAXICHARGE_TIME = 2.5; //DRIVING TAXI TO CHARGE (forwards)
 
+    /* unused */
+    // public static final double SLOWCHARGE_TIME = 4.65;
+    // public static final double FASTCHARGE_TIME = 2.4;
+
     // auton drive speeds
-    public static final double TAXI_SPEED = 0.185; 
-    public static final double FASTCHARGE_SPEED = 0.3; 
-    public static final double SLOWCHARGE_SPEED = 0.21; 
+    /* normal */
+    public static final double TAXI_SPEED = 0.185; // for short & long taxis
     public static final double BACKCHARGE_SPEED = 0.25; 
-    public static final double FIRST_OVERCHARGE_SPEED = 0.25; //over charge to taxi (backwards)
-    public static final double SECOND_OVERCHARGE_SPEED = 0.1; //over charge to taxi (backwards)
-    public static final double TAXICHARGE_SPEED = 0.2; //from taxi to charge (forwards)
+
+    /* taxi charge */
+    public static final double FIRST_OVERCHARGE_SPEED = 0.25; // DRIVING OVER CHARGE (backwards) -> 1/2
+    public static final double SECOND_OVERCHARGE_SPEED = 0.1; // DRIVING OVER CHARGE (backwards) -> 2/2
+    public static final double TAXICHARGE_SPEED = 0.2; // DRIVING TAXI TO CHARGE (forwards)
     public static final double AUTONBALANCE_SPEED = 0.1;
+
+    /* unused */
+    // public static final double FASTCHARGE_SPEED = 0.3; 
+    // public static final double SLOWCHARGE_SPEED = 0.21; 
   }
 
   public static final class NeoMotorConstants {

@@ -16,14 +16,10 @@ import frc.robot.subsystems.ArmAngle;
 import frc.robot.subsystems.ArmLateral;
 import frc.robot.subsystems.Intake;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SingleIntakeRoutine extends SequentialCommandGroup {
-  /** Creates a new SingleIntakeRoutine. */
+
   public SingleIntakeRoutine(Intake intake, ArmLateral armLateral, ArmAngle armAngle) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+
     addCommands(
       new ParallelCommandGroup(
         //new AutonSetArmLength(armLateral, PositionConfig.highLength),

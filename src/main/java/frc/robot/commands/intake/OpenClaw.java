@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 
 public class OpenClaw extends CommandBase {
-  /** Creates a new OpenClaw. */
+
   private final Intake intake;
 
   public OpenClaw(Intake intake) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.intake = intake;
     addRequirements(intake);
   }

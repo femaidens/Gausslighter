@@ -8,16 +8,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ArmLateral;
 
 public class RetractArm extends CommandBase {
-  /** Creates a new RetractArm. */
+  
   public final ArmLateral armLateral;
   private double position;
 
   public RetractArm(ArmLateral armLateral, double position) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.armLateral = armLateral;
     this.position = position;
     addRequirements(armLateral);
-
   }
 
   // Called when the command is initially scheduled.
