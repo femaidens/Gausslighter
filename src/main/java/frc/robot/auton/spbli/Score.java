@@ -13,7 +13,7 @@ import frc.robot.commands.OpenClaw;
 import frc.robot.commands.arm.ExtendArm;
 import frc.robot.commands.arm.RetractArm;
 import frc.robot.commands.arm.SetArmAngle;
-import frc.robot.commands.intake2.CloseClaw2;
+import frc.robot.commands.Intake2.CloseClaw2;
 import frc.robot.commands.wrist.DecreaseWristAngle;
 import frc.robot.commands.wrist.IncreaseWristAngle;
 import frc.robot.subsystems.ArmAngle;
