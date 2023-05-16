@@ -118,7 +118,6 @@ public class LED extends SubsystemBase {
         //green light
         ledBuffer.setRGB(i, 0, 255, 0);
       }
-
       else {
         //purple light
         ledBuffer.setRGB(i, 185, 0, 255);
@@ -137,6 +136,7 @@ public class LED extends SubsystemBase {
       altGreenPurp();
     }
   }
+
   public void simplifiedLightShow(){
     System.out.println("running simp lights");
     if(purple){
@@ -147,6 +147,7 @@ public class LED extends SubsystemBase {
       purple = !purple;
     }
   }
+  
   public void bouncingPurp(){
     new PrintCommand("running bouncing purple");
     for(int i = 0; i < ledBuffer.getLength(); i ++){
@@ -247,17 +248,20 @@ public class LED extends SubsystemBase {
       if(purple){
         new PrintCommand("purple");
         altPurple();
-        purple = !purple;
       } else{
         new PrintCommand("green");
         altGreen();
-        purple = !purple;
       }
     } else {
       System.out.println("not purple");
       showProgramCleanUp();
     }
     led.setData(ledBuffer);
+    if(timer.get()>0.5){
+      timer.restart();
+      purple = !purple;
+    }
+    
   }
 
   @Override
