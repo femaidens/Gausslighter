@@ -9,14 +9,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LED;
 
 public class PurpGreenLEDS extends CommandBase {
-  /** Creates a new PurpGreenLEDS. */
+
   private final LED led;
   private final Timer timer;
   public PurpGreenLEDS(LED led) {
     this.led = led;
     addRequirements(led);
     timer = new Timer();
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.

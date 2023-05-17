@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.LED;
 
 public class CubeLEDS extends CommandBase {
-  /** Creates a new coneLEDS. */
+
   private final LED led;
   private final Timer timer;
 

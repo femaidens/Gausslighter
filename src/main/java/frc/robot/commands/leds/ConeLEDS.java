@@ -17,7 +17,6 @@ public class ConeLEDS extends CommandBase{
     this.led = led;
     addRequirements(led);
     timer = new Timer();
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
@@ -30,7 +29,6 @@ public class ConeLEDS extends CommandBase{
     if (timer.get() > secs) return true;
     return false;
   }
-
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
