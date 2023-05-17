@@ -201,6 +201,21 @@ public class LED extends SubsystemBase {
       }
     }
   }
+  
+  public void extFillingPurple(Timer timer){
+    new PrintCommand("running extended filling purple");
+    while(time < ledBuffer.getLength()){
+      for(int i = time; i > -1; i--){
+        ledBuffer.setRGB(i, 185, 0, 255); //purple
+      }
+      led.setData(ledBuffer);
+      if(timer.get()%0.5 > 0.25){
+        time++;
+        timer.restart();
+      }
+    }
+    
+  }
 
   public void groupedPurple(Timer timer){
     new PrintCommand("running grouped purple");
@@ -209,7 +224,7 @@ public class LED extends SubsystemBase {
         ledBuffer.setRGB(time+i, 185, 0, 255); //purple
       }
       led.setData(ledBuffer);
-      if(timer.get()%0.5 > 0.25){
+      if(timer.get() > 0.25){
         time++;
         timer.restart();
       }
@@ -235,28 +250,31 @@ public class LED extends SubsystemBase {
     if(timer.get()%0.5 < 0.25){
       System.out.println("purple");
       altPurple();
+      led.setData(ledBuffer);
     } else {
       System.out.println("not purple");
       showProgramCleanUp();
     }
-    led.setData(ledBuffer);
+    
   }
 
   public void flashingPurpleGreen (Timer timer){
     new PrintCommand("running flashing purple green");
-    if(timer.get()%0.5 < 0.25){
+    if(timer.get() < 0.25){
       if(purple){
         new PrintCommand("purple");
         altPurple();
+        led.setData(ledBuffer);
       } else{
         new PrintCommand("green");
         altGreen();
+        led.setData(ledBuffer);
       }
     } else {
       System.out.println("not purple");
       showProgramCleanUp();
     }
-    led.setData(ledBuffer);
+   
     if(timer.get()>0.5){
       timer.restart();
       purple = !purple;
