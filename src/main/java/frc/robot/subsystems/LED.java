@@ -276,8 +276,8 @@ public class LED extends SubsystemBase {
     }
    
     if(timer.get()>0.5){
-      timer.restart();
       purple = !purple;
+      timer.restart();
     }
     
   }
