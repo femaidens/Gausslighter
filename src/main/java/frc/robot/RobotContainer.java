@@ -236,7 +236,7 @@ public class RobotContainer {
         //   () -> intake.setDoubleIntakeAngle(), intake));
 
         .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle));
-        // .onFalse(new SetWristAngleVoltage(intake));
+        // .onFalse(new SetWristAngleVoltage(intake)); <--
 
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setHighNodeAngle(), armAngle))
@@ -253,7 +253,7 @@ public class RobotContainer {
         //   () -> intake.setSingleIntakeAngle(), intake));
 
         .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle));
-        // .onFalse(new SetWristAngleVoltage(intake));
+        // .onFalse(new SetWristAngleVoltage(intake)); <--
 
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setMidNodeAngle(), armAngle))
@@ -274,16 +274,28 @@ public class RobotContainer {
           () -> armLateral.retractArm(false), armLateral))
         .onFalse(new RunCommand(
           () -> armLateral.stopExtensionMotors(), armLateral));
-      // make these call commands not methods
-      Trigger aExtendFailsafeButton = driveJoy.a();
-      aExtendFailsafeButton
-        .onTrue(new RunCommand(
-          () -> armLateral.extendArm(true), armLateral));
+
+      // enable failsafe
+      Trigger enableLateralArmFailsafe = driveJoy.a();
+      enableLateralArmFailsafe
+        .toggleOnTrue(new InstantCommand( // change to on true if using both buttons and toggle fails to change boolean from true to false
+          () -> armLateral.isOverridden())); // test out toggle function
+
+      // * * IMPORTANT * * //
+      // Trigger disableLateralArmFailsafe = driveJoy.b();
+      // disableLateralArmFailsafe
+      //   .toggleOnTrue(new InstantCommand( // change to on true if using both buttons and toggle fails to change boolean from true to false
+      //         () -> armLateral.isNotOverridden())); // test out toggle function
+
+      // Trigger aExtendFailsafeButton = driveJoy.a();
+      // aExtendFailsafeButton
+      //   .onTrue(new RunCommand(
+      //     () -> armLateral.extendArm(true), armLateral));
         
-      Trigger bRetractFailsafeButton = driveJoy.b();
-      bRetractFailsafeButton
-        .onTrue(new RunCommand(
-          () -> armLateral.retractArm(true), armLateral));
+      // Trigger bRetractFailsafeButton = driveJoy.b();
+      // bRetractFailsafeButton
+      //   .onTrue(new RunCommand(
+      //     () -> armLateral.retractArm(true), armLateral));
     
     /* * * INTAKE 1 * * */
     /* LEDS */
@@ -313,8 +325,6 @@ public class RobotContainer {
     //     intake)
     //   );
 }
-
-  
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

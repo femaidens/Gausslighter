@@ -87,14 +87,8 @@ public class Drivetrain extends SubsystemBase {
             rearLeft.getPosition(),
             rearRight.getPosition()
         });
-    //System.out.println("spark 8 angle: " + frontLeft.getPosition().angle);
     SmartDashboard.putNumber("gyro angle", gyro.getAngle());
-    SmartDashboard.putNumber("gyro x", gyroX());
-    //gyro.calibrate();
-    // SmartDashboard.putNumber("Wrist Angle", frontLeft.get());
-    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
-    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
-    // SmartDashboard.putNumber("Wrist Angle", wristEncoder.getPosition());
+    // SmartDashboard.putNumber("gyro x", gyroX()); <--
   }
 
   public void getJoystickValue(CommandXboxController joystick){
@@ -252,9 +246,6 @@ public class Drivetrain extends SubsystemBase {
     return gyro.getRate() * (DriveConstants.GYRO_REVERSED ? -1.0 : 1.0);
   }
 
-  // public void testModules(){
-  // }
-
   // resets drive encoders
   public void resetEncoders() {
     frontLeft.resetEncoders();
@@ -264,13 +255,13 @@ public class Drivetrain extends SubsystemBase {
     //Arrays.stream(swerveModules).forEach(RevSwerveModule::resetEncoders);
   }
 
-    // x formation with wheels -> prevent movement
-    public void setX() {
-      frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-      frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-      rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-      rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-    }
+  // x formation with wheels -> prevent movement
+  public void setX() {
+    frontLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+    frontRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+    rearLeft.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+    rearRight.setDesiredState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+  }
 
   public void slowSpeed(){
     speedFactor = 0.5;
@@ -279,7 +270,5 @@ public class Drivetrain extends SubsystemBase {
   public void regSpeed(){
     speedFactor = 1;
   }
-    
-
 
 }

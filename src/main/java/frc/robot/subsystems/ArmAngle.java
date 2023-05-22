@@ -151,7 +151,7 @@ public class ArmAngle extends SubsystemBase {
 
     // boolean boxes
     SmartDashboard.putBoolean("ARM DEFAULT ANG", atAngle(PositionConfig.defaultAngle));
-    SmartDashboard.putBoolean("ARM SCORE ANG", atAngle(PositionConfig.lowNodeAngle));
+    SmartDashboard.putBoolean("ARM LOW ANG", atAngle(PositionConfig.lowNodeAngle));
     // SmartDashboard.putBoolean("ARM MID ANG", atAngle(PositionConfig.midNodeAngle));
     // SmartDashboard.putBoolean("ARM HIGH ANG", atAngle(PositionConfig.highNodeAngle));
     SmartDashboard.putBoolean("ARM SINGLE ANG", atAngle(PositionConfig.hpSingleAngle));

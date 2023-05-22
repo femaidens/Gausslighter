@@ -154,7 +154,6 @@ public class Intake extends SubsystemBase {
     double wristAngleVoltage = wristPIDController.calculate(getWristAngle(), setpoint);
     wristMotor.setVoltage(wristAngleVoltage);
     System.out.println("Running Wrist PID");
-
   }
 
   public double calculateVoltage(double measurement){

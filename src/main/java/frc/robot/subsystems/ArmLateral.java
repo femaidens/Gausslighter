@@ -27,7 +27,7 @@ public class ArmLateral extends SubsystemBase {
   private final DigitalInput botSwitch;
   private final PIDController ArmPIDController;
   private double currentLength = 0; // always true before match, arm = fully retracted
-  public static boolean isOverriden = false;
+  public static boolean isOverridden = false;
 
   public ArmLateral() {
 
@@ -60,7 +60,9 @@ public class ArmLateral extends SubsystemBase {
   public void retractArm(boolean isOverriden){
     if (isOverriden) {
       leftLateralMotor.set(-0.9);
-    } else {
+    } 
+
+    else {
       if (!botSwitch.get()) { //hit limit switch (true = not hit; false = hit)
         System.out.println(" bottom limit activated! \n");
         stopExtensionMotors();
@@ -69,7 +71,7 @@ public class ArmLateral extends SubsystemBase {
         return;
       }
   
-      else{
+      else {
         System.out.println("retracting");
         leftLateralMotor.set(-0.9);
         // rightLateralMotor.set(-0.4);
@@ -84,8 +86,9 @@ public class ArmLateral extends SubsystemBase {
     //System.out.println("rotations: " +lateralEncoder.getPosition());
       if (isOverriden) {
         leftLateralMotor.set(0.9);
-
-      } else {
+      } 
+      
+      else {
         if (!topSwitch.get()) { //hit limit switch
           System.out.println("top limit activated! p\n");
           stopExtensionMotors();
@@ -93,6 +96,7 @@ public class ArmLateral extends SubsystemBase {
           // lateralEncoder.setPosition(0);
           return; 
         }
+
         else {
           leftLateralMotor.set(0.9);
         // rightLateralMotor.set(0.4);
@@ -105,8 +109,8 @@ public class ArmLateral extends SubsystemBase {
     return !topSwitch.get();
   }
 
-  public boolean isOverriden() {
-    return isOverriden;
+  public void isOverridden() {
+    isOverridden = true;
   }
   
   public void setAutonArmLength(double autonSetpoint){
@@ -129,15 +133,15 @@ public class ArmLateral extends SubsystemBase {
     
     // boolean boxes
     // SmartDashboard.putBoolean("@ low length", atLength(ArmConstants.PositionConfig.lowLength)); 
-    SmartDashboard.putBoolean("@ mid length", atLength(ArmConstants.PositionConfig.midLength)); 
-    // SmartDashboard.putBoolean("@ high length", atLength(ArmConstants.PositionConfig.highLength)); 
-    SmartDashboard.putBoolean("@ hp length", atLength(ArmConstants.PositionConfig.doubleHPLength));
+    // SmartDashboard.putBoolean("@ mid length", atLength(ArmConstants.PositionConfig.midLength)); <--
+    // SmartDashboard.putBoolean("@ high length", atLength(ArmConstants.PositionConfig.highLength)); <--
+    // SmartDashboard.putBoolean("@ hp length", atLength(ArmConstants.PositionConfig.doubleHPLength));
     SmartDashboard.putBoolean("@ default length", atLength(ArmConstants.PositionConfig.defaultLength));
 
     
     // arm lateral values
     //SmartDashboard.putNumber("get current length", currentLength);
-    SmartDashboard.putNumber("get lateral length ", lateralEncoder.getPosition());
+    // SmartDashboard.putNumber("get lateral length ", lateralEncoder.getPosition()); <--
     // SmartDashboard.putNumber("get conversion factor ", lateralEncoder.getPositionConversionFactor());
 
 
