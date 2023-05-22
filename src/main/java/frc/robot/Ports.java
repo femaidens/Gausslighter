@@ -49,7 +49,7 @@ public final class Ports {
         public static final int WRIST_MOTOR_PORT = 10;
         public static final int CLAW_MOTOR_PORT = 12;
         
-        public static final int WRIST_ENCODER_PORT = 3;
+        // public static final int WRIST_ENCODER_PORT = 3;
 
         public static final int PISTON1_FORWARD_PORT = 0; // WE ARE USING THIS ONE!!!!!!
         public static final int PISTON1_REVERSE_PORT = 1; 
