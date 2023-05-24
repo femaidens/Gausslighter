@@ -278,7 +278,7 @@ public class RobotContainer {
       // enable failsafe
       Trigger enableLateralArmFailsafe = driveJoy.a();
       enableLateralArmFailsafe
-        .toggleOnTrue(new InstantCommand( // change to on true if using both buttons and toggle fails to change boolean from true to false
+        .onTrue(new InstantCommand( // change to on true if using both buttons and toggle fails to change boolean from true to false
           () -> armLateral.isOverridden())); // test out toggle function
 
       // * * IMPORTANT * * //

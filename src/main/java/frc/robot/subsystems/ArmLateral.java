@@ -112,6 +112,10 @@ public class ArmLateral extends SubsystemBase {
   public void isOverridden() {
     isOverridden = true;
   }
+
+  public void isNotOverridden(){
+    isOverridden = false;
+  }
   
   public void setAutonArmLength(double autonSetpoint){
     double autonArmLateralVoltage = ArmPIDController.calculate(currentLength, autonSetpoint);
