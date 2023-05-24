@@ -274,13 +274,13 @@ public class LED extends SubsystemBase {
       System.out.println("not purple");
       showProgramCleanUp();
     }
-   
     if(timer.get()>0.5){
       purple = !purple;
       timer.restart();
     }
     
   }
+ 
 
   @Override
   public void periodic() {
