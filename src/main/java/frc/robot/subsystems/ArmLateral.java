@@ -109,12 +109,14 @@ public class ArmLateral extends SubsystemBase {
     return !topSwitch.get();
   }
 
-  public void isOverridden() {
+  public void enableOverride() {
     isOverridden = true;
+    System.out.println("enabled override");
   }
 
-  public void isNotOverridden(){
+  public void disableOverride(){
     isOverridden = false;
+    System.out.println("disabled override");
   }
   
   public void setAutonArmLength(double autonSetpoint){

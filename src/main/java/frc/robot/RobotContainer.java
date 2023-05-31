@@ -279,23 +279,13 @@ public class RobotContainer {
       Trigger enableLateralArmFailsafe = driveJoy.a();
       enableLateralArmFailsafe
         .onTrue(new InstantCommand( // change to on true if using both buttons and toggle fails to change boolean from true to false
-          () -> armLateral.isOverridden())); // test out toggle function
+          () -> armLateral.enableOverride())); 
 
       // * * IMPORTANT * * //
-      // Trigger disableLateralArmFailsafe = driveJoy.b();
-      // disableLateralArmFailsafe
-      //   .toggleOnTrue(new InstantCommand( // change to on true if using both buttons and toggle fails to change boolean from true to false
-      //         () -> armLateral.isNotOverridden())); // test out toggle function
-
-      // Trigger aExtendFailsafeButton = driveJoy.a();
-      // aExtendFailsafeButton
-      //   .onTrue(new RunCommand(
-      //     () -> armLateral.extendArm(true), armLateral));
-        
-      // Trigger bRetractFailsafeButton = driveJoy.b();
-      // bRetractFailsafeButton
-      //   .onTrue(new RunCommand(
-      //     () -> armLateral.retractArm(true), armLateral));
+      Trigger disableLateralArmFailsafe = driveJoy.b();
+      disableLateralArmFailsafe
+        .onTrue(new InstantCommand( // change to on true if using both buttons and toggle fails to change boolean from true to false
+              () -> armLateral.disableOverride())); 
     
     /* * * INTAKE 1 * * */
     /* LEDS */
