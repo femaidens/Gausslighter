@@ -28,11 +28,11 @@ public class DoubleIntakeRoutine extends SequentialCommandGroup {
       new ParallelCommandGroup(
         //new AutonSetArmLength(armLateral, PositionConfig.highLength),
         new InstantCommand(
-          () -> armAngle.setDoubleArmAngle(), armAngle)
+          () -> armAngle.setDoubleArmAngle(), armAngle),
         //new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME), //time to extend to single ss
-        // new InstantCommand(
-        //   () -> intake.setDoubleIntakeAngle(), intake)
-        // new PrintCommand("running double intake routine")
+        new InstantCommand(
+          () -> intake.setDoubleIntakeAngle(), intake),
+        new PrintCommand("running double intake routine")
        )
 
       // manual

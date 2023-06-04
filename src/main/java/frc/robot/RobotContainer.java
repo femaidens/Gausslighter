@@ -122,8 +122,8 @@ public class RobotContainer {
               MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
               MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
               MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
-              true, true),
-          drivetrain)
+              false, true),
+          drivetrain) // change field relative to true!!
     );
 
     intake.setDefaultCommand(
@@ -235,8 +235,8 @@ public class RobotContainer {
         // .onTrue(new InstantCommand(
         //   () -> intake.setDoubleIntakeAngle(), intake));
 
-        .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle));
-        // .onFalse(new SetWristAngleVoltage(intake)); <--
+        .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle))
+        .onFalse(new SetWristAngleVoltage(intake));
 
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setHighNodeAngle(), armAngle))
@@ -252,8 +252,8 @@ public class RobotContainer {
         // .onTrue(new InstantCommand(
         //   () -> intake.setSingleIntakeAngle(), intake));
 
-        .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle));
-        // .onFalse(new SetWristAngleVoltage(intake)); <--
+        .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle))
+        .onFalse(new SetWristAngleVoltage(intake));
 
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setMidNodeAngle(), armAngle))

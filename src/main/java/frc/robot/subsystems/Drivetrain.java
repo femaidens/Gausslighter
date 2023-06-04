@@ -61,7 +61,7 @@ public class Drivetrain extends SubsystemBase {
   private SlewRateLimiter magLimiter = new SlewRateLimiter(DriveConstants.MAG_SLEW_RATE);
   private SlewRateLimiter rotLimiter = new SlewRateLimiter(DriveConstants.ROT_SLEW_RATE);
   private double prevTime = WPIUtilJNI.now() * 1e-6;
-  private double speedFactor = 1.0;
+  private double speedFactor = 0.3; // change back to 1.0
 
   // odometry class (tracks robot pose)
   SwerveDriveOdometry odometry = new SwerveDriveOdometry(
@@ -184,7 +184,7 @@ public class Drivetrain extends SubsystemBase {
     //System.out.println("xspeed drive: " + xSpeedDelivered);
     //System.out.println("yspeed drive: " + ySpeedDelivered);
 
-    double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED;
+    double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED * 0.75; // get rid of 0.75
     var swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(gyro.getAngle()))

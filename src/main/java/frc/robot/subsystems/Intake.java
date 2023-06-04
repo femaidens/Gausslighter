@@ -78,24 +78,24 @@ public class Intake extends SubsystemBase {
     double wristAngleSpeed = 0.2;
     double currentWristAngle = getWristAngle();
 
-    // if(currentWristAngle < IntakeConstants.DEFAULT_WRIST_ANGLE || currentWristAngle > 300){
-    //   setpoint = IntakeConstants.DEFAULT_WRIST_ANGLE;
-    //   if(currentWristAngle > 300){
-    //     double measurement = Math.abs(360 - wristEncoder.getPosition()) + IntakeConstants.DEFAULT_WRIST_ANGLE;
-    //     wristMotor.setVoltage(-calculateVoltage(measurement));
-    //   }
-    //   else{
-    //     setAngleVoltage();
-    //   }
-    //   System.out.println("at default wrist limit");
-    // }
+    if(currentWristAngle < IntakeConstants.DEFAULT_WRIST_ANGLE || currentWristAngle > 300){
+      setpoint = IntakeConstants.DEFAULT_WRIST_ANGLE;
+      if(currentWristAngle > 300){
+        double measurement = Math.abs(360 - wristEncoder.getPosition()) + IntakeConstants.DEFAULT_WRIST_ANGLE;
+        wristMotor.setVoltage(-calculateVoltage(measurement));
+      }
+      else{
+        setAngleVoltage();
+      }
+      System.out.println("at default wrist limit");
+    }
 
-    // else if (currentWristAngle > IntakeConstants.SUPPORT_WRIST_ANGLE && currentWristAngle < 240){
-    //   setpoint = IntakeConstants.SUPPORT_WRIST_ANGLE;
-    //   System.out.println("at support wrist limit");
-    // }
+    else if (currentWristAngle > IntakeConstants.SUPPORT_WRIST_ANGLE && currentWristAngle < 240){
+      setpoint = IntakeConstants.SUPPORT_WRIST_ANGLE;
+      System.out.println("at support wrist limit");
+    }
 
-    // else{
+    else{
       if(input < 0){ // neg input pushing up
         wristMotor.set(wristAngleSpeed);
         setpoint = wristEncoder.getPosition();
@@ -105,11 +105,11 @@ public class Intake extends SubsystemBase {
         setpoint = wristEncoder.getPosition();
       }
       else {
-        stopWristMotor();
-        // setAngleVoltage();
+        // stopWristMotor();
+        setAngleVoltage();
       }
     }
-  // }
+  }
 
   public void setWristAngle(double goalAngle){
     double currentAngle = wristEncoder.getPosition();
