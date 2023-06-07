@@ -122,7 +122,7 @@ public class RobotContainer {
               MathUtil.applyDeadband(-driveJoy.getRightY(), 0.1),
               MathUtil.applyDeadband(-driveJoy.getRightX(), 0.1),
               MathUtil.applyDeadband(-driveJoy.getLeftX(), 0.1),
-              false, true),
+              true, true),
           drivetrain) // change field relative to true!!
     );
 
@@ -235,8 +235,8 @@ public class RobotContainer {
         // .onTrue(new InstantCommand(
         //   () -> intake.setDoubleIntakeAngle(), intake));
 
-        .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle))
-        .onFalse(new SetWristAngleVoltage(intake));
+        .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle));
+        // .onFalse(new SetWristAngleVoltage(intake));
 
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setHighNodeAngle(), armAngle))
@@ -252,8 +252,8 @@ public class RobotContainer {
         // .onTrue(new InstantCommand(
         //   () -> intake.setSingleIntakeAngle(), intake));
 
-        .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle))
-        .onFalse(new SetWristAngleVoltage(intake));
+        .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle));
+        // .onFalse(new SetWristAngleVoltage(intake));
 
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setMidNodeAngle(), armAngle))
@@ -264,14 +264,14 @@ public class RobotContainer {
       Trigger extendButton = operJoy.rightTrigger();
       extendButton
         .onTrue(new RunCommand(
-          () -> armLateral.extendArm(false), armLateral))
+          () -> armLateral.extendArm(), armLateral))
         .onFalse(new RunCommand(
           () -> armLateral.stopExtensionMotors(), armLateral));
 
       Trigger retractButton = operJoy.leftTrigger();
       retractButton
         .onTrue(new RunCommand(
-          () -> armLateral.retractArm(false), armLateral))
+          () -> armLateral.retractArm(), armLateral))
         .onFalse(new RunCommand(
           () -> armLateral.stopExtensionMotors(), armLateral));
 

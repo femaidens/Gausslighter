@@ -32,7 +32,7 @@ public class AutonExtendArm extends CommandBase {
   public void execute() {
     // while (timer.get() != driveTime) {
       //if (timer.get() < extendArmTime) {
-        armLateral.extendArm(false);
+        armLateral.extendArm();
       // }
       // else {
       //   armLateral.stopExtensionMotors();

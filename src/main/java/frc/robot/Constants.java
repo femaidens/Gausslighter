@@ -81,11 +81,11 @@ public final class Constants {
     // public static final double tickFactor =  Constants.CPR / 360;
     // public static final double intakeMargin = 3;
 
-    public static final double DEFAULT_WRIST_ANGLE = 33.6; //27
+    public static final double DEFAULT_WRIST_ANGLE = 25; //27
     public static final double SUPPORT_WRIST_ANGLE = 240; 
-    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 114.5; 
+    public static final double INTAKE_DOUBLE_WRIST_ANGLE = 113.8; 
     public static final double SHOOT_WRIST_ANGLE = INTAKE_DOUBLE_WRIST_ANGLE; 
-    public static final double INTAKE_SINGLE_WRIST_ANGLE = 156; //tbd
+    public static final double INTAKE_SINGLE_WRIST_ANGLE = 158; //tbd
     public static final double SCORE_WRIST_ANGLE = INTAKE_SINGLE_WRIST_ANGLE; 
     public static final double DEFAULT_TO_SINGLE_TIME = 2;
 

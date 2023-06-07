@@ -28,11 +28,10 @@ public class SingleIntakeRoutine extends SequentialCommandGroup {
       new ParallelCommandGroup(
         //new AutonSetArmLength(armLateral, PositionConfig.highLength),
         new InstantCommand(
-          () -> armAngle.setSingleArmAngle(), armAngle),
-        //new AutonExtendArm(armLateral, AutoConstants.AUTON_EXTEND_HIGH_ARM_TIME), //time to extend to single ss
-        new InstantCommand(
-          () -> intake.setSingleIntakeAngle(), intake),
-        new PrintCommand("running single intake routine")
+          () -> armAngle.setSingleArmAngle(), armAngle)
+        // new InstantCommand(
+        //   () -> intake.setSingleIntakeAngle(), intake),
+        // new PrintCommand("running single intake routine")
       )
       // new ParallelCommandGroup(
       //   //new AutonSetArmLength(armLateral, PositionConfig.highLength),

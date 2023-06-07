@@ -27,7 +27,7 @@ public class ArmLateral extends SubsystemBase {
   private final DigitalInput botSwitch;
   private final PIDController ArmPIDController;
   private double currentLength = 0; // always true before match, arm = fully retracted
-  public static boolean isOverridden = false;
+  private static boolean isOverridden = false;
 
   public ArmLateral() {
 
@@ -57,8 +57,8 @@ public class ArmLateral extends SubsystemBase {
     leftLateralMotor.setSmartCurrentLimit(ArmConstants.ARM_LATERAL_MOTOR_CURRENT_LIMIT);
   }
 
-  public void retractArm(boolean isOverriden){
-    if (isOverriden) {
+  public void retractArm(){
+    if (isOverridden) {
       leftLateralMotor.set(-0.9);
     } 
 
@@ -81,10 +81,10 @@ public class ArmLateral extends SubsystemBase {
     }
   }
 
-  public void extendArm(boolean isOverriden) {
+  public void extendArm() {
     lateralEncoder.setPosition(currentLength);
     //System.out.println("rotations: " +lateralEncoder.getPosition());
-      if (isOverriden) {
+      if (isOverridden) {
         leftLateralMotor.set(0.9);
       } 
       

@@ -32,7 +32,7 @@ public class AutonRetractArm extends CommandBase {
   public void execute() {
     // while (timer.get() != driveTime) {
       // if (timer.get() < retractArmTime) {
-        armLateral.retractArm(false);
+        armLateral.retractArm();
       //}
       // else {
       //   armLateral.stopExtensionMotors();
