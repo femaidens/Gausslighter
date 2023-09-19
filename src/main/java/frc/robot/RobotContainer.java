@@ -235,14 +235,14 @@ public class RobotContainer {
         // .onTrue(new InstantCommand(
         //   () -> intake.setDoubleIntakeAngle(), intake));
 
-        .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle));
+        // .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle))
         // .onFalse(new SetWristAngleVoltage(intake));
 
-        // .onTrue(new InstantCommand(
-        //   () -> armAngle.setHighNodeAngle(), armAngle))
-        // .onFalse(new SetArmAngleVoltage(armAngle));
+        .onTrue(new InstantCommand(
+          () -> armAngle.setHighNodeAngle(), armAngle))
+        .onFalse(new SetArmAngleVoltage(armAngle));
 
-      Trigger singleIntakeButton = operJoy.a();
+      Trigger singleIntakeButton = operJoy.a(); //score
       singleIntakeButton
         // .onTrue(new InstantCommand(
         //   () -> intake.setSingleIntakeAngle(), intake))
@@ -252,8 +252,8 @@ public class RobotContainer {
         // .onTrue(new InstantCommand(
         //   () -> intake.setSingleIntakeAngle(), intake));
 
-        .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle));
-        // .onFalse(new SetWristAngleVoltage(intake));
+        .onTrue(new SingleIntakeRoutine(intake, armLateral, armAngle))
+        .onFalse(new SetWristAngleVoltage(intake));
 
         // .onTrue(new InstantCommand(
         //   () -> armAngle.setMidNodeAngle(), armAngle))
