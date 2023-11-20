@@ -134,14 +134,14 @@ public class RobotContainer {
         intake)
     );
     
-    armAngle.setDefaultCommand(
-      new RunCommand(
-        () -> armAngle.setAngle(
-          MathUtil.applyDeadband(operJoy.getRightY(), 0.1)),
-        // () -> armAngle.setAngle(
-        //   MathUtil.applyDeadband(-6, 0.1)),
-        armAngle)
-    );
+    // armAngle.setDefaultCommand(
+    //   new RunCommand(
+    //     () -> armAngle.setAngle(
+    //       MathUtil.applyDeadband(operJoy.getRightY(), 0.1)),
+    //     // () -> armAngle.setAngle(
+    //     //   MathUtil.applyDeadband(-6, 0.1)),
+    //     armAngle)
+    // );
 
     led.setDefaultCommand(
       new PurpGreenLEDS(led)
