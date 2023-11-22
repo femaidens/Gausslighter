@@ -196,7 +196,7 @@ public class RobotContainer {
       
       Trigger cubeLEDButton = operJoy.back(); //7 left
       cubeLEDButton
-        .onTrue(new CubeLEDS(led));
+        .onTrue(new MovingPurpGreenLEDS(led)); //binded moving purple green, replaced CubeLEDS(led)
 
       /* INTAKE */
       Trigger runIntakeButton = operJoy.x();
