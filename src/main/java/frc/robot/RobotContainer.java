@@ -190,11 +190,11 @@ public class RobotContainer {
       
     /* * * INTAKE 2 * * */
       /* LEDS */
-      Trigger coneLEDButton = operJoy.start(); //8 right
+      Trigger coneLEDButton = driveJoy.start(); //8 right, changed controller to driveJoy, plug into right side computer
       coneLEDButton
         .onTrue(new MorseLEDS(led)); //binded morse, replaced CubeLEDS(led)
       
-      Trigger cubeLEDButton = operJoy.back(); //7 left
+      Trigger cubeLEDButton = driveJoy.back(); //7 left, changed controller to driveJoy, plug into right side computer
       cubeLEDButton
         .onTrue(new MovingPurpGreenLEDS(led)); //binded moving purple green, replaced CubeLEDS(led)
 
