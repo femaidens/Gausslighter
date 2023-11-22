@@ -56,7 +56,7 @@ public class LED extends SubsystemBase {
       for (int j = 0; j < 6; j++){
 
         if (green){
-          ledBuffer.setRGB(i*6+j, 90, 244, 0);
+          ledBuffer.setRGB(i*6+j, 90, 244, 0); //green
         }
         //i*6 + j
         else{
@@ -72,6 +72,35 @@ public class LED extends SubsystemBase {
       green = !green;
       new WaitCommand(3);
 
+    }
+    led.setData(ledBuffer);
+  }
+
+  public void movingPurpGreenLED(int space){
+    new PrintCommand("running new leds that are literally running");
+    //help me i cant
+    /*
+     * idea: set all green, purple travels through by making max size of thing 10 by (int i = space; i < space + 10; i++)
+     * space must be less than pinlength - 10, or 9?
+     */
+    for(int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++){
+      ledBuffer.setRGB(i, 90, 244, 0); //green
+    }
+    for(int j = space; j < space + 10; j++){
+      ledBuffer.setRGB(j, 200, 0, 255); //purple
+    }
+    led.setData(ledBuffer);
+  }
+
+  public void greenLED(){
+      for(int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++){
+        ledBuffer.setRGB(i, 90, 244, 0);
+      }
+    led.setData(ledBuffer);
+  }
+  public void purpleLED(){
+    for(int i = 0; i < LEDConstants.LED_PIN_LENGTH; i++){
+      ledBuffer.setRGB(i, 200, 0, 255);
     }
     led.setData(ledBuffer);
   }

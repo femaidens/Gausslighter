@@ -24,9 +24,6 @@ import frc.robot.auton.autonTaxi.ShortTaxi;
 // import frc.robot.autons.Path2;
 // import frc.robot.autons.TestAuton1;
 import frc.robot.commands.*;
-import frc.robot.commands.leds.ConeLEDS;
-import frc.robot.commands.leds.CubeLEDS;
-import frc.robot.commands.leds.PurpGreenLEDS;
 import frc.robot.commands.leds.*;
 import frc.robot.commands.arm.*;
 import frc.robot.commands.intake1.*;
@@ -195,7 +192,7 @@ public class RobotContainer {
       /* LEDS */
       Trigger coneLEDButton = operJoy.start(); //8 right
       coneLEDButton
-        .onTrue(new ConeLEDS(led));
+        .onTrue(new MorseLEDS(led)); //binded morse, replaced CubeLEDS(led)
       
       Trigger cubeLEDButton = operJoy.back(); //7 left
       cubeLEDButton

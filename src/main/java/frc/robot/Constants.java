@@ -32,6 +32,8 @@ public final class Constants {
   public static class LEDConstants {
     //public static final int LED_DATA_LENGTH = 1; //change as necessary
     public static final int LED_PIN_LENGTH = 177;
+    public static final double ditLength = 0.2; //seconds
+    public static final double dahLength = 0.6; //seconds
   }
   public static class ArmConstants {
 
