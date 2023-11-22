@@ -227,10 +227,10 @@ public class RobotContainer {
 
       Trigger doubleIntakeButton = operJoy.b();
       doubleIntakeButton
-        // .onTrue(new RunCommand(
-        //   () -> intake.setDoubleIntakeAngle(), intake))
-        // .onFalse(new RunCommand(
-        //   () -> intake.stopWristMotor(), intake));
+        .onTrue(new RunCommand(
+          () -> intake.setDoubleIntakeAngle(), intake))
+        .onFalse(new RunCommand(
+          () -> intake.stopWristMotor(), intake));
 
         // .onTrue(new InstantCommand(
         //   () -> intake.setDoubleIntakeAngle(), intake));
@@ -238,9 +238,10 @@ public class RobotContainer {
         // .onTrue(new DoubleIntakeRoutine(intake, armLateral, armAngle))
         // .onFalse(new SetWristAngleVoltage(intake));
 
-        .onTrue(new InstantCommand(
-          () -> armAngle.setHighNodeAngle(), armAngle))
-        .onFalse(new SetArmAngleVoltage(armAngle));
+
+        // .onTrue(new InstantCommand(
+        //   () -> armAngle.setHighNodeAngle(), armAngle))
+        // .onFalse(new SetArmAngleVoltage(armAngle));
 
       Trigger singleIntakeButton = operJoy.a(); //score
       singleIntakeButton
