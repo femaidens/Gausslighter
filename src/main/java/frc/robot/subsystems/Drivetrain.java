@@ -77,7 +77,7 @@ public class Drivetrain extends SubsystemBase {
       });
 
   public Drivetrain() {
-    setYawOffset();
+    //setYawOffset();
   }
 
   @Override
@@ -99,14 +99,6 @@ public class Drivetrain extends SubsystemBase {
 
   public void getJoystickValue(CommandXboxController joystick){
     System.out.println("current value: " + joystick.getRightY());
-  }
-
-  public double getAngle(){
-    return gyro.getAngle();
-  }
-
-  public double getPitch(){
-    return gyro.getPitch();
   }
 
 
@@ -232,6 +224,14 @@ public class Drivetrain extends SubsystemBase {
   public double setYawOffset() {
     gyro.setAngleAdjustment(-90);
     return gyro.getYaw();
+  }
+
+  public double getAngle(){
+    return gyro.getAngle();
+  }
+
+  public double getPitch(){
+    return gyro.getPitch();
   }
 
   // resets the odometry to the specified pose
