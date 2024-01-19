@@ -68,7 +68,7 @@ public class Drivetrain extends SubsystemBase {
   // odometry class (tracks robot pose)
   SwerveDriveOdometry odometry = new SwerveDriveOdometry(
       DriveConstants.DRIVE_KINEMATICS,
-      Rotation2d.fromDegrees(gyro.getAngle()),
+      Rotation2d.fromDegrees(getAngle()),
       new SwerveModulePosition[] {
           frontLeft.getPosition(),
           frontRight.getPosition(),
@@ -93,16 +93,16 @@ public class Drivetrain extends SubsystemBase {
   public void periodic() {
     // updates periodically
     odometry.update(
-        Rotation2d.fromDegrees(gyro.getAngle()),
+        Rotation2d.fromDegrees(getAngle()),
         new SwerveModulePosition[] {
             frontLeft.getPosition(),
             frontRight.getPosition(),
             rearLeft.getPosition(),
             rearRight.getPosition()
         });
-    SmartDashboard.putNumber("gyro angle", gyro.getAngle());
+    SmartDashboard.putNumber("gyro angle", getAngle());
     System.out.println("yaw reading" + gyro.getYaw());
-    System.out.println("angle reading " + gyro.getAngle());
+    System.out.println("angle reading " + getAngle());
     // SmartDashboard.putNumber("gyro x", gyroX()); <--
   }
 
@@ -195,7 +195,7 @@ public class Drivetrain extends SubsystemBase {
     double rotDelivered = currentRotation * DriveConstants.MAX_ANGULAR_SPEED * 0.75; // get rid of 0.75
     var swerveModuleStates = DriveConstants.DRIVE_KINEMATICS.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(gyro.getAngle()))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered, Rotation2d.fromDegrees(getAngle()))
             : new ChassisSpeeds(xSpeedDelivered, ySpeedDelivered, rotDelivered));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, DriveConstants.MAX_SPEED);
@@ -236,6 +236,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public double getAngle(){
+    //return gyro.getYaw();
     return gyro.getAngle();
   }
 
