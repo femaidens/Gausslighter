@@ -237,7 +237,7 @@ public class Drivetrain extends SubsystemBase {
 
   public double getAngle(){
     //return gyro.getYaw();
-    return gyro.getAngle();
+    return -1 * gyro.getAngle();
   }
 
   public double getPitch(){
