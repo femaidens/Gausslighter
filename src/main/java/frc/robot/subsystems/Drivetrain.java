@@ -75,6 +75,15 @@ public class Drivetrain extends SubsystemBase {
           rearLeft.getPosition(),
           rearRight.getPosition()
       });
+  // SwerveDriveOdometry odometry = new SwerveDriveOdometry(
+  //     DriveConstants.DRIVE_KINEMATICS,
+  //     Rotation2d.fromDegrees(gyro.getYaw()),
+  //     new SwerveModulePosition[] {
+  //         frontLeft.getPosition(),
+  //         frontRight.getPosition(),
+  //         rearLeft.getPosition(),
+  //         rearRight.getPosition()
+  //     });
 
   public Drivetrain() {
     //setYawOffset();
