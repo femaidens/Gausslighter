@@ -38,14 +38,14 @@ public class AutonBalance extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pitch = drivetrain.gyroX();
+    pitch = drivetrain.getPitch();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
       // if (timer.get() < driveTime) {
-        pitch = drivetrain.gyroX(); //gives us the pitch
+        pitch = drivetrain.getPitch(); //gives us the pitch
         drivetrain.drive(xSpeed*Math.signum(pitch), 0, 0, fieldRelative, rateLimit); 
       //}
       // else {

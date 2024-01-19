@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.kauailabs.navx.frc.AHRS;
+
 // import com.pathplanner.lib.PathPlanner;
 // import com.pathplanner.lib.PathPlannerTrajectory;
 // import com.pathplanner.lib.commands.PPSwerveControllerCommand;
@@ -51,7 +53,7 @@ public class Drivetrain extends SubsystemBase {
 
   
   // imu sensor/gyro
-  private final ADIS16470_IMU gyro = new ADIS16470_IMU();
+  private final AHRS gyro = new AHRS();
 
   // Slew rate filter variables for controlling lateral acceleration
   private double currentRotation = 0.0;
@@ -74,7 +76,9 @@ public class Drivetrain extends SubsystemBase {
           rearRight.getPosition()
       });
 
-  public Drivetrain() {}
+  public Drivetrain() {
+    setYawOffset();
+  }
 
   @Override
   public void periodic() {
@@ -88,6 +92,8 @@ public class Drivetrain extends SubsystemBase {
             rearRight.getPosition()
         });
     SmartDashboard.putNumber("gyro angle", gyro.getAngle());
+    System.out.println("yaw reading" + gyro.getYaw());
+    System.out.println("angle reading " + gyro.getAngle());
     // SmartDashboard.putNumber("gyro x", gyroX()); <--
   }
 
@@ -95,14 +101,14 @@ public class Drivetrain extends SubsystemBase {
     System.out.println("current value: " + joystick.getRightY());
   }
 
-  public double getPitch(){
-    gyro.setYawAxis(null);
+  public double getAngle(){
     return gyro.getAngle();
   }
 
-  public double gyroX(){
-    return gyro.getXComplementaryAngle();
+  public double getPitch(){
+    return gyro.getPitch();
   }
+
 
   /**
    * Method to drive the robot using joystick info.
@@ -118,6 +124,7 @@ public class Drivetrain extends SubsystemBase {
     double xSpeedCommanded;
     double ySpeedCommanded;
 
+    System.out.println("yaw axis: " + getAngle());
     if (rateLimit) {
       // Convert XY to polar for rate limiting
       double inputTranslationDir = Math.atan2(ySpeed, xSpeed);
@@ -215,13 +222,22 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void calibrateGyro(){
-    gyro.calibrate();
+    gyro.reset();
+  }
+
+  public double getYawAxis(){
+    return gyro.getYaw();
+  }
+
+  public double setYawOffset() {
+    gyro.setAngleAdjustment(-90);
+    return gyro.getYaw();
   }
 
   // resets the odometry to the specified pose
   public void resetOdometry(Pose2d pose) {
     odometry.resetPosition(
-        Rotation2d.fromDegrees(gyro.getAngle()),
+        Rotation2d.fromDegrees(gyro.getYaw()),
         new SwerveModulePosition[] {
             frontLeft.getPosition(),
             frontRight.getPosition(),
@@ -238,7 +254,7 @@ public class Drivetrain extends SubsystemBase {
 
   // returns heading in degrees (-180 to 180)
   public double getHeading() {
-    return Rotation2d.fromDegrees(gyro.getAngle()).getDegrees();
+    return Rotation2d.fromDegrees(gyro.getYaw()).getDegrees();
   }
 
   // returns turn rate (deg/s)
