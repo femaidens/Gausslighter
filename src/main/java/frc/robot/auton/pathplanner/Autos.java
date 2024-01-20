@@ -4,9 +4,9 @@
 
 package frc.robot.auton.pathplanner;
 
-import com.pathplanner.lib.PathConstraints;
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
+//import com.pathplanner.lib.PathConstraints;
+//import com.pathplanner.lib.PathPlanner;
+//import com.pathplanner.lib.PathPlannerTrajectory;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.subsystems.Drivetrain;
 
@@ -20,18 +20,18 @@ public class Autos {
         this.drivetrain = drivetrain;
     }
 
-    PathPlannerTrajectory scoreCharge= PathPlanner.loadPath("score and charge", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
-    PathPlannerTrajectory centerScoreTwoEngage = PathPlanner.loadPath("center score two and engage", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
+    // PathPlannerTrajectory scoreCharge= PathPlanner.loadPath("score and charge", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
+    // PathPlannerTrajectory centerScoreTwoEngage = PathPlanner.loadPath("center score two and engage", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
 
-    public static final class IntakePaths {
-        PathPlannerTrajectory scoreLeftIntake = PathPlanner.loadPath("score and left intake", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
-        PathPlannerTrajectory scoreRightIntake = PathPlanner.loadPath("score and right intake", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
-    }
-    public static final class ScoreMultiplePaths {
-        PathPlannerTrajectory leftScoreTwo = PathPlanner.loadPath("left score two", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
-        PathPlannerTrajectory rightScoreTwo = PathPlanner.loadPath("right score two", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
-        PathPlannerTrajectory centerScoreTwo = PathPlanner.loadPath("center score two", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
-    }
+    // public static final class IntakePaths {
+    //     PathPlannerTrajectory scoreLeftIntake = PathPlanner.loadPath("score and left intake", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
+    //     PathPlannerTrajectory scoreRightIntake = PathPlanner.loadPath("score and right intake", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
+    // }
+    // public static final class ScoreMultiplePaths {
+    //     PathPlannerTrajectory leftScoreTwo = PathPlanner.loadPath("left score two", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
+    //     PathPlannerTrajectory rightScoreTwo = PathPlanner.loadPath("right score two", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
+    //     PathPlannerTrajectory centerScoreTwo = PathPlanner.loadPath("center score two", new PathConstraints(AutoConstants.AUTON_MAX_SPEED, AutoConstants.AUTON_MAX_ACC));
+    // }
 
 //     public static CommandBase testAuto(Drivetrain drivetrain){
 //         HashMap<String, Command> eventMap = new HashMap<>();

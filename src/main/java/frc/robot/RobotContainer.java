@@ -115,7 +115,7 @@ public class RobotContainer {
             drivetrain));
 
     // resets robot heading (gyro)
-    new JoystickButton(driveJoy, 6) // RB
+    new JoystickButton(driveJoy, XboxController.Button.kRightBumper.value) // RB
         .onTrue(
             new RunCommand(
               () -> drivetrain.resetGyro(),
